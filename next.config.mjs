@@ -3,8 +3,8 @@
 const nextConfig = {
   env: {
     // Change below URL with your current domain
-//    API_PROD_URL: "http://localhost:3000/api",
-    API_PROD_URL: "http://api.eazysupplies.com/api",
+    API_PROD_URL: "http://localhost:3000/api",
+//    API_PROD_URL: "http://api.eazysupplies.com/api",
     storageURL: "http://localhost:3000",
   },
 

@@ -10,7 +10,7 @@ const useCustomSearchParams = (keys) => {
         const value = searchParams.get(elem);
         if (value !== null) return { [elem]: value };
       });
-
+      console.log(paramsArray);
       setGetParams(paramsArray);
     }
   }, [searchParams]);
