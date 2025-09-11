@@ -8,7 +8,7 @@ const AdminPanel = () => {
   return (
     <div className="setting-section">
       <div className="setting-inner-title">
-        <Link target="_blank" href="https://multikart-admin-next-json.vercel.app/">
+        <Link target="_blank" href="https://Earthling-admin-next-json.vercel.app/">
           {t("Admin")}
         </Link>
         <p>{t("BackendAdminPanel")}</p>

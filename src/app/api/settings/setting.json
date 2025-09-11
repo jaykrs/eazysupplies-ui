@@ -2,11 +2,11 @@
     "values": {
         "general": {
             "mode": "light-only",
-            "site_url": "https://multikart-frontend-next-json.vercel.app/",
-            "copyright": "Copyright 2024 © Multikart theme by pixelstrap",
-            "site_name": "Multikart",
-            "site_title": "Multikart Marketplace: Where Vendors Shine Together",
-            "site_tagline": "Shop Unique, Sell Exceptional – Multikart's Multi-Vendor Universe.",
+            "site_url": "https://Earthling-frontend-next-json.vercel.app/",
+            "copyright": "Copyright 2024 © Earthling theme by pixelstrap",
+            "site_name": "Earthling",
+            "site_title": "Earthling Marketplace: Where Vendors Shine Together",
+            "site_tagline": "Shop Unique, Sell Exceptional – Earthling's Multi-Vendor Universe.",
             "default_timezone": "Asia/Kolkata",
             "favicon_image_id": 10,
             "min_order_amount": 0,
