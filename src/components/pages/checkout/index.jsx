@@ -21,6 +21,8 @@ import CheckoutSidebar from "./checkoutSidebar";
 import DeliveryAddress from "./DeliveryAddress";
 import DeliveryOptions from "./DeliveryOptions";
 import PaymentOptions from "./PaymentOptions";
+import Btn from "@/elements/buttons/Btn";
+import { useTranslation } from "react-i18next";
 
 const CheckoutContent = () => {
   const { accountData, refetch } = useContext(AccountContext);
@@ -29,12 +31,13 @@ const CheckoutContent = () => {
   const [modal, setModal] = useState("");
   const router = useRouter();
   const [accessToken, setAccessToken] = useState(null);
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     const token = Cookies.get("uat");
     setAccessToken(token);
   }, []);
-  
+
   useEffect(() => {
     accountData?.address.length > 0 && setAddress((prev) => [...accountData?.address]);
   }, [accountData]);
@@ -51,6 +54,7 @@ const CheckoutContent = () => {
   useEffect(() => {
     if (accessToken && !addToCartLoader) {
       addToCartRefetch();
+      console.log(data, "koko")
     }
   }, [addToCartLoader, accessToken]);
   const { isLoading: themeLoad } = useContext(ThemeOptionContext);
@@ -130,6 +134,11 @@ const CheckoutContent = () => {
                         {settingData?.activation?.guest_checkout && !accessToken && (
                           <div className="checkout-form-section">
                             <CheckoutForm values={values} setFieldValue={setFieldValue} errors={errors} />
+                            <div className="product-buy-btn-group">
+                              <Btn className="btn-md bg-theme scroll-button" onClick={() => { }}>
+                                {t("PlaceRequest")}
+                              </Btn>
+                            </div>
                           </div>
                         )}
                         {accessToken && (

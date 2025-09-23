@@ -57,6 +57,10 @@ const CollectionFilter = ({ filter, setFilter, categorySlug }) => {
     router.push(pathWithoutQuery);
   };
 
+  const filterProduct = () => {
+
+  }
+
   const ModifyWord = (value) => {
     return value
       .split(/[-_]/)
@@ -70,6 +74,7 @@ const CollectionFilter = ({ filter, setFilter, categorySlug }) => {
       <div className="filter-title">
         <h2>{t("Filters")}</h2>
         <a onClick={clearParams}>{t("ClearAll")}</a>
+        <a onClick={filterProduct}>{t("Search")}</a>
       </div>
       <ul className="filter-list">
         {selectedFilters?.map((elem, i) => (

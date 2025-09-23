@@ -47,15 +47,15 @@ const SelectedCart = ({ modal, setSelectedVariation, setModal }) => {
           {cartProducts.map((elem, i) => (
             <li className="product-box-contain" key={i}>
               <div className="media">
-                <Link href={`/product/${elem?.product?.slug}`}>
+                <Link href={`/product/${elem?.product?.id}`}>
                   <Avatar customClass={""} data={elem?.variation?.variation_image ?? elem?.product?.product_thumbnail} placeHolder={placeHolderImage} name={elem?.product?.name} height={72} width={87} />
                 </Link>
                 <div className="media-body">
-                  <Link href={`/product/${elem?.product?.slug}`}>
+                  <Link href={`/product/${elem?.product?.id}`}>
                     <h4>{elem?.variation?.name ?? elem?.product?.name}</h4>
                   </Link>
                   <h4 className="quantity">
-                    <span>{convertCurrency(elem?.variation?.sale_price ?? elem?.product?.sale_price)}</span>
+                    <span>{convertCurrency(elem?.product?.price)}</span>
                   </h4>
                   {elem?.variation && <h5 className="gram">{elem?.variation?.attribute_values?.[0]?.value ? elem?.variation?.attribute_values?.[0]?.value : elem?.selected_variation}</h5>}
                   <HandleQuantity productObj={elem?.product} elem={elem} customIcon={<RiDeleteBinLine />} />

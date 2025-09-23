@@ -2,7 +2,7 @@ import NoDataFound from "@/components/widgets/NoDataFound";
 import CartContext from "@/context/cartContext";
 import SettingContext from "@/context/settingContext";
 import Loader from "@/layout/loader";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import ApplyCoupon from "./ApplyCoupon";
 import PlaceOrder from "./PlaceOrder";
@@ -13,25 +13,28 @@ const BillingSummary = ({ data, values, setFieldValue, isLoading, mutate, storeC
   const { cartProducts } = useContext(CartContext);
   const { t } = useTranslation("common");
 
+  useEffect(()=>{
+    console.log(cartProducts, "jjj")
+  },[])
   return (
     <div className="checkout-details ">
       {cartProducts?.length > 0 ? (
         <div className="order-box">
           <div className="title-box">
             <h4>{t("BillingSummary")}</h4>
-            <ApplyCoupon values={values} setFieldValue={setFieldValue} data={data} storeCoupon={storeCoupon} setStoreCoupon={setStoreCoupon} errorCoupon={errorCoupon} appliedCoupon={appliedCoupon} setAppliedCoupon={setAppliedCoupon} mutate={mutate} isLoading={isLoading} />
+            {/* <ApplyCoupon values={values} setFieldValue={setFieldValue} data={data} storeCoupon={storeCoupon} setStoreCoupon={setStoreCoupon} errorCoupon={errorCoupon} appliedCoupon={appliedCoupon} setAppliedCoupon={setAppliedCoupon} mutate={mutate} isLoading={isLoading} /> */}
           </div>
           <div>
             <div className="custom-box-loader">
-              {isLoading && (
+              {/* {isLoading && (
                 <div className="box-loader">
                   <Loader />
                 </div>
-              )}
+              )} */}
               <ul className="sub-total">
                 <li>
                   {t("Subtotal")}
-                  <span className="count">{convertCurrency("39.81")}</span>
+                  <span className="count">{convertCurrency(cartProducts?.reduce((a,b)=>a?.sub_total+b?.sub_total))}</span>
                 </li>
                 <li>
                   {t("Shipping")}
@@ -39,10 +42,10 @@ const BillingSummary = ({ data, values, setFieldValue, isLoading, mutate, storeC
                 </li>
                 <li>
                   {t("Tax")}
-                  <span className="count">{convertCurrency("1.99")}</span>
+                  <span className="count">{convertCurrency("0")}</span>
                 </li>
 
-                <PointWallet values={values} setFieldValue={setFieldValue} data={data} />
+                {/* <PointWallet values={values} setFieldValue={setFieldValue} data={data} /> */}
               </ul>
               <ul className="total">
                 {appliedCoupon == "applied" && data?.data?.total?.coupon_total_discount ? (
@@ -53,7 +56,7 @@ const BillingSummary = ({ data, values, setFieldValue, isLoading, mutate, storeC
                 ) : null}
                 <li className="list-total">
                   {t("Total")}
-                  <span className="count">{convertCurrency("41.80")}</span>
+                  <span className="count">{convertCurrency(cartProducts?.reduce((a,b)=>a?.sub_total+b?.sub_total))}</span>
                 </li>
               </ul>
               <PlaceOrder values={values} errors={errors} />

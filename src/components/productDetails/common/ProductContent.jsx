@@ -6,24 +6,48 @@ import { Href } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { RiQuestionnaireLine, RiRulerLine, RiTruckLine } from "react-icons/ri";
+import { RiQuestionnaireLine, RiRulerLine, RiShoppingCartLine, RiTruckLine } from "react-icons/ri";
 import AddToCartButton from "./AddToCartButton";
 import DeliveryReturnModal from "./allModal/DeliveryReturnModal";
 import QuestionAnswerModal from "./allModal/QuestionAnswerModal";
 import SizeModal from "./allModal/SizeModal";
 import ProductAttribute from "./productAttribute/ProductAttribute";
 import ProductDetailAction from "./ProductDetailAction";
+import Btn from "@/elements/buttons/Btn";
 
 const ProductContent = ({ productState, setProductState, productAccordion, noDetails, noQuantityButtons, noModals }) => {
   const { t } = useTranslation("common");
   const { handleIncDec, isLoading } = useContext(CartContext);
   const { convertCurrency } = useContext(SettingContext);
   const { setCartCanvas, themeOption } = useContext(ThemeOptionContext);
+  const [cartData1, setCartData] = useState(JSON.parse(localStorage.getItem("cartData")))
   const router = useRouter();
   const addToCart = () => {
     setCartCanvas(true);
+    // console.log(productState, "kkkkk")
+    // const cartData = JSON.parse(localStorage.getItem("cartData"))
+    // if (!!cartData) {
+    //   const tempData = [...cartData, productState]
+    //   localStorage.setItem("cartData", JSON.stringify(tempData))
+    //   setCartData(tempData)
+    // } else {
+    //   const tempData = [productState]
+    //   localStorage.setItem("cartData", JSON.stringify(tempData))
+    //   setCartData(tempData)
+    // }
     handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
   };
+
+  const removeFromCart = () => {
+    // setCartCanvas(true);
+    // console.log(productState, "kkkkk")
+    const cartData = JSON.parse(localStorage.getItem("cartData"))
+    if (!!cartData) {
+      const tempData = cartData?.filter((data) => data?.product?.id != productState?.product?.id)
+      localStorage.setItem("cartData", JSON.stringify(tempData))
+      setCartData(tempData)
+    }
+  }
   const buyNow = () => {
     handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
     router.push(`/checkout`);
@@ -52,7 +76,7 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
           <div className="price-text">
             <h3>
               <span className="text-dark fw-normal">MRP:</span>
-              {productState?.selectedVariation?.sale_price ? convertCurrency(productState?.selectedVariation?.sale_price) : convertCurrency(productState?.product?.sale_price)}
+              {productState?.product?.price ? convertCurrency(productState?.product?.price) : convertCurrency(productState?.product?.price)}
 
               {productState?.selectedVariation?.discount || productState?.product?.discount ? <del>{productState?.selectedVariation ? convertCurrency(productState?.selectedVariation?.price) : convertCurrency(productState?.product?.price)}</del> : null}
 
@@ -64,7 +88,7 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
             </h3>
             <span>{t("InclusiveAllTheTax")}</span>
           </div>
-          {productState?.product.short_description && <p className="description-text">{productState?.product.short_description}</p>}
+          {productState?.product?.description && <p className="description-text">{productState?.product?.description}</p>}
         </>
       )}
       {!noModals ? (
@@ -100,12 +124,16 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
           {productState?.product.status && !productAccordion && <>{productState?.product?.type == "classified" && <ProductAttribute productState={productState} setProductState={setProductState} />}</>}
         </>
       )}
+
       {!productAccordion && (
         <div className="product-buttons">
-          <ProductDetailAction productState={productState} setProductState={setProductState} />
-          <AddToCartButton productState={productState} isLoading={isLoading} addToCart={addToCart} buyNow={buyNow} />
+          <>
+            <ProductDetailAction productState={productState} setProductState={setProductState} />
+            <AddToCartButton productState={productState} isLoading={isLoading} addToCart={addToCart} buyNow={buyNow} />
+          </>
         </div>
-      )}
+      )
+      }
     </>
   );
 };

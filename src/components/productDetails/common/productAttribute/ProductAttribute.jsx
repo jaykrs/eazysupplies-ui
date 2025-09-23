@@ -40,12 +40,12 @@ const ProductAttribute = ({ productState, setProductState, stickyAddToCart, noHo
 
     let firstAvailableVariant = null;
 
-    for (const variation of productObj?.variations) {
-      if (variation.stock_status !== "out_of_stock") {
-        firstAvailableVariant = variation;
-        break;
-      }
-    }
+    // for (const variation of productObj?.variations) {
+    //   if (variation.stock_status !== "out_of_stock") {
+    //     firstAvailableVariant = variation;
+    //     break;
+    //   }
+    // }
 
     if (firstAvailableVariant) {
       firstAvailableVariant.attribute_values.forEach((attribute_val) => {

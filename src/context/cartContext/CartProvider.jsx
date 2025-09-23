@@ -82,6 +82,7 @@ const CartProvider = (props) => {
     storeInLocalStorage();
   }, [cartProducts]);
 
+
   // Getting total
   const total = useMemo(() => {
     return cartProducts?.reduce((prev, curr) => {
@@ -122,9 +123,10 @@ const CartProvider = (props) => {
       });
       let result = await res.json();
       return result?.items;
-    } catch (err) {}
+    } catch (err) { }
   };
   const handleIncDec = async (qty, productObj, isProductQty, setIsProductQty, isOpenFun, cloneVariation) => {
+    console.log(cloneVariation, "klklklklk")
     const updatedQty = (isProductQty ? isProductQty : 0) + qty;
     const cart = [...cartProducts];
     const index = cart.findIndex((item) => item.product_id === productObj?.id);
@@ -156,8 +158,8 @@ const CartProvider = (props) => {
         product_id: productObj?.id,
         variation: cloneVariation?.selectedVariation ? cloneVariation?.selectedVariation : null,
         variation_id: cloneVariation?.selectedVariation?.id ? cloneVariation?.selectedVariation?.id : null,
-        quantity: cloneVariation?.selectedVariation?.productQty ? cloneVariation?.selectedVariation?.productQty : updatedQty,
-        sub_total: cloneVariation?.selectedVariation?.sale_price ? updatedQty * cloneVariation?.selectedVariation?.sale_price : updatedQty * productObj?.sale_price,
+        quantity: cloneVariation?.productQty ? cloneVariation?.productQty : updatedQty,
+        sub_total: updatedQty * productObj?.price,
       };
       isCookie ? !isLoading && setCartProducts((prev) => [...prev, params]) : setCartProducts((prev) => [...prev, params]);
     } else {
@@ -180,7 +182,7 @@ const CartProvider = (props) => {
           ...cart[index],
           id: cartUid?.id ? cartUid?.id : cart[index].id ? cart[index].id : null,
           quantity: newQuantity,
-          sub_total: newQuantity * (cart[index]?.variation ? cart[index]?.variation?.sale_price : cart[index]?.product?.sale_price),
+          sub_total: newQuantity * (cart[index]?.variation ? cart[index]?.variation?.price : cart[index]?.product?.price),
         };
         isCookie ? !isLoading && setCartProducts([...cart]) : setCartProducts([...cart]);
       }
@@ -246,29 +248,29 @@ const CartProvider = (props) => {
       variation: cloneVariation?.selectedVariation ? cloneVariation?.selectedVariation : null,
       variation_id: cloneVariation?.selectedVariation?.id ? cloneVariation?.selectedVariation?.id : null,
       quantity: cloneVariation?.productQty ? cloneVariation?.productQty : updatedQty,
-      sub_total: cloneVariation?.selectedVariation?.sale_price ? updatedQty * cloneVariation?.selectedVariation?.sale_price : updatedQty * productObj?.sale_price,
+      sub_total: cloneVariation?.selectedVariation?.price ? updatedQty * cloneVariation?.selectedVariation?.price : updatedQty * productObj?.price,
     };
 
     isCookie
       ? !isLoading &&
-    setCartProducts((prevCartProducts) =>
-          prevCartProducts.map((elem) => {
-            if (elem?.product_id === cloneVariation?.selectedVariation?.product_id) {
-              return params;
-            } else {
-              return elem;
-            }
-          })
-        )
+      setCartProducts((prevCartProducts) =>
+        prevCartProducts.map((elem) => {
+          if (elem?.product_id === cloneVariation?.selectedVariation?.product_id) {
+            return params;
+          } else {
+            return elem;
+          }
+        })
+      )
       : setCartProducts((prevCartProducts) =>
-          prevCartProducts.map((elem) => {
-            if (elem?.product_id === cloneVariation?.selectedVariation?.product_id) {
-              return params;
-            } else {
-              return elem;
-            }
-          })
-        );
+        prevCartProducts.map((elem) => {
+          if (elem?.product_id === cloneVariation?.selectedVariation?.product_id) {
+            return params;
+          } else {
+            return elem;
+          }
+        })
+      );
   };
 
   // Setting data to localstorage when UAT is not there

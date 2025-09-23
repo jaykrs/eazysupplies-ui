@@ -13,9 +13,9 @@ const HeaderLanguage = () => {
   const toggle = () => setDropdownOpen((prevState) => !prevState);
   const language = [
     { id: 1, title: "English", icon: "en", image: "us", isLang: "/en/" },
-    { id: 2, title: "Arabic", icon: "ar", image: "ar", isLang: "/ar/" },
-    { id: 3, title: "French", icon: "fr", image: "fr", isLang: "/fr/" },
-    { id: 4, title: "Spanish", icon: "es", image: "es", isLang: "/es/" },
+    // { id: 2, title: "Arabic", icon: "ar", image: "ar", isLang: "/ar/" },
+    // { id: 3, title: "French", icon: "fr", image: "fr", isLang: "/fr/" },
+    // { id: 4, title: "Spanish", icon: "es", image: "es", isLang: "/es/" },
   ];
   useEffect(() => {
     const defaultLanguage = language.find((data) => data.icon == currentLanguage);

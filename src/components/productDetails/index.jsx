@@ -72,24 +72,24 @@ const ProductDetailContent = ({ params }) => {
   if (isLoading) return <Loader />;
 
   const showProductLayout = {
-    product_thumbnail: <ProductThumbnail productState={productState} setProductState={setProductState} />,
-    product_images: <Product4Image productState={productState} setProductState={setProductState} />,
-    product_sticky: <ProductSticky productState={productState} setProductState={setProductState} />,
-    product_slider: <ProductSlider productState={productState} setProductState={setProductState} />,
-    product_digital: <ProductDigital productState={productState} setProductState={setProductState} />,
-    product_accordion: <ProductAccordion productState={productState} setProductState={setProductState} />,
-    product_no_sidebar: <ProductThumbnail productState={productState} setProductState={setProductState} />,
-    vertical_tab: <ProductVerticalTab productState={productState} setProductState={setProductState} />,
-    product_thumbnail_left_image: <ProductThumbnailImage direction="left" productState={productState} setProductState={setProductState} />,
-    product_thumbnail_right_image: <ProductThumbnailImage direction="right" productState={productState} setProductState={setProductState} />,
-    product_thumbnail_image_outside: <ProductThumbnailImage productState={productState} setProductState={setProductState} />,
-    product_sidebar_left: <ProductSidebarLayout productState={productState} setProductState={setProductState} direction="left" />,
-    product_sidebar_right: <ProductSidebarLayout productState={productState} setProductState={setProductState} direction="right" />,
+    // product_thumbnail: <ProductThumbnail productState={productState} setProductState={setProductState} />,
+    // product_images: <Product4Image productState={productState} setProductState={setProductState} />,
+    // product_sticky: <ProductSticky productState={productState} setProductState={setProductState} />,
+    // product_slider: <ProductSlider productState={productState} setProductState={setProductState} />,
+    // product_digital: <ProductDigital productState={productState} setProductState={setProductState} />,
+    // product_accordion: <ProductAccordion productState={productState} setProductState={setProductState} />,
+    // product_no_sidebar: <ProductThumbnail productState={productState} setProductState={setProductState} />,
+    // vertical_tab: <ProductVerticalTab productState={productState} setProductState={setProductState} />,
+    // product_thumbnail_left_image: <ProductThumbnailImage direction="left" productState={productState} setProductState={setProductState} />,
+    // product_thumbnail_right_image: <ProductThumbnailImage direction="right" productState={productState} setProductState={setProductState} />,
+    // product_thumbnail_image_outside: <ProductThumbnailImage productState={productState} setProductState={setProductState} />,
+    // product_sidebar_left: <ProductSidebarLayout productState={productState} setProductState={setProductState} direction="left" />,
+    // product_sidebar_right: <ProductSidebarLayout productState={productState} setProductState={setProductState} direction="right" />,
     product_column_thumbnail: <ProductColumn productState={productState} setProductState={setProductState} direction="bottom" />,
   };
   return (
     <>
-      {<Breadcrumbs title={params} subNavigation={[{ name: "Product" }, { name: params }]} />}
+      {<Breadcrumbs title={ProductData?.name} subNavigation={[{ name: "Product" }, { name: ProductData?.name }]} />}
       {showProductLayout[isProductLayout]}
       {ProductData && <StickyCheckout ProductData={ProductData} isLoading={isLoading} />}
     </>

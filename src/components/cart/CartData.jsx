@@ -25,7 +25,7 @@ const CartData = ({ elem }) => {
     <tr>
       <CartProductDetail elem={elem} />
       <td>
-        <Link href={`/product/${elem?.product?.slug}`}>{elem?.variation?.name ?? elem?.product?.name}</Link>
+        <Link href={`/product/${elem?.product?.id}`}>{ elem?.product?.name}</Link>
         <Row className="mobile-cart-content">
           <Col>
             <div className="qty-box">
@@ -34,7 +34,7 @@ const CartData = ({ elem }) => {
           </Col>
           <Col className="table-price">
             <h2 className="td-color">
-              {convertCurrency(elem?.product?.sale_price)}
+              {convertCurrency(elem?.product?.price)}
               {elem?.product?.discount || elem?.product?.discount ? <del className="text-content">{convertCurrency(elem?.product?.price)}</del> : null}
             </h2>
           </Col>
@@ -47,12 +47,12 @@ const CartData = ({ elem }) => {
       </td>
       <td className="table-price">
         <h2>
-          {convertCurrency(elem?.product?.sale_price)}
+          {convertCurrency(elem?.product?.price)}
           {elem?.product?.discount || elem?.product?.discount ? <del className="text-content">{convertCurrency(elem?.product?.price)}</del> : null}
         </h2>
-        {elem?.product?.price - elem?.product?.sale_price != 0 || elem?.product?.price - elem?.product?.sale_price < 0 ? (
+        {elem?.product?.price - elem?.product?.price != 0 || elem?.product?.price - elem?.product?.price < 0 ? (
           <h6 className="theme-color">
-            {t("YouSave")}: {convertCurrency(Math.abs(elem?.product?.price - elem?.product?.sale_price).toFixed(2))}
+            {t("YouSave")}: {convertCurrency(Math.abs(elem?.product?.price - elem?.product?.price).toFixed(2))}
           </h6>
         ) : null}
       </td>

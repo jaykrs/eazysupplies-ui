@@ -85,9 +85,9 @@ const CollectionSidebar = ({ filter, setFilter, isOffcanvas, basicStoreCard, rig
                     </AccordionHeader>
                     <CollectionBrand filter={filter} setFilter={setFilter} />
                   </AccordionItem>
-                  {isAttributes ? <CollectionAttributes isOffCanvas={isOffcanvas} attributeAPIData={attributeAPIData} filter={filter} setFilter={setFilter} /> : null}
+                  {/* {isAttributes ? <CollectionAttributes isOffCanvas={isOffcanvas} attributeAPIData={attributeAPIData} filter={filter} setFilter={setFilter} /> : null}
                   <CollectionPrice isOffCanvas={isOffcanvas} filter={filter} setFilter={setFilter} attributeAPIData={attributeAPIData} />
-                  <CollectionRating isOffCanvas={isOffcanvas} filter={filter} setFilter={setFilter} attributeAPIData={attributeAPIData} />
+                  <CollectionRating isOffCanvas={isOffcanvas} filter={filter} setFilter={setFilter} attributeAPIData={attributeAPIData} /> */}
                 </Accordion>
               )
             )}

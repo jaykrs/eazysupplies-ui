@@ -10,6 +10,9 @@ import BillingAddressForm from "./checkoutFormData/BillingAddressForm";
 import DeliverySection from "./checkoutFormData/DeliverySection";
 import PaymentSection from "./checkoutFormData/PaymentSection";
 import ShippingAddressForm from "./checkoutFormData/ShippingAddressForm";
+import Link from "next/link";
+import { Col, Row } from "reactstrap";
+import Btn from "@/elements/buttons/Btn";
 
 const CheckoutForm = ({ values, setFieldValue, errors }) => {
   const { accountData, refetch } = useContext(AccountContext);
@@ -29,9 +32,17 @@ const CheckoutForm = ({ values, setFieldValue, errors }) => {
     <>
       <AccountSection setFieldValue={setFieldValue} values={values} />
       <ShippingAddressForm setFieldValue={setFieldValue} errors={errors} data={data} values={values} />
-      <BillingAddressForm setFieldValue={setFieldValue} errors={errors} data={data} values={values} />
-      <DeliverySection values={values} setFieldValue={setFieldValue} />
-      <PaymentSection values={values} setFieldValue={setFieldValue} />
+      {/* <BillingAddressForm setFieldValue={setFieldValue} errors={errors} data={data} values={values} /> */}
+      {/* <DeliverySection values={values} setFieldValue={setFieldValue} /> */}
+      {/* <PaymentSection values={values} setFieldValue={setFieldValue} /> */}
+
+      {/* <Row className="cart-buttons">
+        <Col xs="6">
+          <Link href="/checkout" className="btn">
+            {t("Checkout")}
+          </Link>
+        </Col>
+      </Row> */}
     </>
   );
 };

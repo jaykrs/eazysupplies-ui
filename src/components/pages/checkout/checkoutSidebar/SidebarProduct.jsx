@@ -21,17 +21,17 @@ const SidebarProduct = ({ values }) => {
             <li key={i}>
               {item && (
                 <div className="cart-image">
-                  <Image src={item?.variation && item?.variation?.variation_image ? item?.variation?.variation_image?.original_url : item?.product?.product_thumbnail ? item?.product?.product_thumbnail?.original_url : placeHolderImage} className="img-fluid" alt={item?.product?.name || "product"} width={70} height={70} />
+                  <Image src={ placeHolderImage} className="img-fluid" alt={item?.product?.name || "product"} width={70} height={70} />
                 </div>
               )}
               <div className="cart-content">
                 <div>
-                  <h4>{item?.variation ? item?.variation?.name : item?.product?.name}</h4>
+                  <h4>{ item?.product?.name}</h4>
                   <h5 className="text-theme">
-                    {item?.variation ? convertCurrency(item?.variation.sale_price) : convertCurrency(item?.product?.sale_price)} x {item.quantity}
+                    {convertCurrency(item?.product?.price)} x {item.quantity}
                   </h5>
                 </div>
-                <span className="text-theme">{convertCurrency((item?.variation ? item?.variation.sale_price : item?.product?.sale_price) * item.quantity)}</span>
+                <span className="text-theme">{convertCurrency(( item?.product?.price) * item.quantity)}</span>
               </div>
             </li>
           ))}

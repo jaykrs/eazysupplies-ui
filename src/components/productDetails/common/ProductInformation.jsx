@@ -9,12 +9,12 @@ const ProductInformation = ({ productState }) => {
 
       <ul className="shipping-info">
         <li>
-          {t("SKU")} : {productState?.selectedVariation?.sku ?? productState?.product?.sku}
+          {t("SKU")} : {productState?.product?.sku}
         </li>
 
-        {productState?.selectedVariation?.unit ? (
+        {productState?.product?.unit ? (
           <li>
-            {t("Unit")} : {productState?.selectedVariation?.unit ?? productState?.product?.unit}
+            {t("Unit")} : {productState?.product?.unit}
           </li>
         ) : null}
         {productState?.product?.weight ? (
@@ -23,10 +23,10 @@ const ProductInformation = ({ productState }) => {
           </li>
         ) : null}
         <li>
-          {t("StockStatus")} :{productState?.selectedVariation?.stock_status ? ModifyString(productState?.selectedVariation?.stock_status, false, "_") : ModifyString(productState?.product?.stock_status, false, "_")}
+          {t("StockStatus")} :{productState?.product?.stock > 0 ? "In stock" : "Out of stock"}
         </li>
         <li>
-          {t("Quantity")} : {productState?.selectedVariation?.quantity ?? productState?.product?.quantity} Items Left
+          {t("Quantity")} : {productState?.product?.stock ?? productState?.product?.stock} Items Left
         </li>
       </ul>
     </div>

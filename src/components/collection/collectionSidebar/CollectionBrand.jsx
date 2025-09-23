@@ -9,7 +9,8 @@ import { AccordionBody, Input, Label } from "reactstrap";
 const CollectionBrand = ({ filter, setFilter }) => {
   const [category, attribute, price, rating, sortBy, field, layout,brand] = useCustomSearchParams(["category", "attribute", "price", "rating", "sortBy", "field", "layout","brand"]);
   const { brandState,isLoading,refetch } = useContext(BrandContext);
-  const [showList, setShowList] = useState();
+  const showList1 = JSON.parse( localStorage.getItem("brandList"))
+  const [showList, setShowList] = useState(showList1);
   const { t } = useTranslation("common");
   
   useEffect(() => {
@@ -67,18 +68,18 @@ const CollectionBrand = ({ filter, setFilter }) => {
   return (
     <div className="collapse show accordion-collapse collapsed ">
       <AccordionBody accordionId="2" className=" collection-brand-filter ">
-        {brandState.length > 5 && (
+        {/* {brandState.length > 5 && (
           <div className="theme-form search-box">
             <Input type="search" placeholder={t("Search")} onChange={handleChange} />
           </div>
-        )}
+        )} */}
         <div className="custom-sidebar-height">
-          {showList?.length > 0 ? (
+          {showList1?.length > 0 ? (
             <ul className="shop-category-list ">
-              {showList?.map((elem, i) => (
+              {showList1?.map((elem, i) => (
                 <li key={i}>
                   <div className="form-check collection-filter-checkbox">
-                    <Input className="checkbox_animated" type="checkbox" id={elem?.name} checked={filter?.brand?.includes(elem?.slug)} onChange={(e) => redirectToCollection(e, elem?.slug)} />
+                    <Input className="checkbox_animated" type="checkbox" id={elem?.slug} checked={filter?.brand?.includes(elem?.slug)} onChange={(e) => redirectToCollection(e, elem?.slug)} />
                     <Label className="form-check-label" htmlFor={elem?.name}>
                       <span className="name">{elem?.name}</span>
                     </Label>

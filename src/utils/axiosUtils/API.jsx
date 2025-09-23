@@ -14,10 +14,18 @@ export const BrandLogo = "/brand";
 export const ThemeOptionsAPI = "/themeOptions";
 
 // Category API
-export const CategoryAPI = "/category";
+// export const CategoryAPI = "/category";
+export const CategoryAPI = "http://api.eazysupplies.com/api/categories";
+export const BrandAPI = "http://api.eazysupplies.com/api/brands";
 
 // Product API
-export const ProductAPI = "/product";
+// export const ProductAPI = "/product";
+export const ProductAPI = "http://api.eazysupplies.com/api/products";
+export const ProductByBrandAPI = "http://api.eazysupplies.com/api/products/filter?brand=";
+export const ProductByCategoryAPI = "http://api.eazysupplies.com/api/products/filter?category=";
+export const ProductBySlugAPI = "http://api.eazysupplies.com/api/products/filter?";
+
+export const CreateOrderAPI = "http://api.eazysupplies.com/api/orders";
 
 // Product Search API
 export const ProductSearchAPI = "/product/minify/list";

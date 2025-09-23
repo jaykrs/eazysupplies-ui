@@ -72,10 +72,16 @@ const AuthModal = () => {
                           </a>
                         </p>
                         {state == "login" && (
-                          <Btn color="transparent" className="number-btn" onClick={() => setState("number")}>
-                            <RiSmartphoneLine />
-                            {t("LoginWithNumber")}
-                          </Btn>
+                          <>
+                            <Btn color="transparent" className="number-btn" onClick={() => setState("number")}>
+                              {/* <RiSmartphoneLine /> */}
+                              {t("LoginWithGSTNumber")}
+                            </Btn>
+                            <Btn color="transparent" className="number-btn" onClick={() => setState("number")}>
+                              <RiSmartphoneLine />
+                              {t("LoginWithNumber")}
+                            </Btn>
+                          </>
                         )}
                       </>
                     )}

@@ -23,7 +23,7 @@ const ProductBox2 = ({ productState, setProductState }) => {
             </div>
           ) : null}
 
-          <Link href={`/product/${productState?.product?.slug}`}>
+          <Link href={`/product/${productState?.product?.id}`}>
             <img src={productState?.selectedVariation?.variation_image ? productState?.selectedVariation.variation_image.original_url : productState?.product?.product_thumbnail?.original_url ? productState?.product?.product_thumbnail?.original_url : placeHolderImage} className="img-fluid bg-img" alt={productState?.product?.name} />
           </Link>
           <div className="rating-label">
@@ -39,24 +39,25 @@ const ProductBox2 = ({ productState, setProductState }) => {
         <div className="product-detail">
           <div>
             <div className="brand-w-color">
-              <a className="product-title" href={`/brand/${productState?.product?.brand?.slug}`}>
-                {productState?.product?.brand?.name}
+              <a className="product-title" href={`/product/${productState?.product?.id}`}>
+                {productState?.product?.name}
               </a>
               <div className="color-panel">
                 <ProductBoxVariantAttribute showVariableType={["color", "image"]} productState={productState} setProductState={setProductState} />
               </div>
             </div>
-            <a href={`/product/${productState?.product?.slug}`}>
-              <h6>{productState?.selectedVariation ? productState?.selectedVariation?.name : productState?.product?.name}</h6>
+            <a href={`/product/${productState?.product?.id}`}>
+              <h6>{ productState?.product?.brand?.name}</h6>
             </a>
             <h4 className="price">
-              {productState?.selectedVariation ? convertCurrency(productState?.selectedVariation.sale_price) : convertCurrency(productState?.product?.sale_price)} {/* Adjust currencySymbol based on your implementation */}
+              {convertCurrency(productState?.product?.price)}
+              {/* {productState?.selectedVariation ? convertCurrency(productState?.selectedVariation.sale_price) : convertCurrency(productState?.product?.sale_price)} Adjust currencySymbol based on your implementation
               {(productState?.selectedVariation ? productState?.selectedVariation.discount : productState?.product?.discount) ? (
                 <>
                   {productState?.selectedVariation?.price != productState?.selectedVariation?.sale_price || (productState?.product?.price != productState?.product?.sale_price && <del>{convertCurrency(productState?.product?.price)}</del>)}
                   <span className="discounted-price">{productState?.selectedVariation ? productState?.selectedVariation.discount : productState?.product?.discount}% Off</span>
                 </>
-              ) : null}
+              ) : null} */}
             </h4>
           </div>
           <ul className="offer-panel">

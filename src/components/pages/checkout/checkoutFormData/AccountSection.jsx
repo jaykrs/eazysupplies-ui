@@ -43,7 +43,7 @@ const AccountSection = ({ values, setFieldValue }) => {
             </div>
           </div>
         </Col>
-        <Col xs={12}>
+        {/* <Col xs={12}>
           <div className="form-box form-checkbox">
             <Input
               className="checkbox_animated check-box"
@@ -65,7 +65,7 @@ const AccountSection = ({ values, setFieldValue }) => {
               <SimpleInputField nameList={[{ name: "password", placeholder: t("EnterPassword"), type: "password", title: "Password", toplabel: "Password", require: "true" }]} />
             </div>
           </Col>
-        )}
+        )} */}
       </Row>
     </div>
   );

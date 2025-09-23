@@ -4,7 +4,7 @@ import ProductBox from "@/components/widgets/productBox";
 import ProductSkeleton from "@/components/widgets/skeletonLoader/ProductSkeleton";
 import ThemeOptionContext from "@/context/themeOptionsContext";
 import request from "@/utils/axiosUtils";
-import { ProductAPI } from "@/utils/axiosUtils/API";
+import { ProductAPI, ProductByBrandAPI, ProductByCategoryAPI, ProductBySlugAPI } from "@/utils/axiosUtils/API";
 import { ImagePath } from "@/utils/constants";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useParams, useSearchParams } from "next/navigation";
@@ -12,6 +12,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Col, Row } from "reactstrap";
 import ListProductBox from "./ListProductBox";
+import axios from "axios";
 
 const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
   const { themeOption } = useContext(ThemeOptionContext);
@@ -20,36 +21,83 @@ const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
   const [adjustGrid, setAdjustGrid] = useState("col-6 col-lg-4");
   const { t } = useTranslation("common");
   const [infiniteScrollData, setInfiniteScrollData] = useState([]);
+  const [data1, setData1] = useState([]);
   const param = useSearchParams();
   const tagParam = param.get("tag");
 
   const fetchData = async () => {
-    return request({
-      url: ProductAPI,
-      params: {
-        page,
-        status: 1,
-        paginate: filter?.paginate ?? filter?.paginate,
-        field: filter?.field ?? "created_at",
-        price: filter?.price.join(",") ?? "",
-        category: categorySlug ? categorySlug : filter?.category.join(",") || tagParam,
-        brand: filter.brand.join(","),
-        sort: "",
-        sortBy: filter?.sortBy ?? "asc",
-        rating: filter?.rating.join(",") ?? "",
-        attribute: filter?.attribute.join(",") ?? "",
-        store_slug: slug ? slug : null,
-        created_at: filter?.created_at ?? "",
-      },
-    });
+    // console.log(filter?.category.length, filter, "uuuuu")
+
+    const allCategory = filter?.category?.join(",")
+    const allBrand = filter?.brand?.join(",")
+
+    if (filter?.category?.length > 0) {
+      axios({
+        url: ProductBySlugAPI + `category=${allCategory}&slug=y`,
+        method: "get"
+      }).then((res) => {
+        setData1(res.data?.items)
+      }, (err) => {
+        console.log(err)
+      })
+    } else if (filter?.brand?.length > 0) {
+      axios({
+        url: ProductBySlugAPI + + `brand=${allBrand}&slug=y`,
+        method: "get"
+      }).then((res) => {
+        setData1(res.data?.items)
+      }, (err) => {
+        console.log(err)
+      })
+    } else if (filter?.brand?.length > 0 && filter?.category?.length > 0) {
+      axios({
+        url: ProductBySlugAPI + + `brand=${allBrand}&category=${allCategory}&slug=y`,
+        method: "get"
+      }).then((res) => {
+        setData1(res.data?.items)
+      }, (err) => {
+        console.log(err)
+      })
+    } else {
+      axios({
+        url: ProductAPI,
+        method: "get"
+      }).then((res) => {
+        setData1(res.data.data)
+      }, (err) => {
+        console.log(err)
+      })
+    }
+    // return request({
+    //   url: ProductAPI,
+    //   // params: {
+    //   //   page,
+    //   //   status: 1,
+    //   //   paginate: filter?.paginate ?? filter?.paginate,
+    //   //   field: filter?.field ?? "created_at",
+    //   //   price: filter?.price.join(",") ?? "",
+    //   //   category: categorySlug ? categorySlug : filter?.category.join(",") || tagParam,
+    //   //   brand: filter.brand.join(","),
+    //   //   sort: "",
+    //   //   sortBy: filter?.sortBy ?? "asc",
+    //   //   rating: filter?.rating.join(",") ?? "",
+    //   //   attribute: filter?.attribute.join(",") ?? "",
+    //   //   store_slug: slug ? slug : null,
+    //   //   created_at: filter?.created_at ?? "",
+    //   // },
+    // });
   };
 
+  useEffect(() => {
+    fetchData()
+  }, [filter])
+
   const { data, fetchNextPage, isRefetching, isLoading, fetchStatus, refetch } = useInfiniteQuery({
-    queryKey: ["infiniteScroll",filter],
+    queryKey: ["infiniteScroll", filter],
     queryFn: fetchData,
     retryOnMount: false,
     enabled: false,
-    getNextPageParam: ({ page, last_page }) => last_page > page && { page: page + 1 },
+    // getNextPageParam: ({ page, last_page }) => last_page > page && { page: page + 1 },
   });
 
   const onLoad = () => {
@@ -58,18 +106,19 @@ const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
     }
   };
 
-  useEffect(() => {
-    if (data?.pages?.length > 0) {
-      data?.pages[data?.pages?.length - 1]?.data?.data?.length && setInfiniteScrollData([...infiniteScrollData, data?.pages[data?.pages?.length - 1]?.data?.data]);
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data, "kiki")
+  //   if (data?.pages?.length > 0) {
+  //     data?.pages[data?.pages?.length - 1]?.data?.data?.length && setInfiniteScrollData([...infiniteScrollData, data?.pages[data?.pages?.length - 1]?.data?.data]);
+  //   }
+  // }, [data]);
 
-  useEffect(() => {
-    fetchNextPage();
-    if (!infiniteScroll) {
-      window.scroll(0, 0);
-    }
-  }, [page]);
+  // useEffect(() => {
+  //   fetchNextPage();
+  //   if (!infiniteScroll) {
+  //     window.scroll(0, 0);
+  //   }
+  // }, [page]);
 
   useEffect(() => {
     if (grid == 2) {
@@ -87,15 +136,38 @@ const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
     categorySlug && !isRefetching;
   }, [categorySlug]);
 
-  useEffect(() => {
-    refetch()
-    setInfiniteScrollData([]); // Reset infinite scroll data when filter changes
-  setPage(1); 
-  }, [refetch, filter]);
+  // useEffect(() => {
+  //   refetch()
+  //   setInfiniteScrollData([]); // Reset infinite scroll data when filter changes
+  //   setPage(1);
+  // }, [refetch, filter]);
 
   return (
     <>
-      {(!infiniteScroll && fetchStatus != "idle") || isLoading ? (
+      {(!data1) || isLoading ? (
+        <Row className="g-xl-4 g-lg-3 g-sm-4 g-3">
+          {new Array(40).fill(null).map((_, i) => (
+            <Col className={adjustGrid} key={i}>
+              <ProductSkeleton />
+            </Col>
+          ))}
+        </Row>
+      ) : data1?.length > 0 ? (
+        <div className={`product-wrapper-grid ${infiniteScroll ? "product-load-more" : ""} ${grid == "list" ? "list-view" : ""} ${themeOption?.product?.full_border ? "full_border" : ""} ${themeOption?.product?.image_bg ? "product_img_bg" : ""} ${themeOption?.product?.product_box_bg ? "full_bg" : ""} ${themeOption?.product?.product_box_border ? "product_border" : ""}`}>
+          <Row className="g-xl-4 g-lg-3 g-sm-4 g-3">
+            {data1?.map((product, i) => (
+              <Col className={adjustGrid} key={i}>
+                {grid == "list" ? <ListProductBox product={product} /> : <ProductBox product={product} style="vertical" />}
+              </Col>
+            ))}
+          </Row>
+        </div>
+      ) : (
+        <NoDataFound customClass="no-data-added " title="NoProductFound" description="Please check if you have misspelt something or try searching with other way." height="345" width="345" imageUrl={`/assets/svg/empty-items.svg`} />
+      )}
+
+
+      {/* {(!infiniteScroll && fetchStatus != "idle") || isLoading ? (
         <Row className="g-xl-4 g-lg-3 g-sm-4 g-3">
           {new Array(40).fill(null).map((_, i) => (
             <Col className={adjustGrid} key={i}>
@@ -129,7 +201,7 @@ const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
         </div>
       ) : (
         <NoDataFound customClass="no-data-added " title="NoProductFound" description="Please check if you have misspelt something or try searching with other way." height="345" width="345" imageUrl={`/assets/svg/empty-items.svg`} />
-      )}
+      )} */}
       {!infiniteScroll ? (
         data?.pages[data.pages.length - 1]?.data?.data?.length > 0 && (
           <div className="product-pagination">

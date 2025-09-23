@@ -14,6 +14,8 @@ import CollectionRightSidebar from "./collectionRightSidebar";
 import CollectionSidebarPopUp from "./collectionSidebarPopUp";
 import MainCollectionSlider from "./collectionSlider";
 import LayoutSidebar from "./layoutSidebar";
+import { BrandAPI, CategoryAPI } from "@/utils/axiosUtils/API";
+import axios from "axios";
 
 const CollectionContain = () => {
   const [filter, setFilter] = useState({ category: [], brand: [], price: [], attribute: [], rating: [], sortBy: "asc", field: "created_at" });
@@ -21,6 +23,21 @@ const CollectionContain = () => {
   const [category, brand, attribute, price, rating, sortBy, field, layout, paginate] = useCustomSearchParams(["category", "brand", "attribute", "price", "rating", "sortBy", "field", "layout", "paginate"]);
   const collectionLayout = layout?.layout ? layout?.layout : themeOption?.collection?.collection_layout;
   const { categoryIsLoading } = useContext(CategoryContext);
+
+  useEffect(() => {
+    axios.get(CategoryAPI).then((res) => {
+      localStorage.setItem("categoryList", JSON.stringify(res.data?.data))
+    }, (err) => {
+      console.log(err)
+    })
+
+    axios.get(BrandAPI).then((res) => {
+      localStorage.setItem("brandList", JSON.stringify(res.data?.data))
+    }, (err) => {
+      console.log(err)
+    })
+  }, [])
+
 
   useEffect(() => {
     setFilter((prev) => {

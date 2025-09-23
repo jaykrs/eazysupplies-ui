@@ -60,9 +60,9 @@ const Headers = () => {
     data: headerMenu,
     refetch,
     isLoading,
-  } = useFetchQuery(["menu"], () => request({ url: "/menu" }), {
+  } = useFetchQuery(["menu"], () => request({ url: "http://api.eazysupplies.com/api/template?name=menu" }), {
     select: (res) => {
-      const originalData = res.data.data;
+      const originalData = res.data.jsonData.data;
       const modifiedData = originalData.map((item) => ({
         ...item,
         class: `${["Product", "Mega Menu"].includes(item.title) ? 1 : 0}`,
