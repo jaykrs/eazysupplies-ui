@@ -60,7 +60,7 @@ const useHandleLogin = (setShowBoxMessage) => {
   const { mutate } = useCreate(SyncCart, false, false, "No");
   const { addToWishlist } = useContext(WishlistContext);
   const { mutate: compareCartMutate } = useCreate(CompareAPI, false, false, "Added to Compare List");
-  const CallBackUrl = Cookies.get("CallBackUrl") ? Cookies.get("CallBackUrl") : "/account/dashboard";
+  const CallBackUrl = "/account/dashboard";
   const { refetch } = useContext(AccountContext);
   const { refetch: cartRefetch } = useContext(CartContext);
   const { refetch: compareRefetch } = useContext(CompareContext);
