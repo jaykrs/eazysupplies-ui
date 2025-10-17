@@ -1,11 +1,6 @@
 // Auth
-<<<<<<< HEAD
 export const BASE_URL = "http://api.eazysupplies.com";
 // export const BASE_URL = "http://localhost:3000";
-=======
- export const BASE_URL = "http://api.eazysupplies.com";
-//export const BASE_URL = "http://localhost:3000";
->>>>>>> c49768715377ccd55d6900f1ca1f9aa4bca1c417
 export const RegisterAPI = "/register";
 // export const LoginAPI = "/auth/login";
 // export const SelfAPI = "/self";
