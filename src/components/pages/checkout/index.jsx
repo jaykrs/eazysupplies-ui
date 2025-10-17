@@ -39,7 +39,7 @@ const CheckoutContent = () => {
   }, []);
 
   useEffect(() => {
-    accountData?.address.length > 0 && setAddress((prev) => [...accountData?.address]);
+    accountData?.address?.length > 0 && setAddress((prev) => [...accountData?.address]);
   }, [accountData]);
 
   const { mutate, isLoading } = useCreate(AddressAPI, false, false, "Address Added successfully", (resDta) => {
@@ -54,7 +54,7 @@ const CheckoutContent = () => {
   useEffect(() => {
     if (accessToken && !addToCartLoader) {
       addToCartRefetch();
-      console.log(data, "koko")
+      // console.log(data, "koko")
     }
   }, [addToCartLoader, accessToken]);
   const { isLoading: themeLoad } = useContext(ThemeOptionContext);

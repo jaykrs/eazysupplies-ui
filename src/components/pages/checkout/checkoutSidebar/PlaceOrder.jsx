@@ -1,3 +1,4 @@
+import AccountContext from "@/context/accountContext";
 import CartContext from "@/context/cartContext";
 import Btn from "@/elements/buttons/Btn";
 import { CreateOrderAPI } from "@/utils/axiosUtils/API";
@@ -11,6 +12,7 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
   const access_token = Cookies.get("uat");
   const [disable, setDisable] = useState(true);
   const { cartProducts } = useContext(CartContext);
+  const { accountData } = useContext(AccountContext);
 
   useEffect(() => {
     if (!access_token) {
@@ -36,7 +38,7 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
       method: "POST",
       url: CreateOrderAPI,
       data: {
-        userId: 2,
+        userId: accountData?.userId,
         status: "PENDING",
         "items": tempProduct,
         "shipping": {
@@ -64,7 +66,7 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
   };
   return (
     <div className="text-end">
-      <Btn className="order-btn" onClick={handleClick} disabled={disable}>
+      <Btn className="order-btn" onClick={handleClick} >
         {t("PlaceRequest")}
       </Btn>
       {/* {addToCartData?.is_digital_only ? (

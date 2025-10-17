@@ -20,7 +20,7 @@ const CheckoutForm = ({ values, setFieldValue, errors }) => {
   const [address, setAddress] = useState([]);
   const router = useRouter();
   useEffect(() => {
-    accountData?.address.length > 0 && setAddress((prev) => [...accountData?.address]);
+    accountData?.address?.length > 0 && setAddress((prev) => [...accountData?.address]);
   }, [accountData]);
 
   const { data } = useFetchQuery([CountryAPI], () => request({ url: CountryAPI }, router), {
