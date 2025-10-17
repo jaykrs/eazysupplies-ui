@@ -8,7 +8,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import request from "../axiosUtils";
-import { CompareAPI, LoginAPI, SyncCart } from "../axiosUtils/API";
+import { BASE_URL, CompareAPI, LoginAPI, SyncCart } from "../axiosUtils/API";
 import { YupObject, emailSchema, passwordSchema, recaptchaSchema } from "../validation/ValidationSchema";
 import useCreate from "./useCreate";
 
@@ -50,7 +50,8 @@ const LoginHandle = (responseData, router, refetch, compareRefetch, CallBackUrl,
     Cookies.remove("compareId");
     localStorage.removeItem("cart");
   } else {
-    setShowBoxMessage(responseData.response.data.message);
+    // console.log(responseData, "iii")
+    setShowBoxMessage(responseData.response.data.error);
   }
 };
 
@@ -64,7 +65,7 @@ const useHandleLogin = (setShowBoxMessage) => {
   const { refetch: cartRefetch } = useContext(CartContext);
   const { refetch: compareRefetch } = useContext(CompareContext);
   const router = useRouter();
-  return useMutation({ mutationFn: (data) => request({ url: LoginAPI, method: "post", data }), onSuccess: (responseData) => LoginHandle(responseData, router, refetch, compareRefetch, CallBackUrl, mutate, cartRefetch, setShowBoxMessage, addToWishlist, compareCartMutate, setOpenAuthModal) });
+  return useMutation({ mutationFn: (data) => request({ url: BASE_URL + LoginAPI, method: "post", data, withCredentials: true }), onSuccess: (responseData) => LoginHandle(responseData, router, refetch, compareRefetch, CallBackUrl, mutate, cartRefetch, setShowBoxMessage, addToWishlist, compareCartMutate, setOpenAuthModal), onError: (err)=>setShowBoxMessage(err) });
 };
 
 export default useHandleLogin;

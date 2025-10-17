@@ -12,6 +12,7 @@ import HeaderSeven from "./headerSeven";
 import HeaderSix from "./headerSix";
 import HeaderThree from "./headerThree";
 import HeaderTwo from "./headerTwo";
+import { BASE_URL } from "@/utils/axiosUtils/API";
 
 const Headers = () => {
   const { themeOption } = useContext(ThemeOptionContext);
@@ -60,7 +61,7 @@ const Headers = () => {
     data: headerMenu,
     refetch,
     isLoading,
-  } = useFetchQuery(["menu"], () => request({ url: "http://api.eazysupplies.com/api/template?name=menu" }), {
+  } = useFetchQuery(["menu"], () => request({ url: BASE_URL+"/api/template?name=menu" }), {
     select: (res) => {
       const originalData = res.data.jsonData.data;
       const modifiedData = originalData.map((item) => ({

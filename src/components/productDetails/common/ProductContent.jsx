@@ -23,7 +23,7 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
   const [cartData1, setCartData] = useState(JSON.parse(localStorage.getItem("cartData")))
   const router = useRouter();
   const addToCart = () => {
-    setCartCanvas(true);
+    // setCartCanvas(true);
     // console.log(productState, "kkkkk")
     // const cartData = JSON.parse(localStorage.getItem("cartData"))
     // if (!!cartData) {

@@ -134,11 +134,11 @@ const CheckoutContent = () => {
                         {settingData?.activation?.guest_checkout && !accessToken && (
                           <div className="checkout-form-section">
                             <CheckoutForm values={values} setFieldValue={setFieldValue} errors={errors} />
-                            <div className="product-buy-btn-group">
+                            {/* <div className="product-buy-btn-group">
                               <Btn className="btn-md bg-theme scroll-button" onClick={() => { }}>
                                 {t("PlaceRequest")}
                               </Btn>
-                            </div>
+                            </div> */}
                           </div>
                         )}
                         {accessToken && (

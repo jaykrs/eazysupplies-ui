@@ -36,7 +36,7 @@ const SidebarProfile = () => {
         <div className="profile-top-box">
           <div className="profile-image">
             <div className="position-relative h-100">
-              <Avatar data={accountData?.profile_image} name={accountData?.name} customImageClass={"update_img"} alt="profile-image" height={108} width={108} />
+              <Avatar data={accountData?.profile_image} name={accountData?.data?.name} customImageClass={"update_img"} alt="profile-image" height={108} width={108} />
               <div className="user-icon" onClick={handleImageLabelClick}>
                 <Input type="file" onChange={handleOnChange} innerRef={fileInputRef} className="d-none" accept="image/*" name="imageUpload" />
                 <RiImageEditLine className=" d-lg-block d-none" />
@@ -51,8 +51,8 @@ const SidebarProfile = () => {
           )}
         </div>
         <div className="profile-detail">
-          <h5>{accountData?.name}</h5>
-          <h6>{accountData?.email}</h6>
+          <h5>{accountData?.data?.name}</h5>
+          <h6>{accountData?.data?.email}</h6>
         </div>
       </div>
     </>

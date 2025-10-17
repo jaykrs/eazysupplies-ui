@@ -16,14 +16,14 @@ const DashboardContent = () => {
     <div className="counter-section">
       <div className="welcome-msg">
         <h4>
-          {t("Hello")}, {accountData?.name ?? t("User")} !
+          {t("Hello")}, {accountData?.data?.name ?? t("User")} !
         </h4>
         <p>{t("DashboardDescription")}</p>
       </div>
 
       <div className="total-box">
         <Row>
-          <Col md={4}>
+          {/* <Col md={4}>
             <div className="counter-box">
               <Image src={`${ImagePath}/icon/dashboard/account1.png`} alt="wallerSvg" height={50} width={50} className="img-fluid" />
               <div>
@@ -31,8 +31,8 @@ const DashboardContent = () => {
                 <h5>{t("Balance")}</h5>
               </div>
             </div>
-          </Col>
-          <Col md={4}>
+          </Col> */}
+          {/* <Col md={4}>
             <div className="counter-box">
               <Image src={`${ImagePath}/icon/dashboard/account2.png`} className="img-fluid" alt="coinSvg" height={50} width={50} />
               <div>
@@ -40,12 +40,12 @@ const DashboardContent = () => {
                 <h5>{t("TotalPoints")}</h5>
               </div>
             </div>
-          </Col>
+          </Col> */}
           <Col md={4}>
             <div className="counter-box">
               <Image src={`${ImagePath}/icon/dashboard/account3.png`} className="img-fluid" alt="orderSvg" height={50} width={50} />
               <div>
-                <h3>{accountData?.orders_count ? Number(accountData.orders_count) : 0}</h3>
+                <h3>{accountData?.data?.orders ? Number(accountData?.data?.orders?.length) : 0}</h3>
                 <h5>{t("TotalOrders")}</h5>
               </div>
             </div>

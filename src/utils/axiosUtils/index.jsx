@@ -10,7 +10,7 @@ const client = axios.create({
 });
 
 const request = async ({ ...options }, router) => {
-  client.defaults.headers.common.Authorization = `Bearer ${getCookie("uat")}`;
+  // client.defaults.headers.common.Authorization = `Bearer ${getCookie("uat")}`;
   const onSuccess = (response) => response;
   const onError = (error) => {
     if (error?.response?.status == 401) {
@@ -19,6 +19,7 @@ const request = async ({ ...options }, router) => {
       Cookies.remove("account");
       localStorage.clear();
       router && router.push("/404");
+    return error;
     }
     return error;
   };

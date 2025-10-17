@@ -14,7 +14,7 @@ const TrackingForm = () => {
       order_number: values?.order_number,
       email_or_phone: values?.email_or_phone,
     });
-    router.push(`${"/order/details"}?${queryParams}`);
+    router.push(`${"/account/order/details"}?${queryParams}`);
   };
 
   return (

@@ -1,13 +1,14 @@
 import useFetchQuery from "@/utils/hooks/useFetchQuery";;
 import request from "../axiosUtils";
-import { HomePageAPI } from "../axiosUtils/API";
+import { BASE_URL, GetHomePageData, HomePageAPI } from "../axiosUtils/API";
 
 const useCustomDataQuery = ({ params }) => {
   return useFetchQuery(
     ["data", params],
     async () => {
-      const response = await request({ url: `${HomePageAPI}/${params}`, params: { slug: params } });
-      return response?.data?.content;
+      const response = await request({ url: `${BASE_URL}${GetHomePageData}` });
+      console.log(response?.data?.jsonData?.data?.content, "HomePage Data")
+      return response?.data?.jsonData?.data?.content;
     },
     {
       select: (data) => data,

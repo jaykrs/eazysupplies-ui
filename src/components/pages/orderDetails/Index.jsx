@@ -3,47 +3,65 @@ import NoDataFound from "@/components/widgets/NoDataFound";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
 import Loader from "@/layout/loader";
 import request from "@/utils/axiosUtils";
-import { TrackingAPI } from "@/utils/axiosUtils/API";
+import { BASE_URL, GetOrderById, GetOrderByUserId, TrackingAPI } from "@/utils/axiosUtils/API";
 import Breadcrumb from "@/utils/commonComponents/breadcrumb";
 import useFetchQuery from "@/utils/hooks/useFetchQuery";;
 import { useRouter, useSearchParams } from "next/navigation";
 import { Col, TabContent, TabPane } from "reactstrap";
 import TrackOrderDetails from "./TrackOrderDetails";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import AccountSidebar from "../account/common/AccountSidebar";
+import ResponsiveMenuOpen from "../account/common/ResponsiveMenuOpen";
 
 const OrderDetailsTracking = () => {
   const search = useSearchParams();
   let orderNumber = search.get("order_number");
   let emailPhone = search.get("email_or_phone");
+  const orderId = search.get("orderId");
+  const [orderData, setOrderData] = useState([])
 
   const router = useRouter();
-  const { data, isLoading } = useFetchQuery([TrackingAPI], () => request({ url: TrackingAPI, params: { order_number: orderNumber, email_or_phone: emailPhone } }, router), {
+  const { data, isLoading } = useFetchQuery([GetOrderById], () => request({ url: GetOrderById + orderId, method: "GET", withCredentials: true }, router), {
     enabled: true,
     refetchOnWindowFocus: false,
     select: (res) => res?.data,
   });
 
+  // useEffect(() => {
+  //   axios.get(BASE_URL + GetOrderById + orderId, { withCredentials: true }).then((res) => {
+  //     console.log(res.data, "Order Data")
+  //     setOrderData(res.data)
+  //   }, (err) => {
+  //     console.log(err)
+  //   })
+  // }, [])
   if (isLoading) return <Loader />;
   return (
     <>
       <Breadcrumb title={"OrderDetails"} subNavigation={[{ name: "OrderDetails" }]} />
-      <WrapperComponent classes={{ sectionClass: "user-dashboard-section dashboard-section section-b-space", fluidClass: 'container' }} customCol={true}>
-        <div className="faq-content">
-          <div className="tab-pane">
-            <Col xxl={12} lg={8}>
-              {data ? (
-                <div className="dashboard-right-sidebar">
-                  <TabContent>
-                    <TabPane className="show active">
-                      <TrackOrderDetails data={data} isLoading={isLoading} orderNumber={orderNumber} />
-                    </TabPane>
-                  </TabContent>
-                </div>
-              ) : (
-                <NoDataFound customClass="no-data-added" imageUrl={`/assets/svg/empty-items.svg`} title="NoOrderFound" height="300" width="300" />
-              )}
-            </Col>
+      <WrapperComponent classes={{ sectionClass: "dashboard-section section-b-space user-dashboard-section", fluidClass: 'container' }} customCol={true}>
+        <AccountSidebar tabActive={"order"} />
+        <Col lg={9}>
+          <div className="faq-content">
+            <div className="tab-pane">
+              <ResponsiveMenuOpen />
+              <Col xxl={12} lg={8}>
+                {data ? (
+                  <div className="dashboard-right-sidebar">
+                    <TabContent>
+                      <TabPane className="show active">
+                        <TrackOrderDetails data={data} isLoading={isLoading} orderNumber={orderId} />
+                      </TabPane>
+                    </TabContent>
+                  </div>
+                ) : (
+                  <NoDataFound customClass="no-data-added" imageUrl={`/assets/svg/empty-items.svg`} title="NoOrderFound" height="300" width="300" />
+                )}
+              </Col>
+            </div>
           </div>
-        </div>
+        </Col>
       </WrapperComponent>
     </>
   );

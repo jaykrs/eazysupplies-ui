@@ -9,7 +9,7 @@ const AccountProvider = (props) => {
   const cookies = Cookies.get("uat");
   const [mobileSideBar, setMobileSideBar] = useState(false);
   const [accountData, setAccountData] = useState();
-  const { data, refetch, fetchStatus } = useFetchQuery([SelfAPI], () => request({ url: SelfAPI }), {
+  const { data, refetch, fetchStatus } = useFetchQuery([SelfAPI], () => request({ url: SelfAPI, withCredentials: true, method: "GET" }), {
     enabled: false,
     select: (res) => {
       return res?.data;

@@ -1,8 +1,8 @@
-import AccountOrders from "@/components/pages/account/orders";
+import OrderList from "@/components/pages/orderList/Index";
 import React from "react";
 
 const AccountOrderComponent = () => {
-  return <AccountOrders />;
+  return <OrderList />;
 };
 
 export default AccountOrderComponent;

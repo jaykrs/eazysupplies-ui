@@ -139,7 +139,7 @@ const Fashion1 = () => {
       )}
 
       {/* Featured Blogs */}
-      {data?.featured_blogs?.status && (
+      {/* {data?.featured_blogs?.status && (
         <>
           <Container>
             <HomeTitle title={data?.featured_blogs} type="basic" />
@@ -148,21 +148,21 @@ const Fashion1 = () => {
             <HomeBlog blogIds={data?.featured_blogs?.blog_ids || []} />
           </WrapperComponent>
         </>
-      )}
+      )} */}
 
       {/* Social Media */}
-      {data?.social_media?.banners?.length && data?.social_media?.status && (
+      {/* {data?.social_media?.banners?.length && data?.social_media?.status && (
         <section className="instagram ratio_square overflow-hidden section-t-space">
           <HomeSocialMedia media={data?.social_media || []} classes="container-fluid" type="borderless" />
         </section>
-      )}
+      )} */}
 
       {/* Brands */}
-      {data?.brand?.status && (
+      {/* {data?.brand?.status && (
         <section className="section-b-space section-t-space">
           <HomeBrand brandIds={data?.brand?.brand_ids || []} />
         </section>
-      )}
+      )} */}
     </>
   );
 };

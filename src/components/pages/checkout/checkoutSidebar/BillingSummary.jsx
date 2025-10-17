@@ -13,9 +13,9 @@ const BillingSummary = ({ data, values, setFieldValue, isLoading, mutate, storeC
   const { cartProducts } = useContext(CartContext);
   const { t } = useTranslation("common");
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(cartProducts, "jjj")
-  },[])
+  }, [])
   return (
     <div className="checkout-details ">
       {cartProducts?.length > 0 ? (
@@ -34,7 +34,7 @@ const BillingSummary = ({ data, values, setFieldValue, isLoading, mutate, storeC
               <ul className="sub-total">
                 <li>
                   {t("Subtotal")}
-                  <span className="count">{convertCurrency(cartProducts?.reduce((a,b)=>a?.sub_total+b?.sub_total))}</span>
+                  <span className="count">{convertCurrency(cartProducts?.reduce((sum, item) => sum + item?.sub_total, 0))}</span>
                 </li>
                 <li>
                   {t("Shipping")}
@@ -56,7 +56,7 @@ const BillingSummary = ({ data, values, setFieldValue, isLoading, mutate, storeC
                 ) : null}
                 <li className="list-total">
                   {t("Total")}
-                  <span className="count">{convertCurrency(cartProducts?.reduce((a,b)=>a?.sub_total+b?.sub_total))}</span>
+                  <span className="count">{convertCurrency(cartProducts?.reduce((sum, item) => sum + item?.sub_total))}</span>
                 </li>
               </ul>
               <PlaceOrder values={values} errors={errors} />

@@ -1,0 +1,576 @@
+[
+    {
+        "id": 1,
+        "section": "",
+        "heading": "",
+        "description": "",
+        "data": [
+            {
+                "id": 1,
+                "image": "/assets/images/home/fashion_one_9.jpg",
+                "link": "/product/1"
+            },
+            {
+                "id": 2,
+                "image": "/assets/images/home/fashion_one_9.jpg",
+                "link": "/assets/images/home/fashion_one_9.jpg"
+            },
+            {
+                "id": 3,
+                "image": "/assets/images/home/fashion_one_9.jpg",
+                "link": "/assets/images/home/fashion_one_9.jpg"
+            },
+            {
+                "id": 4,
+                "image": "/assets/images/home/fashion_one_9.jpg",
+                "link": "/assets/images/home/fashion_one_9.jpg"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "section": "",
+        "heading": "",
+        "description": "",
+        "data": [
+            {
+                "id": 1,
+                "image": "/assets/images/home/fashion_one_7.jpg",
+                "link": "/assets/images/home/fashion_one_7.jpg"
+            },
+            {
+                "id": 2,
+                "image": "/assets/images/home/fashion_one_7.jpg",
+                "link": "/assets/images/home/fashion_one_7.jpg"
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "section": "special offer",
+        "heading": "Latest Drops",
+        "description": "Looking for the latest trends in clothing, shoes and accessories? Welcome to our 'Latest Drops' edit, bringing you all the latest styles from all your fave brands.",
+        "data": [
+            {
+                "id": 1,
+                "name": "CORN FLAKES",
+                "description": "CORN FLAKES\n",
+                "price": 12000,
+                "stock": 1000,
+                "categoryId": 1,
+                "brandId": 1,
+                "tags": "1",
+                "sku": "TSH123-BLU-M",
+                "skuType": "PACKET",
+                "selfLife": null,
+                "mfDate": null,
+                "expDate": null,
+                "createdAt": "2025-10-03T15:57:27.808Z",
+                "updatedAt": "2025-10-03T15:57:27.808Z",
+                "productIcon": null,
+                "productImage": null,
+                "createdBy": null,
+                "dimension": "20 X 500",
+                "keyword": null,
+                "ordersCount": null,
+                "tax": 1,
+                "pkgGwt": null,
+                "pkgUnit": "GM",
+                "pkgCnt": 10,
+                "caseRate": null,
+                "unitRate": 1200,
+                "supplier": "1",
+                "status": true,
+                "jsonData": null,
+                "category": {
+                    "id": 1,
+                    "name": "BAR SYRUP & CORNFLAKES",
+                    "slug": "bar-syrup-&-cornflakes",
+                    "createdAt": "2025-10-03T15:32:34.059Z",
+                    "updatedAt": "2025-10-03T15:32:34.059Z"
+                },
+                "brand": {
+                    "id": 1,
+                    "name": "WONDERFILLS",
+                    "slug": "wonderfills",
+                    "createdAt": "2025-10-03T15:31:06.682Z",
+                    "updatedAt": "2025-10-03T15:31:06.682Z"
+                },
+                "suppliers": [
+                    {
+                        "id": 1,
+                        "name": "Earthling",
+                        "description": "Earthling is supplier it self.",
+                        "productList": null,
+                        "gstIn": "27ABCDE1234F2Z5",
+                        "address": "Sansad Marg, New Delhi",
+                        "pinCode": "110006",
+                        "city": "Delhi",
+                        "phone": "9939594826",
+                        "remarks": "Testing"
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "name": "MOJITO MINT",
+                "description": "MOJITO MINT\n",
+                "price": 1500,
+                "stock": 1000,
+                "categoryId": 1,
+                "brandId": 1,
+                "tags": "1",
+                "sku": "BOTTLE-02323",
+                "skuType": "BOTTLE",
+                "selfLife": null,
+                "mfDate": null,
+                "expDate": null,
+                "createdAt": "2025-10-03T16:00:01.399Z",
+                "updatedAt": "2025-10-03T16:00:01.399Z",
+                "productIcon": null,
+                "productImage": null,
+                "createdBy": null,
+                "dimension": "12 X 1",
+                "keyword": null,
+                "ordersCount": null,
+                "tax": 1,
+                "pkgGwt": null,
+                "pkgUnit": "LTR",
+                "pkgCnt": 9,
+                "caseRate": null,
+                "unitRate": 1500,
+                "supplier": "1",
+                "status": true,
+                "jsonData": null,
+                "category": {
+                    "id": 1,
+                    "name": "BAR SYRUP & CORNFLAKES",
+                    "slug": "bar-syrup-&-cornflakes",
+                    "createdAt": "2025-10-03T15:32:34.059Z",
+                    "updatedAt": "2025-10-03T15:32:34.059Z"
+                },
+                "brand": {
+                    "id": 1,
+                    "name": "WONDERFILLS",
+                    "slug": "wonderfills",
+                    "createdAt": "2025-10-03T15:31:06.682Z",
+                    "updatedAt": "2025-10-03T15:31:06.682Z"
+                },
+                "suppliers": [
+                    {
+                        "id": 1,
+                        "name": "Earthling",
+                        "description": "Earthling is supplier it self.",
+                        "productList": null,
+                        "gstIn": "27ABCDE1234F2Z5",
+                        "address": "Sansad Marg, New Delhi",
+                        "pinCode": "110006",
+                        "city": "Delhi",
+                        "phone": "9939594826",
+                        "remarks": "Testing"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "section": "",
+        "heading": "",
+        "description": "",
+        "data": [
+            {
+                "id": 1,
+                "image": "/assets/images/home/fashion_one_5.jpg",
+                "link": "/assets/images/home/fashion_one_5.jpg"
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "section": "exclusive products",
+        "heading": "everyday casual",
+        "description": "",
+        "data": [
+            {
+                "id": 1,
+                "name": "CORN FLAKES",
+                "description": "CORN FLAKES\n",
+                "price": 12000,
+                "stock": 1000,
+                "categoryId": 1,
+                "brandId": 1,
+                "tags": "1",
+                "sku": "TSH123-BLU-M",
+                "skuType": "PACKET",
+                "selfLife": null,
+                "mfDate": null,
+                "expDate": null,
+                "createdAt": "2025-10-03T15:57:27.808Z",
+                "updatedAt": "2025-10-03T15:57:27.808Z",
+                "productIcon": null,
+                "productImage": null,
+                "createdBy": null,
+                "dimension": "20 X 500",
+                "keyword": null,
+                "ordersCount": null,
+                "tax": 1,
+                "pkgGwt": null,
+                "pkgUnit": "GM",
+                "pkgCnt": 10,
+                "caseRate": null,
+                "unitRate": 1200,
+                "supplier": "1",
+                "status": true,
+                "jsonData": null,
+                "category": {
+                    "id": 1,
+                    "name": "BAR SYRUP & CORNFLAKES",
+                    "slug": "bar-syrup-&-cornflakes",
+                    "createdAt": "2025-10-03T15:32:34.059Z",
+                    "updatedAt": "2025-10-03T15:32:34.059Z"
+                },
+                "brand": {
+                    "id": 1,
+                    "name": "WONDERFILLS",
+                    "slug": "wonderfills",
+                    "createdAt": "2025-10-03T15:31:06.682Z",
+                    "updatedAt": "2025-10-03T15:31:06.682Z"
+                },
+                "suppliers": [
+                    {
+                        "id": 1,
+                        "name": "Earthling",
+                        "description": "Earthling is supplier it self.",
+                        "productList": null,
+                        "gstIn": "27ABCDE1234F2Z5",
+                        "address": "Sansad Marg, New Delhi",
+                        "pinCode": "110006",
+                        "city": "Delhi",
+                        "phone": "9939594826",
+                        "remarks": "Testing"
+                    }
+                ]
+            },
+            {
+                "id": 2,
+                "name": "MOJITO MINT",
+                "description": "MOJITO MINT\n",
+                "price": 1500,
+                "stock": 1000,
+                "categoryId": 1,
+                "brandId": 1,
+                "tags": "1",
+                "sku": "BOTTLE-02323",
+                "skuType": "BOTTLE",
+                "selfLife": null,
+                "mfDate": null,
+                "expDate": null,
+                "createdAt": "2025-10-03T16:00:01.399Z",
+                "updatedAt": "2025-10-03T16:00:01.399Z",
+                "productIcon": null,
+                "productImage": null,
+                "createdBy": null,
+                "dimension": "12 X 1",
+                "keyword": null,
+                "ordersCount": null,
+                "tax": 1,
+                "pkgGwt": null,
+                "pkgUnit": "LTR",
+                "pkgCnt": 9,
+                "caseRate": null,
+                "unitRate": 1500,
+                "supplier": "1",
+                "status": true,
+                "jsonData": null,
+                "category": {
+                    "id": 1,
+                    "name": "BAR SYRUP & CORNFLAKES",
+                    "slug": "bar-syrup-&-cornflakes",
+                    "createdAt": "2025-10-03T15:32:34.059Z",
+                    "updatedAt": "2025-10-03T15:32:34.059Z"
+                },
+                "brand": {
+                    "id": 1,
+                    "name": "WONDERFILLS",
+                    "slug": "wonderfills",
+                    "createdAt": "2025-10-03T15:31:06.682Z",
+                    "updatedAt": "2025-10-03T15:31:06.682Z"
+                },
+                "suppliers": [
+                    {
+                        "id": 1,
+                        "name": "Earthling",
+                        "description": "Earthling is supplier it self.",
+                        "productList": null,
+                        "gstIn": "27ABCDE1234F2Z5",
+                        "address": "Sansad Marg, New Delhi",
+                        "pinCode": "110006",
+                        "city": "Delhi",
+                        "phone": "9939594826",
+                        "remarks": "Testing"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "section": "From the Blog",
+        "heading": "From the Blog",
+        "description": "",
+        "data": [
+            {
+                "id": 1,
+                "image": "/assets/images/home/theme_blog.jpg",
+                "link": "/assets/images/home/theme_blog.jpg",
+                "description": "Sustainable Bags: Eco-Friendly Options for the Conscious Shopper"
+            },
+            {
+                "id": 2,
+                "image": "/assets/images/home/theme_blog.jpg",
+                "link": "/assets/images/home/theme_blog.jpg",
+                "description": "How to Host a Magical Christmas Party: Tips and Ideas"
+            },
+            {
+                "id": 3,
+                "image": "/assets/images/home/theme_blog.jpg",
+                "link": "/assets/images/home/theme_blog.jpg",
+                "description": "The Art of Blogging: Mastering Your Voice and Audience Engagement"
+            },
+            {
+                "id": 4,
+                "image": "/assets/images/home/theme_blog.jpg",
+                "link": "/assets/images/home/theme_blog.jpg",
+                "description": "Wardrobe Wonders: Unraveling the Enigma of Fashion"
+            },
+            {
+                "id": 5,
+                "image": "/assets/images/home/theme_blog.jpg",
+                "link": "/assets/images/home/theme_blog.jpg",
+                "description": "The Art and Science of Web Design: Trends, Tips, and Techniques"
+            }
+        ]
+    }
+]
+
+
+
+
+{
+    "to": 7,
+    "data":[{
+    "id": 1,
+    "content": {
+        "brand": {
+            "status": true,
+            "brand_ids": [
+                8,
+                7,
+                6,
+                10,
+                9
+            ]
+        },
+        "banner": {
+            "status": true,
+            "image_url": "/assets/images/home/fashion_one_5.jpg",
+            "redirect_link": {
+                "link": 19,
+                "link_type": "product",
+                "product_ids": 19
+            }
+        },
+        "services": {
+            "banners": [
+                {
+                    "title": "free shipping",
+                    "status": true,
+                    "image_url": "/assets/images/home/service.jpg",
+                    "description": "free shipping world wide"
+                },
+                {
+                    "title": "24 X 7 service",
+                    "status": true,
+                    "image_url": "/assets/images/home/service.jpg",
+                    "description": "online service for new customer"
+                },
+                {
+                    "title": "festival offer",
+                    "status": true,
+                    "image_url": "/assets/images/home/service.jpg",
+                    "description": "new online special festival offer"
+                }
+            ]
+        },
+        "home_banner": {
+            "banners": [
+                {
+                    "status": true,
+                    "image_url": "/assets/images/home/fashion_one_9.jpg",
+                    "redirect_link": {
+                        "link": "fashion",
+                        "link_type": "collection"
+                    }
+                },
+                {
+                    "status": true,
+                    "image_url": "/assets/images/home/fashion_one_2.jpg",
+                    "redirect_link": {
+                        "link": "fashion",
+                        "link_type": "collection"
+                    }
+                }
+            ]
+        },
+        "offer_banner": {
+            "banner_1": {
+                "status": true,
+                "image_url": "/assets/images/home/fashion_one_8.jpg",
+                "redirect_link": {
+                    "link": "fashion",
+                    "link_type": "collection"
+                }
+            },
+            "banner_2": {
+                "status": true,
+                "image_url": "/assets/images/home/fashion_one_7.jpg",
+                "redirect_link": {
+                    "link": "fashion",
+                    "link_type": "collection"
+                }
+            }
+        },
+        "products_ids": [
+            1,
+            2,
+            1,
+            2,
+            1
+        ],
+        "social_media": {
+            "title": "#WHOWEARWHAT",
+            "status": true,
+            "banners": [
+                {
+                    "status": true,
+                    "image_url": "/assets/images/home/fashion_one_insta_7.jpg",
+                    "redirect_link": {
+                        "link": "https://instagram.com/",
+                        "link_type": "external_url"
+                    }
+                },
+                {
+                    "status": true,
+                    "image_url": "/assets/images/home/fashion_one_insta_6.jpg",
+                    "redirect_link": {
+                        "link": "https://instagram.com/",
+                        "link_type": "external_url"
+                    }
+                },
+                {
+                    "status": true,
+                    "image_url": "/assets/images/home/fashion_one_insta_5.jpg",
+                    "redirect_link": {
+                        "link": "https://instagram.com/",
+                        "link_type": "external_url"
+                    }
+                },
+                {
+                    "status": true,
+                    "image_url": "/assets/images/home/fashion_one_insta_4.jpg",
+                    "redirect_link": {
+                        "link": "https://instagram.com/",
+                        "link_type": "external_url"
+                    }
+                },
+                {
+                    "status": true,
+                    "image_url": "/assets/images/home/fashion_one_insta_3.jpg",
+                    "redirect_link": {
+                        "link": "https://instagram.com/",
+                        "link_type": "external_url"
+                    }
+                },
+                {
+                    "status": true,
+                    "image_url": "/assets/images/home/fashion_one_insta_2.jpg",
+                    "redirect_link": {
+                        "link": "https://instagram.com/",
+                        "link_type": "external_url"
+                    }
+                },
+                {
+                    "status": true,
+                    "image_url": "/assets/images/home/fashion_one_insta_1.jpg",
+                    "redirect_link": {
+                        "link": "https://instagram.com/",
+                        "link_type": "external_url"
+                    }
+                }
+            ]
+        },
+        "products_list": {
+            "tag": "special offer",
+            "title": "Latest Drops",
+            "status": true,
+            "description": "Looking for the latest trends in clothing, shoes and accessories? Welcome to our 'Latest Drops' edit, bringing you all the latest styles from all your fave brands.",
+            "product_ids": [
+                1,
+                2,
+                1,
+                2
+            ]
+        },
+        "featured_blogs": {
+            "tag": "From the Blog",
+            "title": "From the Blog",
+            "status": true,
+            "blog_ids": [
+                3,
+                2,
+                1
+            ]
+        },
+        "category_product": {
+            "tag": "exclusive products",
+            "title": "everyday casual",
+            "status": true,
+            "category_ids": [
+                1,
+                2,
+                3,
+                4
+            ]
+        }
+    },
+    "slug": "fashion_one"
+}],
+    "from": 1,
+    "path": "",
+    "links": [
+        {
+            "url": null,
+            "label": "&laquo; Previous",
+            "active": false
+        },
+        {
+            "url": "",
+            "label": "1",
+            "active": true
+        },
+        {
+            "url": null,
+            "label": "Next &raquo;",
+            "active": false
+        }
+    ],
+    "total": 7,
+    "per_page": 7,
+    "last_page": 1,
+    "current_page": 1,
+    "last_page_url": "",
+    "next_page_url": null,
+    "prev_page_url": null,
+    "first_page_url": ""
+}

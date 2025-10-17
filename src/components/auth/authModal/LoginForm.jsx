@@ -8,27 +8,55 @@ import React, { useContext, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Label } from "reactstrap";
 import ReCAPTCHA from "react-google-recaptcha";
+import request from "@/utils/axiosUtils";
+import { BASE_URL, LoginAPI } from "@/utils/axiosUtils/API";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
+import ThemeOptionContext from "@/context/themeOptionsContext";
 
 const LoginForm = ({ setState }) => {
   const [showBoxMessage, setShowBoxMessage] = useState();
   const { mutate, isLoading } = useHandleLogin(setShowBoxMessage);
   const { t } = useTranslation("common");
+  const { setOpenAuthModal } = useContext(ThemeOptionContext);
   const { settingData } = useContext(SettingContext);
 
   const reCaptchaRef = useRef();
+
+  const handleSubmit = (value) => {
+    mutate(value)
+    // axios({
+    //   url: BASE_URL + LoginAPI,
+    //   method: "POST",
+    //   data: {
+    //     email: value?.email,
+    //     password: value?.password
+    //   },
+    //   withCredentials: true
+    // }).then((res) => {
+    //   alert("Succesfully log in!")
+    //   console.log(res, "login")
+    //   setOpenAuthModal(false)
+    // }, (err) => {
+    //   alert("Something went wrong!")
+    // })
+  }
+
+
+
   return (
     <Formik
       initialValues={{
-        email: "john.customer@example.com",
-        password: "123456789",
-        recaptcha: "",
+        email: "",
+        password: "",
+        // recaptcha: "",
       }}
       validationSchema={YupObject({
         email: emailSchema,
         password: passwordSchema,
-        recaptcha: settingData?.google_reCaptcha?.status ? recaptchaSchema : "",
+        // recaptcha: settingData?.google_reCaptcha?.status ? recaptchaSchema : "",
       })}
-      onSubmit={mutate}
+      onSubmit={handleSubmit}
     >
       {({ errors, touched, setFieldValue }) => (
         <Form className="auth-form-box">
@@ -49,7 +77,7 @@ const LoginForm = ({ setState }) => {
               {t("ForgotYourPassword")}?
             </a>
           </div>
-          {settingData?.google_reCaptcha?.status && (
+          {/* {settingData?.google_reCaptcha?.status && (
             <div>
               <ReCAPTCHA
                 ref={reCaptchaRef}
@@ -60,7 +88,7 @@ const LoginForm = ({ setState }) => {
               />
               {errors.recaptcha && touched.recaptcha && <ErrorMessage name="recaptcha" render={(msg) => <div className="invalid-feedback d-block">{errors.recaptcha}</div>} />}
             </div>
-          )}
+          )} */}
           <Btn loading={isLoading} type="submit">
             {t("Login")}
           </Btn>

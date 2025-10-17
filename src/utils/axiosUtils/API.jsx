@@ -1,7 +1,10 @@
 // Auth
+// export const BASE_URL = "http://api.eazysupplies.com";
+export const BASE_URL = "http://localhost:3000";
 export const RegisterAPI = "/register";
-export const LoginAPI = "/auth/login";
-export const SelfAPI = "/self";
+// export const LoginAPI = "/auth/login";
+// export const SelfAPI = "/self";
+export const SelfAPI = "/auth/user";
 export const ForgotPasswordAPI = "/forgot-password";
 export const VerifyTokenAPI = "/verify-otp";
 export const UpdatePasswordAPI = "/update-password";
@@ -20,12 +23,17 @@ export const BrandAPI = "http://api.eazysupplies.com/api/brands";
 
 // Product API
 // export const ProductAPI = "/product";
-export const ProductAPI = "http://api.eazysupplies.com/api/products";
-export const ProductByBrandAPI = "http://api.eazysupplies.com/api/products/filter?brand=";
-export const ProductByCategoryAPI = "http://api.eazysupplies.com/api/products/filter?category=";
-export const ProductBySlugAPI = "http://api.eazysupplies.com/api/products/filter?";
+export const ProductAPI = BASE_URL + "/api/products";
+export const ProductByBrandAPI = BASE_URL + "/api/products/filter?brand=";
+export const ProductByCategoryAPI = BASE_URL + "/api/products/filter?category=";
+export const ProductBySlugAPI = BASE_URL + "/api/products/filter?";
 
-export const CreateOrderAPI = "http://api.eazysupplies.com/api/orders";
+export const CreateOrderAPI = BASE_URL + "/api/orders";
+export const GetOrderByUserId = "/api/orders/filter?userId=";
+export const GetOrderById = "/orders/";
+export const LoginAPI = "/api/auth/login";
+export const GetUserById = "/api/auth/user";
+export const GetHomePageData = "/api/template?name=home";
 
 // Product Search API
 export const ProductSearchAPI = "/product/minify/list";

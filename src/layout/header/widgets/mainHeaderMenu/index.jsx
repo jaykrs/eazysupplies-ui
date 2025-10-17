@@ -2,6 +2,7 @@ import request from "@/utils/axiosUtils";
 import useFetchQuery from "@/utils/hooks/useFetchQuery";
 import { useEffect, useState } from "react";
 import MenuList from "./MenuList";
+import { BASE_URL } from "@/utils/axiosUtils/API";
 
 const MainHeaderMenu = () => {
   const [isOpen, setIsOpen] = useState([]);
@@ -10,7 +11,7 @@ const MainHeaderMenu = () => {
     refetch,
     isLoading,
     fetchStatus,
-  } = useFetchQuery(["menu"], () => request({ url: "http://api.eazysupplies.com/api/template?name=menu" }), {
+  } = useFetchQuery(["menu"], () => request({ url: BASE_URL + "/api/template?name=menu" }), {
     select: (res) => {
       const originalData = res.data.jsonData.data;
       const modifiedData = originalData.map((item) => ({

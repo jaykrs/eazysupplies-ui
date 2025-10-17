@@ -19,22 +19,22 @@ const ProfileInformation = () => {
             <ul className='box-content'>
               <li>
                 <h6>
-                  {t("FullName")} : {CapitalizeMultiple(accountData?.name)}
+                  {t("FullName")} : {CapitalizeMultiple(accountData?.data?.name)}
                 </h6>
               </li>
               <li>
                 <h6>
-                  {t("Phone")} : +{accountData?.country_code} {accountData?.phone}
+                  {t("Phone")} : +{accountData?.data?.countryCode} {accountData?.data?.phone}
                 </h6>
               </li>
-              {accountData?.address[0] ? (
+              {/* {accountData?.address[0] ? (
                 <li>
                   <h6>
                     {t("Address")} : {accountData?.address[0]?.street}
                     {accountData?.address[0]?.city}, {accountData?.address[0]?.state.name}, {accountData?.address[0]?.country.name} {accountData?.address[0]?.pincode}
                   </h6>
                 </li>
-              ) : null}
+              ) : null} */}
             </ul>
             <div className='box mt-3'>
               <div className='box-head'>

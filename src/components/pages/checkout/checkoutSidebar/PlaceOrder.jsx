@@ -36,7 +36,7 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
       method: "POST",
       url: CreateOrderAPI,
       data: {
-        userId: 1,
+        userId: 2,
         status: "PENDING",
         "items": tempProduct,
         "shipping": {
