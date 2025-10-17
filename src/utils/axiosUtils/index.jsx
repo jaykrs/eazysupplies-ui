@@ -14,10 +14,10 @@ const request = async ({ ...options }, router) => {
   const onSuccess = (response) => response;
   const onError = (error) => {
     if (error?.response?.status == 401) {
-      Cookies.remove("uat");
-      Cookies.remove("ue");
-      Cookies.remove("account");
-      localStorage.clear();
+  //    Cookies.remove("uat");
+  //    Cookies.remove("ue");
+  //    Cookies.remove("account");
+  //    localStorage.clear();
       router && router.push("/404");
     return error;
     }
