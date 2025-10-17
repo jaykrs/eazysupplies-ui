@@ -7,7 +7,7 @@ const nextConfig = {
    // API_PROD_URL: "http://localhost:3000/api",
         API_PROD_URL: "http://api.eazysupplies.com/api",
    // storageURL: "http://localhost:3000",
-     storageURL: "http://earthling.ddns.net",
+     storageURL: "http://api.eazysupplies.com",
   },
 
   images: {
