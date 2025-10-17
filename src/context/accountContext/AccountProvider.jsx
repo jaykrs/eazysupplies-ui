@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import AccountContext from ".";
 
 const AccountProvider = (props) => {
-  const cookies = Cookies.get("uat");
+  const cookies = Cookies.get("authToken");
   const [mobileSideBar, setMobileSideBar] = useState(false);
   const [accountData, setAccountData] = useState();
   const { data, refetch, fetchStatus } = useFetchQuery([SelfAPI], () => request({ url: SelfAPI, withCredentials: true, method: "GET" }), {
