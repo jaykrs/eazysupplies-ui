@@ -36,7 +36,7 @@ const LoginHandle = (responseData, router, refetch, compareRefetch, CallBackUrl,
       Cookies.set("account", JSON.stringify(responseData.data));
       localStorage.setItem("account", JSON.stringify(responseData.data));
     }
-    router.push(`${CallBackUrl}`);
+    // router.push(`${CallBackUrl}`);
 
     refetch();
     compareRefetch();
@@ -48,7 +48,7 @@ const LoginHandle = (responseData, router, refetch, compareRefetch, CallBackUrl,
     wishListID ? addToWishlist(productObj) : null;
     Cookies.remove("wishListID");
     Cookies.remove("compareId");
-    localStorage.removeItem("cart");
+    // localStorage.removeItem("cart");
   } else {
     // console.log(responseData, "iii")
     setShowBoxMessage(responseData.response.data.error);
@@ -60,7 +60,7 @@ const useHandleLogin = (setShowBoxMessage) => {
   const { mutate } = useCreate(SyncCart, false, false, "No");
   const { addToWishlist } = useContext(WishlistContext);
   const { mutate: compareCartMutate } = useCreate(CompareAPI, false, false, "Added to Compare List");
-  const CallBackUrl = "/account/dashboard";
+  const CallBackUrl = Cookies.get("CallBackUrl") ? Cookies.get("CallBackUrl") : "/account/dashboard";
   const { refetch } = useContext(AccountContext);
   const { refetch: cartRefetch } = useContext(CartContext);
   const { refetch: compareRefetch } = useContext(CompareContext);

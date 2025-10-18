@@ -17,6 +17,7 @@ import { HydrationBoundary, QueryClient, QueryClientProvider } from "@tanstack/r
 import { useState } from "react";
 import { ToastContainer } from "react-toastify";
 import SubLayout from "./SubLayout";
+import AddressProvider from "@/context/addressContext/AddressProvider";
 
 const MainLayout = ({ children }) => {
   const [queryClient] = useState(() => new QueryClient());
@@ -33,17 +34,19 @@ const MainLayout = ({ children }) => {
                       <CurrencyProvider>
                         <ProductIdsProvider>
                           <AccountProvider>
-                            <CartProvider>
-                              <WishlistProvider>
-                                <BrandIdsProvider>
-                                  <BlogIdsProvider>
-                                    <ProductProvider>
-                                      <SubLayout children={children} />
-                                    </ProductProvider>
-                                  </BlogIdsProvider>
-                                </BrandIdsProvider>
-                              </WishlistProvider>
-                            </CartProvider>
+                            <AddressProvider>
+                              <CartProvider>
+                                <WishlistProvider>
+                                  <BrandIdsProvider>
+                                    <BlogIdsProvider>
+                                      <ProductProvider>
+                                        <SubLayout children={children} />
+                                      </ProductProvider>
+                                    </BlogIdsProvider>
+                                  </BrandIdsProvider>
+                                </WishlistProvider>
+                              </CartProvider>
+                            </AddressProvider>
                           </AccountProvider>
                         </ProductIdsProvider>
                       </CurrencyProvider>

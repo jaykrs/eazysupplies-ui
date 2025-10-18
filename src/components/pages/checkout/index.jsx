@@ -23,9 +23,12 @@ import DeliveryOptions from "./DeliveryOptions";
 import PaymentOptions from "./PaymentOptions";
 import Btn from "@/elements/buttons/Btn";
 import { useTranslation } from "react-i18next";
+import AddressContext from "@/context/addressContext";
 
 const CheckoutContent = () => {
   const { accountData, refetch } = useContext(AccountContext);
+  const { addressData } = useContext(AddressContext);
+  const { setOpenAuthModal } = useContext(ThemeOptionContext);
   const { settingData } = useContext(SettingContext);
   const [address, setAddress] = useState([]);
   const [modal, setModal] = useState("");
@@ -34,12 +37,17 @@ const CheckoutContent = () => {
   const { t } = useTranslation("common");
 
   useEffect(() => {
-    const token = Cookies.get("uat");
-    setAccessToken(token);
+    // const token = Cookies.get("uat");
+    // setAccessToken(token);
   }, []);
 
   useEffect(() => {
-    accountData?.address?.length > 0 && setAddress((prev) => [...accountData?.address]);
+    console.log(!accountData?.userId, accountData?.userId, "ghghgh")
+    setTimeout(() => {
+      console.log(!accountData?.userId, accountData?.userId, "ghghgh")
+
+    }, 10000)
+    addressData?.data?.length > 0 && setAddress((prev) => [...addressData?.data]);
   }, [accountData]);
 
   const { mutate, isLoading } = useCreate(AddressAPI, false, false, "Address Added successfully", (resDta) => {
@@ -60,14 +68,12 @@ const CheckoutContent = () => {
   const { isLoading: themeLoad } = useContext(ThemeOptionContext);
 
   const addressSchema = Yup.object().shape({
-    title: nameSchema,
-    street: nameSchema,
+    name: nameSchema,
+    address: nameSchema,
     city: nameSchema,
+    zipcode: nameSchema,
     country_code: nameSchema,
-    phone: nameSchema,
-    pincode: nameSchema,
-    country_id: nameSchema,
-    state_id: nameSchema,
+    phone: nameSchema
   });
 
   if (themeLoad) return <Loader />;
@@ -88,31 +94,26 @@ const CheckoutContent = () => {
               delivery_interval: "",
               payment_method: "",
               create_account: false,
-              name: "",
-              email: "",
+              name: accountData?.data?.name ?? "",
+              email: accountData?.data?.email ?? "",
               country_code: "91",
-              phone: "",
+              phone: accountData?.data?.phone ?? "",
               password: "",
               shipping_address: {
-                title: "",
-                street: "",
-                city: "",
+                name: addressData?.data[0]?.name ?? "",
+                address: addressData?.data[0]?.address ?? "",
+                city: addressData?.data[0]?.city ?? "",
                 country_code: "91",
-                phone: "",
-                pincode: "",
-                country_id: "",
-                state_id: "",
+                phone: accountData?.data?.phone ?? "",
+                zipcode: addressData?.data[0]?.zipcode ?? "",
               },
               billing_address: {
-                same_shipping: false,
-                title: "",
-                street: "",
-                city: "",
+                name: addressData?.data[0]?.name ?? "",
+                address: addressData?.data[0]?.address ?? "",
+                city: addressData?.data[0]?.city ?? "",
                 country_code: "91",
-                phone: "",
-                pincode: "",
-                country_id: "",
-                state_id: "",
+                phone: accountData?.data?.phone ?? "",
+                zipcode: addressData?.data[0]?.zipcode ?? "",
               },
             }}
             validationSchema={Yup.object().shape({
@@ -123,7 +124,12 @@ const CheckoutContent = () => {
               shipping_address: addressSchema,
               billing_address: addressSchema,
             })}
-            onSubmit={mutate}
+            onSubmit={(value) => {
+              if (!accountData?.userId) {
+                setOpenAuthModal(true)
+              }
+              mutate(value)
+            }}
           >
             {({ values, setFieldValue, errors }) => (
               <Form className="checkout-form">
@@ -161,7 +167,7 @@ const CheckoutContent = () => {
           </Formik>
         </div>
       </WrapperComponent>
-    </Fragment>
+    </Fragment >
   );
 };
 

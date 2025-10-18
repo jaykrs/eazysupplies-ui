@@ -7,20 +7,19 @@ const AddressTable = ({ address }) => {
     <>
       <div className="top">
         <h6>
-          {accountData?.name} <span>{address?.title}</span>
+          <span>{address?.name}</span>
         </h6>
       </div>
       <div className="middle">
         <div className="address">
-          <p>{address?.street}, {address?.city}</p>
-          <p>{address?.state?.name}, {address?.country?.name}</p>
-          <p>{address?.pincode}</p>
+          <p>{address?.address}, {address?.city}</p>
+          <p>{address?.zipcode}</p>
         </div>
-        <div className="number">
+        {/* <div className="number">
           <p>
             Phone: +{address?.country_code} {address?.phone}
           </p>
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -4,6 +4,7 @@ import Btn from "@/elements/buttons/Btn";
 import { CreateOrderAPI } from "@/utils/axiosUtils/API";
 import axios from "axios";
 import Cookies from "js-cookie";
+// import { useRouter } from "next/router";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -13,12 +14,14 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
   const [disable, setDisable] = useState(true);
   const { cartProducts } = useContext(CartContext);
   const { accountData } = useContext(AccountContext);
+  // const router = useRouter();
 
   useEffect(() => {
-    if (!access_token) {
+    if (!accountData?.data?.id) {
       setDisable(Object.keys(errors).length > 0);
     } else {
-      setDisable(!(values["billing_address_id"] && values["payment_method"]));
+      // console.log(values, "addresssssss")
+      setDisable(!(values["shipping_address"]));
     }
   }, [access_token, values, errors]);
 
@@ -38,35 +41,37 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
       method: "POST",
       url: CreateOrderAPI,
       data: {
-        userId: accountData?.userId,
+        userId: accountData?.data?.id,
         status: "PENDING",
         "items": tempProduct,
         "shipping": {
-          "address": "123 Main St",
-          "city": "New York",
-          "state": "CA",
-          "postalCode": "10001",
-          "country": "USA"
+          "address": values?.shipping_address?.address,
+          "city": values?.shipping_address?.city,
+          "state": values?.shipping_address?.city,
+          "postalCode": values?.shipping_address?.zipcode,
+          "country": "India"
         },
         "payment": {
           "method": "CREDIT_CARD",
           "status": "PENDING",
-          "userId": 1,
-          "amount": 249.98
+          "userId": accountData?.data?.id,
+          "amount": tempProduct?.reduce((sum, item) => sum + item?.price, 0)
         },
         "jsonData": {
           "note": "First test order"
         }
       }
     }).then((res) => {
-      console.log(res.data)
+      // console.log(res.data)
+      localStorage.setItem("cart", "")
+      // router.push('/account/order');
     }, (err) => {
       console.log(err)
     })
   };
   return (
     <div className="text-end">
-      <Btn className="order-btn" onClick={handleClick} >
+      <Btn className="order-btn" onClick={handleClick} disable={disable}>
         {t("PlaceRequest")}
       </Btn>
       {/* {addToCartData?.is_digital_only ? (

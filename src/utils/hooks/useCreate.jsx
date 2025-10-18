@@ -7,7 +7,7 @@ const useCreate = (url, updateId, path = false, message, extraFunction, notHandl
   const router = useRouter();
   const pathName = usePathname();
   return useMutation({
-    mutationFn: (data) => request({ url: updateId ? `${url}/${Array.isArray(updateId) ? updateId.join("/") : updateId}` : url, data, method: "post", responseType: responseType ? responseType : "" }),
+    mutationFn: (data) =>{console.log(data, "ttt"); request({withCredentials: true, url: updateId ? `${url}/${Array.isArray(updateId) ? updateId.join("/") : updateId}` : url, data, method: "post", responseType: responseType ? responseType : "" })},
     onSuccess: (resDta) => {
       !notHandler && SuccessHandle(resDta, router, path, message, setCouponError, pathName, setShowBoxMessage);
       extraFunction && extraFunction(resDta);

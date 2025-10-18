@@ -44,7 +44,7 @@ const AddressData = ({ addressState, setAddressState, modal, setModal, setEditAd
                 >
                   {t("Edit")}
                 </Btn>
-                <Btn
+                {/* <Btn
                   color="transparent"
                   className="bottom_btn"
                   onClick={() => {
@@ -53,7 +53,7 @@ const AddressData = ({ addressState, setAddressState, modal, setModal, setEditAd
                   }}
                 >
                   {t("Remove")}
-                </Btn>
+                </Btn> */}
               </div>
             </div>
           </div>

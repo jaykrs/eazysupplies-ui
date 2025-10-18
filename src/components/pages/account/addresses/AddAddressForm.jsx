@@ -5,9 +5,11 @@ import useFetchQuery from "@/utils/hooks/useFetchQuery";;
 import { Formik } from "formik";
 import { useTranslation } from "react-i18next";
 import SelectForm from "./SelectForm";
+import { useContext } from "react";
+import AccountContext from "@/context/accountContext";
 
-const AddAddressForm = ({ isLoading, type, editAddress, setModal, isFooterDisplay, method }) => {
-
+const AddAddressForm = ({ isLoading, mutate, type, editAddress, setModal, isFooterDisplay, method }) => {
+  const { accountData } = useContext(AccountContext)
   const { data } = useFetchQuery([CountryAPI], () => request({ url: CountryAPI }), {
     refetchOnWindowFocus: false,
     select: (res) => res.data.map((country) => ({ id: country.id, name: country.name, state: country.state })),
@@ -17,32 +19,25 @@ const AddAddressForm = ({ isLoading, type, editAddress, setModal, isFooterDispla
   return (
     <Formik
       initialValues={{
-        title: editAddress ? editAddress?.title : "",
-        street: editAddress ? editAddress?.street : "",
-        country_id: editAddress ? editAddress?.country_id : "",
-        state_id: editAddress ? editAddress?.state_id : "",
+        name: editAddress ? editAddress?.name : "",
+        zipcode: editAddress ? editAddress?.zipcode : "",
         city: editAddress ? editAddress?.city : "",
-        pincode: editAddress ? editAddress?.pincode : "",
-        phone: editAddress ? editAddress?.phone : "",
-        type: type ? type : null,
-        country_code: editAddress ? editAddress?.country_code : "1",
+        address: editAddress ? editAddress?.address : "",
       }}
       validationSchema={YupObject({
-        title: nameSchema,
-        street: nameSchema,
+        name: nameSchema,
+        zipcode: nameSchema,
         city: nameSchema,
-        country_id: nameSchema,
-        state_id: nameSchema,
-        pincode: nameSchema,
-        phone: phoneSchema,
+        address: nameSchema
       })}
       onSubmit={(values) => {
         if (editAddress) {
           values["_method"] = method ? method : "PUT";
+          mutate({ ...values, id: accountData?.data?.id })
         }
-
-        values["pincode"] = values["pincode"].toString();
+        values["zipcode"] = values["zipcode"].toString();
         // Put your logic here
+        mutate({ ...values, userId: accountData?.data?.id })
         setModal(false);
       }}
     >

@@ -15,17 +15,17 @@ const ShowAddress = ({ item, type, index }) => {
             </div>
             <ul className="delivery-address-detail">
               <li>
-                <h4 className="fw-semibold">{item?.title}</h4>
+                <h4 className="fw-semibold">{item?.name}</h4>
               </li>
               <li>
                 <p className="text-content">
                   <span className="text-title">{t("Address")} : </span>
-                  {item?.street} {item?.state?.name}, {item?.country?.name}
+                  {item?.address} {item?.city}
                 </p>
               </li>
               <li>
                 <h6 className="text-content">
-                  <span className="text-title">{t("PinCode")} :</span> {item?.pincode}
+                  <span className="text-title">{t("PinCode")} :</span> {item?.zipcode}
                 </h6>
               </li>
               <li>

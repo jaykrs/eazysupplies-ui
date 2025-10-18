@@ -13,11 +13,13 @@ const SelectForm = ({ values, isLoading, data, setModal, isFooterDisplay = true 
       <Row>
         <SimpleInputField
           nameList={[
-            { name: "title", placeholder: t("EnterTitle"), toplabel: "Title", colprops: { xs: 12 }, require: "true" },
-            { name: "street", placeholder: t("EnterAddress"), toplabel: "Address", colprops: { xs: 12 }, require: "true" },
+            { name: "name", placeholder: t("EnterTitle"), toplabel: "Name", colprops: { xs: 12 }, require: "true" },
+            { name: "zipcode", placeholder: t("EnterTitle"), toplabel: "Pincode", colprops: { xs: 12 }, require: "true" },
+            { name: "city", placeholder: t("EnterAddress"), toplabel: "City", colprops: { xs: 12 }, require: "true" },
+            { name: "address", placeholder: t("EnterAddress"), toplabel: "Address", colprops: { xs: 12 }, require: "true" },
           ]}
         />
-        <Col xs="12" className="phone-field">
+        {/* <Col xs="12" className="phone-field">
           <div className="country-input position-relative">
             <SimpleInputField nameList={[{ name: "phone", type: "number", placeholder: t("EnterPhoneNumber"), require: "true", toplabel: "Phone", colclass: "country-input-box" }]} />
             <SearchableSelectInput
@@ -65,13 +67,13 @@ const SelectForm = ({ values, isLoading, data, setModal, isFooterDisplay = true 
               disabled: values?.["country_id"] ? false : true,
             },
           ]}
-        />
-        <SimpleInputField
+        /> */}
+        {/* <SimpleInputField
           nameList={[
             { name: "city", placeholder: t("EnterCity"), toplabel: "City", colprops: { xxl: 6, lg: 12, sm: 6 }, require: "true" },
             { name: "pincode", placeholder: t("EnterPincode"), toplabel: "Pincode", colprops: { xxl: 6, lg: 12, sm: 6 }, require: "true" },
           ]}
-        />
+        /> */}
 
         <Col xs="12">
           {isFooterDisplay && (

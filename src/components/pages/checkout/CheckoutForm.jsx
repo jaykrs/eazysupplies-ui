@@ -13,15 +13,17 @@ import ShippingAddressForm from "./checkoutFormData/ShippingAddressForm";
 import Link from "next/link";
 import { Col, Row } from "reactstrap";
 import Btn from "@/elements/buttons/Btn";
+import AddressContext from "@/context/addressContext";
 
 const CheckoutForm = ({ values, setFieldValue, errors }) => {
   const { accountData, refetch } = useContext(AccountContext);
+  const { addressData } = useContext(AddressContext);
   const { t } = useTranslation("common");
   const [address, setAddress] = useState([]);
   const router = useRouter();
   useEffect(() => {
-    accountData?.address?.length > 0 && setAddress((prev) => [...accountData?.address]);
-  }, [accountData]);
+    addressData?.data?.length > 0 && setAddress((prev) => [...addressData?.data]);
+  }, [addressData]);
 
   const { data } = useFetchQuery([CountryAPI], () => request({ url: CountryAPI }, router), {
     refetchOnWindowFocus: false,

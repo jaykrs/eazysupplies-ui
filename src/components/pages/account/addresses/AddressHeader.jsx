@@ -2,29 +2,37 @@ import CustomModal from "@/components/widgets/CustomModal";
 import NoDataFound from "@/components/widgets/NoDataFound";
 import AccountContext from "@/context/accountContext";
 import Btn from "@/elements/buttons/Btn";
-import { AddressAPI } from "@/utils/axiosUtils/API";
+import { AddressAPI, CreateAddress } from "@/utils/axiosUtils/API";
 import useCreate from "@/utils/hooks/useCreate";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardBody } from "reactstrap";
 import AddAddressForm from "./AddAddressForm";
 import AddressData from "./AddressData";
+import AddressContext from "@/context/addressContext";
 
 const AddressHeader = () => {
   const { t } = useTranslation("common");
   const [addressState, setAddressState] = useState([]);
   const [editAddress, setEditAddress] = useState();
   const [modal, setModal] = useState("");
-  const { accountData, refetch } = useContext(AccountContext);
+  const { accountData  } = useContext(AccountContext);
+  const { addressData, refetch } = useContext(AddressContext);
+
   useEffect(() => {
-    accountData?.address.length > 0 && setAddressState((prev) => [...accountData?.address]);
-  }, [accountData]);
-  const { mutate, isLoading } = useCreate(AddressAPI, false, false, "Address Added successfully", (resDta) => {
+    addressData?.data?.length > 0 && setAddressState((prev) => [...prev,...addressData?.data]);
+    // console.log(addressData, "Address")
+  }, [addressData]);
+
+  const { mutate, isLoading } = useCreate(CreateAddress, false, false, "Address Added successfully", (resDta) => {
+    console.log(resDta?.data, addressState, "Address Add")
     setAddressState((prev) => [...prev, resDta?.data]);
     refetch();
     setModal("");
   });
-  const { mutate: editMutate, isLoading: editLoader } = useCreate(`${AddressAPI}/${editAddress?.id}`, false, false, "Address Updated successfully", (resDta) => {
+
+  const { mutate: editMutate, isLoading: editLoader } = useCreate(`${CreateAddress}}`, false, false, "Address Updated successfully", (resDta) => {
+    console.log(resDta?.data, addressState, "Address")
     setAddressState((prev) =>
       prev.map((elem) => {
         if (elem?.id == resDta?.data?.id) {

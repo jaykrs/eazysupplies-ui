@@ -1,6 +1,6 @@
 import AccountContext from "@/context/accountContext";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Col, Row } from "reactstrap";
 import SettingContext from "@/context/settingContext";
@@ -9,8 +9,14 @@ import ProfileInformation from "./ProfileInformation";
 
 const DashboardContent = () => {
   const { t } = useTranslation("common");
-  const { accountData } = useContext(AccountContext);
+  const { accountData, refetch } = useContext(AccountContext);
   const { convertCurrency } = useContext(SettingContext);
+
+  useEffect(() => {
+    if (!accountData?.data?.id) {
+      refetch
+    }
+  }, [])
 
   return (
     <div className="counter-section">

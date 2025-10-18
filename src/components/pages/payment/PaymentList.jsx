@@ -36,17 +36,17 @@ const PaymentTable = ({ data, payments, isLoading, orderNumber }) => {
 
             <tbody>
               {payments?.length > 0 ? (
-                payments.map((payment) => (
+                payments?.map((payment) => (
                   <tr
                     key={payment?.id}
                     className="cursor-pointer"
                     onClick={() => handleClick(payment?.orderId)}
                     style={{ cursor: "pointer" }}
                   >
-                    <td className="fw-medium text-dark">{payment.id}</td>
-                    <td className="fw-medium text-dark">{payment.orderId}</td>
-                    <td className="fw-medium text-dark">{payment.transactionId}</td>
-                     <td className="text-dark">
+                    <td className="fw-medium text-dark">{payment?.id}</td>
+                    <td className="fw-medium text-dark">{payment?.orderId}</td>
+                    <td className="fw-medium text-dark">{!!payment?.transactionId ? payment?.transactionId.toUpperCase() : "PENDING"}</td>
+                    <td className="text-dark">
                       ₹{payment?.amount}
                     </td>
                     <td
@@ -59,9 +59,9 @@ const PaymentTable = ({ data, payments, isLoading, orderNumber }) => {
                     >
                       {payment?.status}
                     </td>
-                   
+
                     <td className="text-muted">
-                      {new Date(payment?.createdDate).toLocaleDateString()}
+                      {new Date(payment?.createdAt).toLocaleDateString()}
                     </td>
                   </tr>
                 ))

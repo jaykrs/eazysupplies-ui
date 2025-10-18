@@ -23,11 +23,12 @@ const NavTabTitles = ({ classes = {}, activeTab, setActiveTab, titleList, isLogo
   const handleLogout = () => {
     router.push(`/`);
     setAccountData();
-    Cookies.remove("uat", { path: "/" });
+    Cookies.remove("authToken");
     Cookies.remove("ue");
     Cookies.remove("account");
     Cookies.remove("CookieAccept");
     localStorage.clear();
+    Cookies.remove("uat", { path: "/" });
     setModal(false);
   };
 
