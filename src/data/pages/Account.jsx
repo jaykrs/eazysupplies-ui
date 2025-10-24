@@ -49,12 +49,12 @@ export const sidebarMenu = [
   //   id: 'downloads',
   //   path: '/account/downloads',
   // },
-  {
-    title: 'RefundHistory',
-    icon: <RiMoneyDollarCircleLine className='me-2'/>,
-    id: 'refund',
-    path: '/account/refund',
-  },
+  // {
+  //   title: 'RefundHistory',
+  //   icon: <RiMoneyDollarCircleLine className='me-2'/>,
+  //   id: 'refund',
+  //   path: '/account/refund',
+  // },
   {
     title: 'SavedAddress',
     icon: <RiMapPinLine className='me-2'/>,

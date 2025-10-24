@@ -637,6 +637,7 @@
   "IsRequired": "Is required",
   "EnterTitle": "Enter Title",
   "EnterAddress": "Enter Address",
+  "EnterAddressType": "Enter Address Type",
   "EnterCity": "Enter City",
   "EnterPincode": "Enter Pincode",
   "Yousaved": "You saved",

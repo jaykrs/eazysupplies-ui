@@ -42,11 +42,6 @@ const CheckoutContent = () => {
   }, []);
 
   useEffect(() => {
-    console.log(!accountData?.userId, accountData?.userId, "ghghgh")
-    setTimeout(() => {
-      console.log(!accountData?.userId, accountData?.userId, "ghghgh")
-
-    }, 10000)
     addressData?.data?.length > 0 && setAddress((prev) => [...addressData?.data]);
   }, [accountData]);
 
@@ -62,7 +57,6 @@ const CheckoutContent = () => {
   useEffect(() => {
     if (accessToken && !addToCartLoader) {
       addToCartRefetch();
-      // console.log(data, "koko")
     }
   }, [addToCartLoader, accessToken]);
   const { isLoading: themeLoad } = useContext(ThemeOptionContext);
@@ -85,7 +79,7 @@ const CheckoutContent = () => {
           <Formik
             initialValues={{
               products: [],
-              shipping_address_id: "",
+              shipping_address_id: 0,
               billing_address_id: "",
               points_amount: "",
               wallet_balance: "",
@@ -140,11 +134,6 @@ const CheckoutContent = () => {
                         {settingData?.activation?.guest_checkout && !accessToken && (
                           <div className="checkout-form-section">
                             <CheckoutForm values={values} setFieldValue={setFieldValue} errors={errors} />
-                            {/* <div className="product-buy-btn-group">
-                              <Btn className="btn-md bg-theme scroll-button" onClick={() => { }}>
-                                {t("PlaceRequest")}
-                              </Btn>
-                            </div> */}
                           </div>
                         )}
                         {accessToken && (

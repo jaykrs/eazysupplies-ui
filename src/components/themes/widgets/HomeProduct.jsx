@@ -25,7 +25,8 @@ const HomeProduct = ({ type, style, slider = false, productIds, product_box_styl
       enabled: !!productIds?.length, // Only fetch if productIds has values
       refetchOnWindowFocus: false,
       select: (res) => {
-        return res?.data
+        console.log(res?.data, "ioio")
+        return res?.data?.data
       },
     }
   );

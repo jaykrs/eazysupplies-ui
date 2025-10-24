@@ -103,6 +103,9 @@ const ConsumerDetails = ({ data }) => {
                 <div className="tracking-total tracking-wrapper">
                   <ul>
                     <li>
+                      {t("GST")} <span>{"27ABCDE1234F2Z5"}</span>
+                    </li>
+                    <li>
                       {t("Subtotal")} <span>{data?.items ? convertCurrency(calculatePrice(data?.items)) : convertCurrency(0)}</span>
                     </li>
                     <li>
@@ -129,32 +132,34 @@ const ConsumerDetails = ({ data }) => {
                 </div>
               </CardBody>
             </Card>
-            <Row className="cart-buttons">
-              <Col xs="6">
-                <ul className="quantity-variant radio ">
-                  <div key={1} className="d-flex digital-price">
-                    <div className={`form-check`}>
-                      <Input type="radio" className="form-check-input" id={"1"} value={"offline"} checked={paymentMode == "offline" ? true : false} onChange={(value) => { setPaymentMode(value.target.value) }} disabled={false} />
-                      <Label htmlFor={"1"} className="form-check-label">
-                        Offline
-                      </Label>
-                    </div>
+            {data?.status?.toLowerCase() == "accepted" &&
+              <Row className="cart-buttons">
+                <Col xs="6">
+                  <ul className="quantity-variant radio ">
+                    <div key={1} className="d-flex digital-price">
+                      <div className={`form-check`}>
+                        <Input type="radio" className="form-check-input" id={"1"} value={"offline"} checked={paymentMode == "offline" ? true : false} onChange={(value) => { setPaymentMode(value.target.value) }} disabled={false} />
+                        <Label htmlFor={"1"} className="form-check-label">
+                          Offline
+                        </Label>
+                      </div>
 
-                    <div className={`form-check`} style={{ marginLeft: 20 }}>
-                      <Input type="radio" className="form-check-input" id={"2"} value={"online"} checked={paymentMode == "online" ? true : false} onChange={(value) => { setPaymentMode(value.target.value) }} disabled={false} />
-                      <Label htmlFor={"2"} className="form-check-label">
-                        Online
-                      </Label>
+                      <div className={`form-check`} style={{ marginLeft: 20 }}>
+                        <Input type="radio" className="form-check-input" id={"2"} value={"online"} checked={paymentMode == "online" ? true : false} onChange={(value) => { setPaymentMode(value.target.value) }} disabled={false} />
+                        <Label htmlFor={"2"} className="form-check-label">
+                          Online
+                        </Label>
+                      </div>
                     </div>
-                  </div>
-                </ul>
-              </Col>
-              <Col xs="6">
-                <Link href={""} onClick={() => { alert("Payment Done") }} className="btn">
-                  {t("Payment")}
-                </Link>
-              </Col>
-            </Row>
+                  </ul>
+                </Col>
+                <Col xs="6">
+                  <Link href={""} onClick={() => { alert("Payment Done") }} className="btn">
+                    {t("Payment")}
+                  </Link>
+                </Col>
+              </Row>
+            }
           </Col>
         </Row>
       </div>

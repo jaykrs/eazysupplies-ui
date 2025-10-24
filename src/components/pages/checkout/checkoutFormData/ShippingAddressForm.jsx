@@ -6,15 +6,33 @@ import { Col, Row } from "reactstrap";
 
 const ShippingAddressForm = ({ values, data }) => {
   const { t } = useTranslation("common");
+  console.log(values, "Address")
   return (
     <div className="checkbox-main-box">
       <div className="checkout-title1">
         <h2>{t("ShippingDetails")}</h2>
       </div>
       <Row className="checkout-form g-md-4 g-sm-3 g-2">
+         <SearchableSelectInput
+          nameList={[
+            {
+              name: "shipping_address",
+              require: "false",
+              title: "Your Addresses",
+              toplabel: "Your Address",
+              colprops: { xxl: 6, lg: 12, sm: 6 },
+              inputprops: {
+                name: "shipping_address",
+                id: "shipping_address",
+                options: data,
+                // defaultOption: "Select Address",
+              },
+            },
+          ]}
+        />
         <SimpleInputField
           nameList={[
-            { name: "shipping_address.name", placeholder: t("EnterTitle"), toplabel: "Name", colprops: { xs: 12 }, require: "true" },
+            { name: "shipping_address.name", placeholder: t("EnterAddressType"), toplabel: "Address Type", colprops: { xs: 12 }, require: "true" },
             { name: "shipping_address.address", placeholder: t("EnterAddress"), toplabel: "Address", colprops: { xs: 12 }, require: "true" },
           ]}
         />

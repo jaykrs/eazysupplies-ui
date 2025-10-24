@@ -359,7 +359,7 @@
 
 {
     "to": 7,
-    "data":[{
+    "data":{
     "id": 1,
     "content": {
         "brand": {
@@ -374,7 +374,7 @@
         },
         "banner": {
             "status": true,
-            "image_url": "/assets/images/home/fashion_one_5.jpg",
+            "image_url": "/assets/images/home/fashion_one_4.jpg",
             "redirect_link": {
                 "link": 19,
                 "link_type": "product",
@@ -386,19 +386,19 @@
                 {
                     "title": "free shipping",
                     "status": true,
-                    "image_url": "/assets/images/home/service.jpg",
+                    "image_url": "/assets/images/home/fashion_one_insta_5.jpg",
                     "description": "free shipping world wide"
                 },
                 {
                     "title": "24 X 7 service",
                     "status": true,
-                    "image_url": "/assets/images/home/service.jpg",
+                    "image_url": "/assets/images/home/fashion_one_insta_6.jpg",
                     "description": "online service for new customer"
                 },
                 {
                     "title": "festival offer",
                     "status": true,
-                    "image_url": "/assets/images/home/service.jpg",
+                    "image_url": "/assets/images/home/fashion_one_insta_6.jpg",
                     "description": "new online special festival offer"
                 }
             ]
@@ -545,7 +545,7 @@
         }
     },
     "slug": "fashion_one"
-}],
+},
     "from": 1,
     "path": "",
     "links": [

@@ -14,6 +14,7 @@ import SizeModal from "./allModal/SizeModal";
 import ProductAttribute from "./productAttribute/ProductAttribute";
 import ProductDetailAction from "./ProductDetailAction";
 import Btn from "@/elements/buttons/Btn";
+import AccountContext from "@/context/accountContext";
 
 const ProductContent = ({ productState, setProductState, productAccordion, noDetails, noQuantityButtons, noModals }) => {
   const { t } = useTranslation("common");
@@ -22,20 +23,15 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
   const { setCartCanvas, themeOption } = useContext(ThemeOptionContext);
   const [cartData1, setCartData] = useState(JSON.parse(localStorage.getItem("cartData")))
   const router = useRouter();
+  const { accountData } = useContext(AccountContext)
+  const { setOpenAuthModal } = useContext(ThemeOptionContext);
+
   const addToCart = () => {
-    // setCartCanvas(true);
-    // console.log(productState, "kkkkk")
-    // const cartData = JSON.parse(localStorage.getItem("cartData"))
-    // if (!!cartData) {
-    //   const tempData = [...cartData, productState]
-    //   localStorage.setItem("cartData", JSON.stringify(tempData))
-    //   setCartData(tempData)
-    // } else {
-    //   const tempData = [productState]
-    //   localStorage.setItem("cartData", JSON.stringify(tempData))
-    //   setCartData(tempData)
-    // }
-    handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
+    if (!!accountData?.data?.id) {
+      handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
+    } else {
+      setOpenAuthModal(true)
+    }
   };
 
   const removeFromCart = () => {

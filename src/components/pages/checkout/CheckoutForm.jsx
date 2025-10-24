@@ -1,6 +1,6 @@
 import AccountContext from "@/context/accountContext";
 import request from "@/utils/axiosUtils";
-import { CountryAPI } from "@/utils/axiosUtils/API";
+import { CountryAPI, GetUserAddress } from "@/utils/axiosUtils/API";
 import useFetchQuery from "@/utils/hooks/useFetchQuery";;
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
@@ -25,9 +25,13 @@ const CheckoutForm = ({ values, setFieldValue, errors }) => {
     addressData?.data?.length > 0 && setAddress((prev) => [...addressData?.data]);
   }, [addressData]);
 
-  const { data } = useFetchQuery([CountryAPI], () => request({ url: CountryAPI }, router), {
+  const { data } = useFetchQuery([GetUserAddress+accountData?.data?.id], () => request({ url: GetUserAddress+accountData?.data?.id }, router), {
     refetchOnWindowFocus: false,
-    select: (res) => res.data.map((country) => ({ id: country.id, name: country.name, state: country.state })),
+    select: (res) => {
+      // console.log(res?.data?.data, "Address")
+      return res?.data?.data?.map((address) => ({ id: {country_code: "91",
+                phone: accountData?.data?.phone ?? "", name: address?.name, city: address?.city, zipcode: address?.zipcode, address: address?.address }, name: address?.name, city: address?.city, zipcode: address?.zipcode, address: address?.address }))
+    },
   });
 
   return (
@@ -37,14 +41,6 @@ const CheckoutForm = ({ values, setFieldValue, errors }) => {
       {/* <BillingAddressForm setFieldValue={setFieldValue} errors={errors} data={data} values={values} /> */}
       {/* <DeliverySection values={values} setFieldValue={setFieldValue} /> */}
       {/* <PaymentSection values={values} setFieldValue={setFieldValue} /> */}
-
-      {/* <Row className="cart-buttons">
-        <Col xs="6">
-          <Link href="/checkout" className="btn">
-            {t("Checkout")}
-          </Link>
-        </Col>
-      </Row> */}
     </>
   );
 };

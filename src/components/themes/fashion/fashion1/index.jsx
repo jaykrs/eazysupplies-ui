@@ -124,7 +124,8 @@ const Fashion1 = () => {
         <>
           <HomeTitle title={data?.category_product} type="basic" />
           <WrapperComponent classes={{ sectionClass: "section-b-space category-tab-section pt-0", fluidClass: "container" }}>
-            <HomeProductTab categoryIds={data?.category_product?.category_ids} style="vertical" />
+              <HomeProduct slider={true} style="vertical" productIds={data?.category_product?.category_ids || []} sliderOptions={horizontalProductSlider} />
+            {/* <HomeProductTab categoryIds={data?.category_product?.category_ids} style="vertical" /> */}
           </WrapperComponent>
         </>
       )}
