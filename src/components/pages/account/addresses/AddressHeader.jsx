@@ -21,17 +21,13 @@ const AddressHeader = () => {
 
   useEffect(() => {
     addressData?.data?.length > 0 && setAddressState((prev) => {
-      if (prev !== addressData?.data) {
-        return [...prev, ...addressData?.data]
-      } else {
         return [...addressData?.data]
-      }
     }
     );
   }, [addressData]);
 
   const { mutate, isLoading } = useCreate(CreateAddress, false, false, "Address Added successfully", (resDta) => {
-    console.log(resDta?.data, addressState, "Address Add")
+    // console.log(resDta?.data, addressState, "Address Add")
     setAddressState((prev) => [...prev, resDta?.data]);
     refetch();
     setModal("");

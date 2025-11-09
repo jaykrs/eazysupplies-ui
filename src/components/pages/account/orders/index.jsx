@@ -6,11 +6,14 @@ import AccountSidebar from "../common/AccountSidebar";
 import ResponsiveMenuOpen from "../common/ResponsiveMenuOpen";
 import MyOrders from "./MyOrders";
 import AccountContext from "@/context/accountContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 
 const AccountOrders = () => {
   const { accountData } = useContext(AccountContext);
 
+  useEffect(()=>{
+    console.log((accountData?.userId != undefined),accountData?.userId, "ppppo")
+  },[accountData])
   return (
     <>
       <Breadcrumb title={"Order"} subNavigation={[{ name: "Order" }]} />
@@ -19,11 +22,11 @@ const AccountOrders = () => {
         <Col lg={9}>
           <div className="faq-content">
             <div className="tab-content">
-            <ResponsiveMenuOpen />
-            <TabPane className="show fade active">
-              <MyOrders userId={accountData?.userId} />
+              <ResponsiveMenuOpen />
+              <TabPane className="show fade active">
+                {accountData?.userId != undefined && <MyOrders userId={accountData?.userId} />}
               </TabPane>
-              </div>
+            </div>
           </div>
         </Col>
       </WrapperComponent>

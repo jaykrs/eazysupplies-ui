@@ -18,13 +18,13 @@ import Capitalize from "@/utils/customFunctions/Capitalize";
 const MyOrders = ({userId}) => {
   const [page, setPage] = useState(1);
   const { t } = useTranslation("common");
-  const { convertCurrency } = useContext(SettingContext);
   const { data, isLoading, refetch } = useFetchQuery([GetOrderByUserId], () => request({ url: GetOrderByUserId + userId, withCredentials: true }), {
     enabled: true,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     select: (res) => res?.data?.data,
   });
+  const { convertCurrency } = useContext(SettingContext);
   
   const handleClick = (id) => {
     router.push("/account/order/details?orderId=" + id)
@@ -96,13 +96,13 @@ const MyOrders = ({userId}) => {
                 </div>
               </div>
             </div>
-            <div className="product-pagination">
+            {/* <div className="product-pagination">
               <div className="theme-pagination-block">
                 <nav>
                   <Pagination current_page={data?.current_page} total={data?.total} per_page={data?.per_page} setPage={setPage} />
                 </nav>
               </div>
-            </div>
+            </div> */}
           </>
         ) : (
           <NoDataFound customClass="no-data-added" imageUrl={`/assets/svg/empty-items.svg`} title="NoOrdersFound" description="NoOrdersHaveBeenMadeYet" height="300" width="300" />

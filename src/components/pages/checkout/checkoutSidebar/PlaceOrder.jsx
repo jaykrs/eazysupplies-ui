@@ -71,7 +71,7 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
   };
   return (
     <div className="text-end">
-      <Btn className="order-btn" onClick={handleClick} disable={false}>
+      <Btn className="order-btn" onClick={handleClick}>
         {t("PlaceRequest")}
       </Btn>
       {/* {addToCartData?.is_digital_only ? (
