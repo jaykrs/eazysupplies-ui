@@ -16,12 +16,18 @@ const AddressHeader = () => {
   const [addressState, setAddressState] = useState([]);
   const [editAddress, setEditAddress] = useState();
   const [modal, setModal] = useState("");
-  const { accountData  } = useContext(AccountContext);
+  const { accountData } = useContext(AccountContext);
   const { addressData, refetch } = useContext(AddressContext);
 
   useEffect(() => {
-    addressData?.data?.length > 0 && setAddressState((prev) => [...prev,...addressData?.data]);
-    // console.log(addressData, "Address")
+    addressData?.data?.length > 0 && setAddressState((prev) => {
+      if (prev !== addressData?.data) {
+        return [...prev, ...addressData?.data]
+      } else {
+        return [...addressData?.data]
+      }
+    }
+    );
   }, [addressData]);
 
   const { mutate, isLoading } = useCreate(CreateAddress, false, false, "Address Added successfully", (resDta) => {

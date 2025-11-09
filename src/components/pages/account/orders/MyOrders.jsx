@@ -25,6 +25,10 @@ const MyOrders = ({userId}) => {
     refetchOnMount: false,
     select: (res) => res?.data?.data,
   });
+  
+  const handleClick = (id) => {
+    router.push("/account/order/details?orderId=" + id)
+  }
 
   useEffect(() => {
     isLoading && refetch();
@@ -62,7 +66,12 @@ const MyOrders = ({userId}) => {
                     </thead>
                     <tbody>
                       {data?.map((order, i) => (
-                        <tr key={i}>
+                        <tr 
+                        key={order?.id}
+                         className="cursor-pointer"
+                          onClick={() => handleClick(order?.id)}
+                          style={{ cursor: "pointer" }}
+                        >
                           <td>
                             <span className="fw-bolder">{order.id}</span>
                           </td>
