@@ -55,11 +55,11 @@ const CheckoutContent = () => {
   // Calling Add to Cart API
   const { cartProducts } = useContext(CartContext)
 
-  useEffect(() => {
-    if (accessToken && !addToCartLoader) {
-      addToCartRefetch();
-    }
-  }, [addToCartLoader, accessToken]);
+  // useEffect(() => {
+  //   if (accessToken && !addToCartLoader) {
+  //     // addToCartRefetch();
+  //   }
+  // }, [addToCartLoader, accessToken]);
   const { isLoading: themeLoad } = useContext(ThemeOptionContext);
 
   const addressSchema = Yup.object().shape({
@@ -139,12 +139,12 @@ const CheckoutContent = () => {
                         )}
                         {accessToken && (
                           <div className="checkout-detail-box">
-                            {/* <ul>
-                              {!addToCartData?.is_digital_only && <DeliveryAddress key="shipping" type="shipping" title={"Shipping"} values={values} updateId={values["consumer_id"]} setFieldValue={setFieldValue} address={address} modal={modal} mutate={mutate} isLoading={isLoading} setModal={setModal} />}
+                            <ul>
+                              {!cartProducts?.is_digital_only && <DeliveryAddress key="shipping" type="shipping" title={"Shipping"} values={values} updateId={values["consumer_id"]} setFieldValue={setFieldValue} address={address} modal={modal} mutate={mutate} isLoading={isLoading} setModal={setModal} />}
                               <DeliveryAddress key="billing" type="billing" title={"Billing"} values={values} updateId={values["consumer_id"]} setFieldValue={setFieldValue} address={address} modal={modal} mutate={mutate} isLoading={isLoading} setModal={setModal} />
-                              {!addToCartData?.is_digital_only && <DeliveryOptions values={values} setFieldValue={setFieldValue} />}
-                              <PaymentOptions values={values} setFieldValue={setFieldValue} />
-                            </ul> */}
+                              {/* {!cartProducts?.is_digital_only && <DeliveryOptions values={values} setFieldValue={setFieldValue} />} */}
+                              {/* <PaymentOptions values={values} setFieldValue={setFieldValue} /> */}
+                            </ul>
                           </div>
                         )}
                       </div>

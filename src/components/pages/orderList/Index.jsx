@@ -21,12 +21,12 @@ const OrderList = () => {
   let emailPhone = search.get("email_or_phone");
   const [orderData, setOrderData] = useState([])
 
-  const router = useRouter();
-  const { data, isLoading } = useFetchQuery([TrackingAPI], () => request({ url: TrackingAPI, params: { order_number: orderNumber, email_or_phone: emailPhone } }, router), {
-    enabled: true,
-    refetchOnWindowFocus: false,
-    select: (res) => res?.data,
-  });
+  // const router = useRouter();
+  // const { data, isLoading } = useFetchQuery([TrackingAPI], () => request({ url: TrackingAPI, params: { order_number: orderNumber, email_or_phone: emailPhone } }, router), {
+  //   enabled: true,
+  //   refetchOnWindowFocus: false,
+  //   select: (res) => res?.data,
+  // });
 
   useEffect(() => {
     axios.get(BASE_URL + GetOrderByUserId + "2", { withCredentials: true }).then((res) => {
