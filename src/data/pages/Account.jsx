@@ -7,12 +7,12 @@ export const sidebarMenu = [
     id: 'dashboard',
     path: '/account/dashboard',
   },
-  // {
-  //   title: 'Notifications',
-  //   icon: <RiNotificationLine className='me-2'/>,
-  //   id: 'notification',
-  //   path: '/account/notification',
-  // },
+  {
+    title: 'Notifications',
+    icon: <RiNotificationLine className='me-2'/>,
+    id: 'notification',
+    path: '/account/notification',
+  },
   // {
   //   title: 'BankDetails',
   //   icon: <RiBankLine className='me-2'/>,

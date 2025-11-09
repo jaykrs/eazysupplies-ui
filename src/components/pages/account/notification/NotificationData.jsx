@@ -13,7 +13,7 @@ import AccountHeading from "../common/AccountHeading";
 const NotificationData = () => {
   const { t } = useTranslation("common");
   const [isRead, setIsRead] = useState("");
-  const { data, isLoading } = useFetchQuery([NotificationAPI], () => request({ url: NotificationAPI }), { enabled: true, refetchOnWindowFocus: false, select: (res) => res?.data?.data });
+  const { data, isLoading } = useFetchQuery([NotificationAPI], () => request({ url: NotificationAPI, withCredentials: true }), { enabled: true, refetchOnWindowFocus: false, select: (res) => res?.data?.data });
 
   useEffect(() => {
     setIsRead("read");

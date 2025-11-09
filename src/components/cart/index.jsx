@@ -9,7 +9,7 @@ import CartButtons from "./CartButtons";
 import ShowCartData from "./ShowCartData";
 
 const CartContent = () => {
-  const { cartProducts, getCartLoading } = useContext(CartContext);
+  const { cartProducts } = useContext(CartContext);
   const { isLoading } = useContext(ThemeOptionContext);
 
   if (isLoading) return <Loader />;

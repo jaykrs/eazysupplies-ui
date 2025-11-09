@@ -5,7 +5,7 @@ import request from "@/utils/axiosUtils";
 import { RefundAPI } from "@/utils/axiosUtils/API";
 import Capitalize from "@/utils/customFunctions/Capitalize";
 import { showMonthWiseDate } from "@/utils/customFunctions/DateFormat";
-import useFetchQuery from "@/utils/hooks/useFetchQuery";;
+import useFetchQuery from "@/utils/hooks/useFetchQuery";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardBody, Table } from "reactstrap";

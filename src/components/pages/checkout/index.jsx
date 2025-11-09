@@ -24,6 +24,7 @@ import PaymentOptions from "./PaymentOptions";
 import Btn from "@/elements/buttons/Btn";
 import { useTranslation } from "react-i18next";
 import AddressContext from "@/context/addressContext";
+import CartContext from "@/context/cartContext";
 
 const CheckoutContent = () => {
   const { accountData, refetch } = useContext(AccountContext);
@@ -37,8 +38,8 @@ const CheckoutContent = () => {
   const { t } = useTranslation("common");
 
   useEffect(() => {
-    // const token = Cookies.get("uat");
-    // setAccessToken(token);
+    const token = Cookies.get("uat");
+    setAccessToken(token);
   }, []);
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const CheckoutContent = () => {
   });
 
   // Calling Add to Cart API
-  const { data: addToCartData, isLoading: addToCartLoader, refetch: addToCartRefetch } = useFetchQuery([AddToCartAPI], () => request({ url: AddToCartAPI }, router), { enabled: false, refetchOnWindowFocus: false, cacheTime: 0, select: (res) => res?.data });
+  const { cartProducts } = useContext(CartContext)
 
   useEffect(() => {
     if (accessToken && !addToCartLoader) {
@@ -138,18 +139,18 @@ const CheckoutContent = () => {
                         )}
                         {accessToken && (
                           <div className="checkout-detail-box">
-                            <ul>
+                            {/* <ul>
                               {!addToCartData?.is_digital_only && <DeliveryAddress key="shipping" type="shipping" title={"Shipping"} values={values} updateId={values["consumer_id"]} setFieldValue={setFieldValue} address={address} modal={modal} mutate={mutate} isLoading={isLoading} setModal={setModal} />}
                               <DeliveryAddress key="billing" type="billing" title={"Billing"} values={values} updateId={values["consumer_id"]} setFieldValue={setFieldValue} address={address} modal={modal} mutate={mutate} isLoading={isLoading} setModal={setModal} />
                               {!addToCartData?.is_digital_only && <DeliveryOptions values={values} setFieldValue={setFieldValue} />}
                               <PaymentOptions values={values} setFieldValue={setFieldValue} />
-                            </ul>
+                            </ul> */}
                           </div>
                         )}
                       </div>
                     </div>
                   </Col>
-                  <CheckoutSidebar addToCartData={addToCartData} values={values} setFieldValue={setFieldValue} errors={errors} />
+                  <CheckoutSidebar addToCartData={cartProducts} values={values} setFieldValue={setFieldValue} errors={errors} />
                 </Row>
               </Form>
             )}

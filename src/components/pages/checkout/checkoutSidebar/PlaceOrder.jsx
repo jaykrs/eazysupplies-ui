@@ -4,7 +4,7 @@ import Btn from "@/elements/buttons/Btn";
 import { CreateOrderAPI } from "@/utils/axiosUtils/API";
 import axios from "axios";
 import Cookies from "js-cookie";
-// import { useRouter } from "next/router";
+import { useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -12,9 +12,9 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
   const { t } = useTranslation("common");
   const access_token = Cookies.get("uat");
   const [disable, setDisable] = useState(true);
-  const { cartProducts } = useContext(CartContext);
+  const { cartProducts, clearCart } = useContext(CartContext);
   const { accountData } = useContext(AccountContext);
-  // const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     if (!accountData?.data?.id) {
@@ -63,8 +63,8 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
       }
     }).then((res) => {
       // console.log(res.data)
-      localStorage.setItem("cart", "")
-      // router.push('/account/order');
+      clearCart()
+      router.push('/account/order');
     }, (err) => {
       console.log(err)
     })

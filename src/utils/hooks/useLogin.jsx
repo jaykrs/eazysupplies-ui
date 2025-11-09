@@ -41,7 +41,7 @@ const LoginHandle = (responseData, router, refetch, compareRefetch, CallBackUrl,
     refetch();
     compareRefetch();
     setOpenAuthModal(false);
-    cartRefetch();
+    // cartRefetch();
     const wishListID = Cookies.get("wishListID");
     const CompareId = Cookies.get("compareId");
     const productObj = { id: wishListID };
@@ -50,7 +50,7 @@ const LoginHandle = (responseData, router, refetch, compareRefetch, CallBackUrl,
     Cookies.remove("compareId");
     // localStorage.removeItem("cart");
   } else {
-    // console.log(responseData, "iii")
+    console.log(responseData, "iii")
     setShowBoxMessage(responseData.response.data.error);
   }
 };
@@ -62,10 +62,10 @@ const useHandleLogin = (setShowBoxMessage) => {
   const { mutate: compareCartMutate } = useCreate(CompareAPI, false, false, "Added to Compare List");
   const CallBackUrl = Cookies.get("CallBackUrl") ? Cookies.get("CallBackUrl") : "/account/dashboard";
   const { refetch } = useContext(AccountContext);
-  const { refetch: cartRefetch } = useContext(CartContext);
+  // const { refetch: cartRefetch } = useContext(CartContext);
   const { refetch: compareRefetch } = useContext(CompareContext);
   const router = useRouter();
-  return useMutation({ mutationFn: (data) => request({ url: BASE_URL + LoginAPI, method: "post", data, withCredentials: true }), onSuccess: (responseData) => LoginHandle(responseData, router, refetch, compareRefetch, CallBackUrl, mutate, cartRefetch, setShowBoxMessage, addToWishlist, compareCartMutate, setOpenAuthModal), onError: (err)=>setShowBoxMessage(err) });
+  return useMutation({ mutationFn: (data) => request({ url: BASE_URL + LoginAPI, method: "post", data, withCredentials: true }), onSuccess: (responseData) => LoginHandle(responseData, router, refetch, compareRefetch, CallBackUrl, mutate, setShowBoxMessage, addToWishlist, compareCartMutate, setOpenAuthModal), onError: (err)=>setShowBoxMessage(err) });
 };
 
 export default useHandleLogin;

@@ -34,16 +34,6 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
     }
   };
 
-  const removeFromCart = () => {
-    // setCartCanvas(true);
-    // console.log(productState, "kkkkk")
-    const cartData = JSON.parse(localStorage.getItem("cartData"))
-    if (!!cartData) {
-      const tempData = cartData?.filter((data) => data?.product?.id != productState?.product?.id)
-      localStorage.setItem("cartData", JSON.stringify(tempData))
-      setCartData(tempData)
-    }
-  }
   const buyNow = () => {
     handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
     router.push(`/checkout`);

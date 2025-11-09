@@ -5,8 +5,12 @@ import { Col, TabPane } from "reactstrap";
 import AccountSidebar from "../common/AccountSidebar";
 import ResponsiveMenuOpen from "../common/ResponsiveMenuOpen";
 import MyOrders from "./MyOrders";
+import AccountContext from "@/context/accountContext";
+import { useContext } from "react";
 
 const AccountOrders = () => {
+  const { accountData } = useContext(AccountContext);
+
   return (
     <>
       <Breadcrumb title={"Order"} subNavigation={[{ name: "Order" }]} />
@@ -17,7 +21,7 @@ const AccountOrders = () => {
             <div className="tab-content">
             <ResponsiveMenuOpen />
             <TabPane className="show fade active">
-              <MyOrders />
+              <MyOrders userId={accountData?.userId} />
               </TabPane>
               </div>
           </div>

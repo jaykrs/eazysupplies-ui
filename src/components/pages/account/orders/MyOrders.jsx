@@ -1,3 +1,4 @@
+"use client"
 import NoDataFound from "@/components/widgets/NoDataFound";
 import Pagination from "@/components/widgets/Pagination";
 import SettingContext from "@/context/settingContext";
@@ -6,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import { RiEyeLine } from "react-icons/ri";
 import { Card, CardBody, Table } from "reactstrap";
 import request from "@/utils/axiosUtils";
-import { OrderAPI } from "@/utils/axiosUtils/API";
+import { GetOrderByUserId, OrderAPI } from "@/utils/axiosUtils/API";
 import { showMonthWiseDateAndTime } from "@/utils/customFunctions/DateFormat";
 import useFetchQuery from "@/utils/hooks/useFetchQuery";;
 import { useTranslation } from "react-i18next";
@@ -14,20 +15,25 @@ import AccountHeading from "../common/AccountHeading";
 import Loader from "@/layout/loader";
 import Capitalize from "@/utils/customFunctions/Capitalize";
 
-const MyOrders = () => {
+const MyOrders = ({userId}) => {
   const [page, setPage] = useState(1);
   const { t } = useTranslation("common");
   const { convertCurrency } = useContext(SettingContext);
-  const { data, isLoading, refetch } = useFetchQuery([page], () => request({ url: OrderAPI, params: { page: page, paginate: 10 } }), {
+  const { data, isLoading, refetch } = useFetchQuery([GetOrderByUserId], () => request({ url: GetOrderByUserId + userId, withCredentials: true }), {
     enabled: true,
     refetchOnWindowFocus: false,
     refetchOnMount: false,
-    select: (res) => res?.data,
+    select: (res) => res?.data?.data,
   });
 
   useEffect(() => {
     isLoading && refetch();
   }, [isLoading]);
+
+  const calculatePrice = (items) => {
+    const total = items?.reduce((sum, item) => sum + item?.price, 0);
+    return total.toFixed(2)
+  }
 
   if (isLoading)
     return (
@@ -39,7 +45,7 @@ const MyOrders = () => {
     <Card className="dashboard-table mt-0">
       <CardBody className="p-0">
         <AccountHeading title="MyOrders" classes={"top-sec"} />
-        {data?.data?.length > 0 ? (
+        {data?.length > 0 ? (
           <>
             <div className="total-box mt-0">
               <div className="wallet-table mt-0">
@@ -47,31 +53,30 @@ const MyOrders = () => {
                   <Table className="table cart-table order-table">
                     <thead>
                       <tr className="table-head">
-                        <th>{t("OrderNumber")}</th>
-                        <th>{t("Date")}</th>
-                        <th>{t("Amount")}</th>
-                        <th>{t("PaymentStatus")}</th>
-                        <th>{t("PaymentMethod")}</th>
-                        <th>{t("Option")}</th>
+                        <th>Order ID</th>
+                        <th>Status</th>
+                        <th>Price</th>
+                        <th>Date</th>
+                        <th>View</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {data?.data?.map((order, i) => (
+                      {data?.map((order, i) => (
                         <tr key={i}>
                           <td>
-                            <span className="fw-bolder">#{order.order_number}</span>
+                            <span className="fw-bolder">{order.id}</span>
                           </td>
-                          <td>{showMonthWiseDateAndTime(order?.created_at)}</td>
-                          <td>{convertCurrency(order?.total)} </td>
                           <td>
-                            <div className={`${order.payment_status.toLowerCase() === "pending" ? "badge bg-pending" : order.payment_status.toLowerCase() === "completed" ? "badge bg-completed" : "badge bg-cancelled custom-badge rounded-0"} custom-badge rounded-0`}>
-                              <span>{Capitalize(order?.payment_status)}</span>
+                            <div className={`${order.status.toLowerCase() === "pending" ? "badge bg-pending" : order.status.toLowerCase() === "completed" ? "badge bg-completed" : "badge bg-cancelled custom-badge rounded-0"} custom-badge rounded-0`}>
+                              <span>{Capitalize(order?.status)}</span>
                             </div>
                           </td>
+                          <td>{convertCurrency(calculatePrice(order?.items))} </td>
+                          <td>{showMonthWiseDateAndTime(order?.createdAt)}</td>
 
-                          <td>{order.payment_method.toUpperCase()}</td>
+                          {/* <td>{order.payment_method.toUpperCase()}</td> */}
                           <td>
-                            <Link href={`/account/order/details/${order.order_number}`}>
+                            <Link href={`/account/order/details?orderId=${order.id}`}>
                               <RiEyeLine />
                             </Link>
                           </td>
