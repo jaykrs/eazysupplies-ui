@@ -52,6 +52,7 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
           <h2 className="main-title">{productState?.selectedVariation?.name ?? productState?.product?.name}</h2>
           {!productState?.product?.is_external && (
             <div className="product-rating">
+              {/*Commented By Simran*/}
               {/*<RatingBox totalRating={productState?.selectedVariation?.rating_count ?? productState?.product?.rating_count} />
               <span className="divider">|</span>
               <a href={Href} className="mb-0">
