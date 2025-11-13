@@ -52,11 +52,11 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
           <h2 className="main-title">{productState?.selectedVariation?.name ?? productState?.product?.name}</h2>
           {!productState?.product?.is_external && (
             <div className="product-rating">
-              <RatingBox totalRating={productState?.selectedVariation?.rating_count ?? productState?.product?.rating_count} />
+              {/*<RatingBox totalRating={productState?.selectedVariation?.rating_count ?? productState?.product?.rating_count} />
               <span className="divider">|</span>
               <a href={Href} className="mb-0">
                 {productState?.selectedVariation?.reviews_count || productState?.product?.reviews_count || 0} {t("Review")}
-              </a>
+              </a>*/}
             </div>
           )}
           <div className="price-text">

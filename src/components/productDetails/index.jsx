@@ -43,6 +43,7 @@ const ProductDetailContent = ({ params }) => {
   // Setting Product API Data on state Variable and getting ids from cross_sell_products,related_products;
   useEffect(() => {
     if (ProductData) {
+      console.log("Product Data:", ProductData);
       (ProductData?.cross_sell_products?.length > 0 || ProductData?.related_products?.length > 0) && setGetProductIds({ ids: Array.from(new Set([...ProductData?.cross_sell_products, ...ProductData?.related_products])).join(",") });
       setProductState({ ...productState, product: ProductData });
     }

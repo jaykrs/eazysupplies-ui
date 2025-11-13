@@ -2,6 +2,9 @@ import React from "react";
 import { Col, Row } from "reactstrap";
 import SwiperCore, { Navigation } from "swiper/core";
 import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+
 SwiperCore.use([Navigation]);
 
 const ProductSliderBottom = ({ productState }) => {

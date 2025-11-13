@@ -45,6 +45,7 @@ const WishlistCompareShare = ({ productState }) => {
   return (
     <>
       <div className="buy-box compare-box">
+        {/*
         <a onClick={handelWishlist}>
           {productWishlist ? <RiHeartFill /> : <RiHeartLine />}
           <span>{t("AddToWishlist")}</span>
@@ -52,7 +53,7 @@ const WishlistCompareShare = ({ productState }) => {
         <a onClick={addToCompare}>
           <RiRefreshLine />
           <span>{t("AddToCompare")}</span>
-        </a>
+        </a>*/}
         {productState?.product?.social_share ? (
           <a onClick={() => setModal(true)}>
             <RiShareLine />

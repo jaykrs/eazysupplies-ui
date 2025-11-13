@@ -2,6 +2,7 @@ import "../index.scss";
 import { I18nProvider } from "./i18n/i18n-context";
 import { detectLanguage } from "./i18n/server";
 
+
 export async function generateMetadata() {
   // fetch data
   const themeOption = await fetch(`${process.env.API_PROD_URL}/themeOptions`)

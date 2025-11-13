@@ -10,6 +10,10 @@ import DigitalImageOptions from "../common/DigitalImageOptions";
 import SlickArrowLeft from "../common/SlickArrowLeft";
 import SlickArrowRight from "../common/SlickArrowRight";
 
+// Add these lines: Simran
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 const ThumbnailProductImage = ({ productState, slideToShow }) => {
   const { t } = useTranslation("common");
   const [state, setState] = useState({ nav1: null, nav2: null });
