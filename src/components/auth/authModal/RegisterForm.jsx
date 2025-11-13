@@ -3,7 +3,7 @@ import { AllCountryCode } from "@/data/CountryCode";
 import Btn from "@/elements/buttons/Btn";
 import { RegisterAPI } from "@/utils/axiosUtils/API";
 import useCreate from "@/utils/hooks/useCreate";
-import { YupObject, emailSchema, nameSchema, passwordConfirmationSchema, passwordSchema, phoneSchema } from "@/utils/validation/ValidationSchema";
+import { YupObject, emailSchema, nameSchema, passwordConfirmationSchema, passwordSchema, phoneSchema, gstnSchema } from "@/utils/validation/ValidationSchema";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,12 +21,14 @@ const RegisterForm = () => {
         name: "",
         email: "",
         password: "",
+        gstn: "",
         password_confirmation: "",
         country_code: "91",
         phone: "",
       }}
       validationSchema={YupObject({
         name: nameSchema,
+        gstn: gstnSchema,
         email: emailSchema,
         password: passwordSchema,
         password_confirmation: passwordConfirmationSchema,
@@ -60,6 +62,11 @@ const RegisterForm = () => {
               {errors.phone && touched?.phone && <ErrorMessage render={() => <div className="invalid-feedback">{errors.phone}</div>} />}
             </div>
           </div>
+        <div className="auth-box form-box mb-3">
+            <label htmlFor="gstn">{t("gstn")}</label>
+            <Field className="form-control" name="gstn" type="text" id="gstn" placeholder={t("gstn")} required />
+            {errors.gstn && touched.gstn && <ErrorMessage name="gstn" render={(msg) => <div className="invalid-feedback d-block">{errors.gstn}</div>} />}
+          </div>
 
           <div className="auth-box form-box mb-3">
             <label htmlFor="review">{t("Password")}</label>
@@ -78,7 +85,7 @@ const RegisterForm = () => {
               <div className="form-check ps-0 m-0 custom-check-box">
                 <Input type="checkbox" id="flexCheckDefault" className="checkbox_animated check-box" onChange={(e) => setCheckboxChecked(e.target.checked)} />
                 <label htmlFor="flexCheckDefault" className="form-check-label text-red">
-                  {t("IAgreeWithTermsAndPrivacy")}
+                  {t("IAgreeWithTermsAndPrivacy")}  <a href="http://api.eazysupplies.com/api/file?file=EazySupplies_Terms_and_Conditions.pdf" target="_blank">Terms & Policy</a>
                 </label>
               </div>
             </div>
