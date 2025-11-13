@@ -657,5 +657,6 @@
   "GoToStore": "Go to Store",
   "ClearCart": "Clear Cart",
   "WelcomeTo": "Welcome To Our Store",
-  "CallUs": "Call Us"
+  "CallUs": "Call Us",
+  "gstn" : "GST Number"
 }
