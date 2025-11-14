@@ -20,7 +20,6 @@ const AddressProvider = (props) => {
   });
 
   useEffect(() => {
-    console.log(accountData, "hhhh")
     cookies && refetch() ;
   }, [cookies]);
 
