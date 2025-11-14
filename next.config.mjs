@@ -18,6 +18,13 @@ const nextConfig = {
         protocol: "http",
         hostname: "localhost",
       },
+      {
+        protocol: "http",
+        hostname: "api.eazysupplies.com",
+      },{
+        protocol: "https",
+        hostname: "api.eazysupplies.com",
+      }
     ],
   },
   module: {

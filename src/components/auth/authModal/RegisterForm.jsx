@@ -14,7 +14,7 @@ const RegisterForm = () => {
   const { mutate, isLoading } = useCreate(RegisterAPI, false, false, "Register Successfully", false, false, false, false, setShowBoxMessage);
   const { t } = useTranslation("common");
   const [checkboxChecked, setCheckboxChecked] = useState(false);
-
+  
   return (
     <Formik
       initialValues={{
@@ -40,7 +40,7 @@ const RegisterForm = () => {
         <Form className="auth-form-box">
           {showBoxMessage && (
             <div role="alert" className="alert alert-danger login-alert">
-              <i className="ri-error-warning-line"></i> {showBoxMessage}
+              <i className="ri-error-warning-line"></i> {typeof showBoxMessage === "string" ? showBoxMessage : showBoxMessage?.message || "Something went wrong"}
             </div>
           )}
           <div className="auth-box mb-3 form-box">
@@ -58,7 +58,7 @@ const RegisterForm = () => {
             <div className="form-box">
               <label htmlFor="phone">{t("Phone")}</label>
               <SearchableSelectInput nameList={[{ name: "country_code", notitle: "true", inputprops: { name: "country_code", id: "country_code", options: AllCountryCode, }, },]} />
-              <Field className="form-control" name="phone" placeholder={t("EnterPhoneNumber")} type="number" />
+              <Field className="form-control" name="phone" placeholder={t("EnterPhoneNumber")} type="text" />
               {errors.phone && touched?.phone && <ErrorMessage render={() => <div className="invalid-feedback">{errors.phone}</div>} />}
             </div>
           </div>
