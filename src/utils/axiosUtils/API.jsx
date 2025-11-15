@@ -1,6 +1,6 @@
 // Auth
-export const BASE_URL = "http://api.eazysupplies.com";
-//export const BASE_URL = "http://localhost:3000";
+//export const BASE_URL = "http://api.eazysupplies.com";
+export const BASE_URL = "http://localhost:3000";
 export const RegisterAPI = "/auth/user";
 // export const LoginAPI = "/auth/login";
 // export const SelfAPI = "/self";
@@ -30,7 +30,7 @@ export const ProductByCategoryAPI = BASE_URL + "/api/products/filter?category=";
 export const ProductBySlugAPI = BASE_URL + "/api/products/filter?";
 
 export const CreateOrderAPI = BASE_URL + "/api/orders";
-export const GetOrderByUserId = "/api/orders/filter?userId=";
+export const GetOrderByUserId = BASE_URL + "/api/orders/filter?userId=";
 export const GetOrderById = "/orders/";
 export const LoginAPI = "/api/auth/login";
 export const GetUserById = "/api/auth/user";
