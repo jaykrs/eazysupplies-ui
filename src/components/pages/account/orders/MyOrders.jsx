@@ -58,7 +58,8 @@ const MyOrders = ({ userId }) => {
       setError(null);
       
       // Use API URL from next.config.mjs environment configuration
-      const apiUrl = `${API_BASE_URL}/orders?userId=${userId}&page=${page}&limit=${limit}`;
+      //const apiUrl = `${API_BASE_URL}/orders?userId=${userId}&page=${page}&limit=${limit}`;
+      const apiUrl = `${API_BASE_URL}/orders/filter?userId=${userId}&page=${page}&limit=${limit}`;
       
       console.log('Fetching orders from:', apiUrl); // For debugging
       
