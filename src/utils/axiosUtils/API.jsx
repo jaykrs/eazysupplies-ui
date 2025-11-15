@@ -30,7 +30,7 @@ export const ProductByCategoryAPI = BASE_URL + "/api/products/filter?category=";
 export const ProductBySlugAPI = BASE_URL + "/api/products/filter?";
 
 export const CreateOrderAPI = BASE_URL + "/api/orders";
-export const GetOrderByUserId = BASE_URL + "/api/orders/filter?userId=";
+export const GetOrderByUserId = "/api/orders/filter?userId=";
 export const GetOrderById = "/orders/";
 export const LoginAPI = "/api/auth/login";
 export const GetUserById = "/api/auth/user";
