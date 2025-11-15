@@ -39,12 +39,12 @@ const MyOrders = ({ userId }) => {
   const router = useRouter();
   const { convertCurrency } = useContext(SettingContext);
 
-  // Get API base URL - use environment variable or fallback to localhost
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+  // Get API base URL from next.config.mjs environment variables
+  const API_BASE_URL = process.env.API_PROD_URL;
 
   /**
    * Fetches orders for the current user from the API with pagination
-   * Uses dynamic API URL that works in both development and production
+   * Uses API URL from next.config.mjs
    */
   const fetchOrders = async (page = 1, limit = itemsPerPage) => {
     // Skip if no user ID provided
@@ -57,8 +57,10 @@ const MyOrders = ({ userId }) => {
       setLoading(true);
       setError(null);
       
-      // Use dynamic API URL that works in both environments
-      const apiUrl = `${API_BASE_URL}/api/orders?userId=${userId}&page=${page}&limit=${limit}`;
+      // Use API URL from next.config.mjs environment configuration
+      const apiUrl = `${API_BASE_URL}/orders?userId=${userId}&page=${page}&limit=${limit}`;
+      
+      console.log('Fetching orders from:', apiUrl); // For debugging
       
       const response = await request({ 
         url: apiUrl, 
@@ -85,6 +87,9 @@ const MyOrders = ({ userId }) => {
         // Handle nested orders array with pagination info
         ordersData = response.data.orders;
         totalCount = response.data.total || response.data.count || response.data.orders.length;
+      } else if (Array.isArray(response?.orders)) {
+        ordersData = response.orders;
+        totalCount = response.total || response.orders.length;
       }
       
       setOrders(ordersData);
