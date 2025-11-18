@@ -24,7 +24,7 @@ const ProductBox2 = ({ productState, setProductState }) => {
           ) : null}
 
           <Link href={`/product/${productState?.product?.id}`}>
-            <img src={productState?.selectedVariation?.variation_image ? productState?.selectedVariation.variation_image.original_url : productState?.product?.product_thumbnail?.original_url ? productState?.product?.product_thumbnail?.original_url : placeHolderImage} className="img-fluid bg-img" alt={productState?.product?.name} />
+            <img src={productState?.product?.productImage ? productState?.product?.productImage : productState?.product?.productIcon? productState?.product?.productIcon : placeHolderImage} className="img-fluid bg-img" alt={productState?.product?.name} />
           </Link>
           <div className="rating-label">
             <RiStarSFill />

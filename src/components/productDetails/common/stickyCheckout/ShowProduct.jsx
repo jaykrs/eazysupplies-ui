@@ -71,15 +71,15 @@ const ShowProduct = ({ productState, setProductState }) => {
       <Container className="p-0">
         <div className="cart-content">
           <div className="product-image d-md-inline-flex d-none">
-            <Avatar data={productState?.selectedVariation?.variation_image ?? productState?.product?.product_thumbnail} placeHolder={placeHolderImage} name={productState?.selectedVariation ? productState?.selectedVariation?.name : productState?.product?.name} />
+            <Avatar data={productState?.product?.productIcon ? productState?.product?.productIcon : placeHolderImage} placeHolder={placeHolderImage} name={productState?.product ? productState?.product?.name : `NA`} />
             <div className="content d-lg-block d-none">
               <h5>{productState?.selectedVariation ? productState?.selectedVariation?.name : productState?.product?.name}</h5>
               <h6>
                 {productState?.selectedVariation ? convertCurrency(productState?.selectedVariation?.sale_price) : convertCurrency(productState?.product?.sale_price)}
                 {productState?.selectedVariation?.discount ?? productState?.product?.discount ? (
                   <>
-                    <del>{productState?.selectedVariation ? convertCurrency(productState?.selectedVariation?.price) : convertCurrency(productState?.product?.price)}</del>
-                    <span>{productState?.selectedVariation ? productState?.selectedVariation?.discount : productState?.product?.discount}% Off</span>
+                    <del> rr{productState?.selectedVariation ? convertCurrency(productState?.selectedVariation?.price) : convertCurrency(productState?.product?.price)}</del>
+                    <span>{productState?.product?.price? productState?.product?.price : `NA`} </span>
                   </>
                 ) : null}
               </h6>

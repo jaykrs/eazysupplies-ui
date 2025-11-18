@@ -106,7 +106,7 @@ const ThumbnailProductImage = ({ productState, slideToShow }) => {
                   </div>
                 ))}
               </Slider>
-              {!currentVariation?.length && <img src={productState?.product?.product_thumbnail ? productState?.product?.product_thumbnail?.original_url : placeHolderImage} className="img-fluid" alt={productState?.product?.name} />}
+              {!currentVariation?.length && <img src={productState?.product?.productImage ? productState?.product?.productImage : placeHolderImage} className="img-fluid" alt={productState?.product?.name} />}
 
               {productState?.product?.product_type == "digital" && <DigitalImageOptions product={productState?.product} />}
             </div>
