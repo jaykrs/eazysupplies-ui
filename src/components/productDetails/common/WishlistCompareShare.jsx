@@ -26,7 +26,7 @@ const WishlistCompareShare = ({ productState }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setAddToWishlistAudio(new Audio(audioFile));
+    //  setAddToWishlistAudio(new Audio(audioFile));
     }
   }, []);
 

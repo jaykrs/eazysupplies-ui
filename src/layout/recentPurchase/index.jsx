@@ -17,7 +17,7 @@ const RecentPurchase = () => {
 
   useEffect(() => {
     let intervalId;
-    if (popupEnable) {
+    if (popupEnable && false) {
       intervalId = setInterval(() => {
         setShow(true);
         setMin(Math.floor(Math.random() * 60) + 1);
