@@ -96,7 +96,7 @@ const StatusDetail = ({ data }) => {
 
   const imageObj = {
     processing: processingImage,
-    approved: shippedImage,
+    approved: outfordeliveryImage,
     pending: pendingImage,
     shipped: outfordeliveryImage,
     delivered: deliveredImage,
@@ -141,7 +141,7 @@ const StatusDetail = ({ data }) => {
                 return (
                   <li className={`${isCancelled ? "d-none" : ""} ${isActive ? "active" : ""} ${rejected ? "cancelled-box" : ""}`} key={index}>
                     <div className="panel-content">
-                      <div className="icon">{elem?.slug && <Image src={elem?.slug == "approved" ? imageObj["accepted"] : imageObj[elem?.slug]} className="img-fluid" alt={elem?.slug} height={40} width={40} />}</div>
+                      <div className="icon">{elem?.slug && <Image src={elem?.slug == "approved" ? imageObj["approved"] : imageObj[elem?.slug]} className="img-fluid" alt={elem?.slug} height={40} width={40} />}</div>
                       <div className="status">{modifyWord(elem?.name)}</div>
                     </div>
                   </li>
