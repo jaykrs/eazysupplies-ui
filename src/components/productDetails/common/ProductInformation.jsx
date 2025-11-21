@@ -57,7 +57,7 @@ const ProductInformation = ({ productState }) => {
   const product = productState?.product;
 
   // Get API base URL from environment variables
-  const API_BASE_URL = process.env.API_PROD_URL || "http://localhost:3000/api";
+  const API_BASE_URL = process.env.API_PROD_URL || "https://api.eazysupplies.com/api";
 
   // Fetch categories, brands, taxes, and tags on component mount
   useEffect(() => {
@@ -294,14 +294,14 @@ const ProductInformation = ({ productState }) => {
 
           {/* Manufacturing Date - Always show with NA fallback */}
           <li>
-            <span className="info-label">{t("Manufacture Date")} : </span>
-            <span className="info-value">{displayValue(product?.mfDate)}</span>
+            <span className="info-label">{t("Mfd Date")} : </span>
+            <span className="info-value">{displayValue(product?.mfDate.slice(0, -14))}</span>
           </li>
 
           {/* Expiration Date - Always show with NA fallback */}
           <li>
-            <span className="info-label">{t("Expiration Date")} : </span>
-            <span className="info-value">{displayValue(product?.expDate)}</span>
+            <span className="info-label">{t("Exp Date")} : </span>
+            <span className="info-value">{displayValue(product?.expDate.slice(0, -14))}</span>
           </li>
 
           {/* Tax - Show tax name and value */}

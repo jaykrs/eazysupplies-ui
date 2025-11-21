@@ -9,13 +9,13 @@ import { RiHeartFill, RiHeartLine } from "react-icons/ri";
 const WishlistButton = ({ productstate, customClass, hideAction, customAnchor }) => {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
   const [productWishlist, setProductWishlist] = useState(productstate?.is_wishlist);
-  const [addToWishlistAudio, setAddToWishlistAudio] = useState(new Audio(audioFile));
+  //const [addToWishlistAudio, setAddToWishlistAudio] = useState(new Audio(audioFile));
   const router = useRouter();
   const { setOpenAuthModal } = useContext(ThemeOptionContext);
 
   const handelWishlist = (productstate) => {
     if (Cookies.get("uat")) {
-      addToWishlistAudio.play();
+      // no use addToWishlistAudio.play();
       router.push("/wishlist");
       // Put your logic here
     } else {
