@@ -39,17 +39,19 @@ const AddressProvider = (props) => {
   // Get the current user ID from account context
   const userId = accountData?.data?.id;
 
-  /**
-   * Fetch user addresses with query optimization
-   * Query is only enabled when both userId and authentication cookies are available
-   */
-  const { data, refetch, fetchStatus } = useFetchQuery(
-    ['userAddress', userId], // Cache key includes userId for proper cache invalidation
+  // Add proper loading state for account data
+  const isAccountLoading = !accountData; // Or however you track account loading
+
+  const { data, refetch, fetchStatus, isLoading, error } = useFetchQuery(
+    ['userAddress', userId], 
     () => {
-      // Guard clause to prevent API call without userId
-      if (!userId) {
+      // STRICT validation - prevent API call if userId is missing
+      if (!userId || userId === 'undefined' || userId === undefined) {
+        console.log('Skipping address fetch - invalid userId:', userId);
         return Promise.resolve({ data: [] });
       }
+      
+      console.log('Fetching addresses for valid userId:', userId);
       
       return request({ 
         url: `${GetUserAddress}${userId}`, 
@@ -58,33 +60,51 @@ const AddressProvider = (props) => {
       });
     },
     {
-      enabled: !!userId && !!cookies, // Optimize: only fetch when user is authenticated
+      // More strict enabling condition
+      enabled: !!userId && !!cookies && userId !== 'undefined',
       refetchOnWindowFocus: false,
       select: (res) => {
         return res?.data;
       },
+      // Add retry configuration
+      retry: (failureCount, error) => {
+        // Don't retry if it's a userId issue
+        if (error?.message?.includes('userId') || !userId) {
+          return false;
+        }
+        return failureCount < 2;
+      }
     }
   );
 
   /**
    * Refetch addresses when userId becomes available
-   * This handles cases where user authentication happens after component mount
+   * This is the KEY FIX - handle the case where userId loads after component mount
    */
   useEffect(() => {
-    if (userId && cookies) {
+    if (userId && cookies && userId !== 'undefined') {
+      console.log('UserId available, refetching addresses:', userId);
       refetch();
     }
   }, [userId, cookies, refetch]);
 
   /**
    * Update local address state when query data changes
-   * This provides a synchronized state for context consumers
    */
   useEffect(() => {
     if (data) {
       setAddressData(data);
     }
   }, [data]);
+
+  // Add debug logging to track the flow
+  console.log('AddressProvider Debug:', {
+    userId,
+    hasCookies: !!cookies,
+    isAccountLoading,
+    addressData: addressData?.data?.length,
+    shouldFetch: !!userId && !!cookies
+  });
 
   return (
     <AddressContext.Provider 
@@ -94,7 +114,9 @@ const AddressProvider = (props) => {
         setAddressData, 
         refetch, 
         mobileSideBar, 
-        setMobileSideBar 
+        setMobileSideBar,
+        isLoading: isLoading || isAccountLoading, // Combine loading states
+        error
       }}
     >
       {props.children}
