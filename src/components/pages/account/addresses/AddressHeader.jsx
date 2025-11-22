@@ -47,22 +47,41 @@ const AddressHeader = () => {
   
   // Context hooks for global state management
   const { accountData } = useContext(AccountContext);
-  const { addressData, refetch } = useContext(AddressContext);
+  const { addressData, refetch, isLoading: addressesLoading, isValidUserId, currentUserId } = useContext(AddressContext);
 
   /**
    * Synchronizes address data from context to local state
    * Ensures UI always reflects the latest data from global state
    * Runs whenever addressData context changes
+   * ADDED SECURITY: Filter addresses by current user
    */
   useEffect(() => {
+    console.log('AddressHeader - Syncing address data:', {
+      hasAddressData: !!addressData,
+      addressCount: addressData?.data?.length,
+      currentUserId,
+      isValidUserId
+    });
+
     if (addressData?.data?.length > 0) {
-      // Copy address data from context to local state
-      setAddressState([...addressData.data]);
+      // SECURITY FIX: Filter addresses to only show current user's addresses
+      const currentUserAddresses = addressData.data.filter(address => 
+        address.userId && address.userId.toString() === currentUserId?.toString()
+      );
+
+      console.log('Filtered addresses:', {
+        allAddresses: addressData.data.length,
+        userAddresses: currentUserAddresses.length,
+        currentUserId
+      });
+
+      // Copy filtered address data from context to local state
+      setAddressState([...currentUserAddresses]);
     } else {
       // Reset local state if no addresses in context
       setAddressState([]);
     }
-  }, [addressData]);
+  }, [addressData, currentUserId]);
 
   /**
    * Mutation hook for creating new addresses
@@ -76,11 +95,16 @@ const AddressHeader = () => {
     (resData) => {
       console.log('Address added:', resData);
       // Update local state immediately for better UX
-      setAddressState(prev => [...prev, resData?.data]);
+      if (resData?.data) {
+        setAddressState(prev => [...prev, resData.data]);
+      }
       // Refetch from context to ensure data consistency with server
       refetch();
       // Close modal after successful addition
       setModal("");
+    },
+    (error) => {
+      console.error('Error adding address:', error);
     }
   );
 
@@ -96,20 +120,25 @@ const AddressHeader = () => {
     (resData) => {
       console.log('Address updated:', resData);
       // Update local state by mapping through addresses
-      setAddressState(prev =>
-        prev.map((elem) => {
-          if (elem?.id == resData?.data?.id) {
-            return resData?.data; // Replace updated address
-          } else {
-            return elem; // Keep other addresses unchanged
-          }
-        })
-      );
+      if (resData?.data) {
+        setAddressState(prev =>
+          prev.map((elem) => {
+            if (elem?.id == resData?.data?.id) {
+              return resData.data; // Replace updated address
+            } else {
+              return elem; // Keep other addresses unchanged
+            }
+          })
+        );
+      }
       // Refetch from context to sync with server
       refetch();
       // Reset modal and edit state
       setModal("");
       setEditAddress("");
+    },
+    (error) => {
+      console.error('❌ Error updating address:', error);
     }
   );
 
@@ -126,11 +155,46 @@ const AddressHeader = () => {
   /**
    * Debug logging for development
    * Helps track data flow and state changes
-   * Remove or comment out in production
    */
-  console.log('Address Context Data:', addressData);
-  console.log('Local Address State:', addressState);
-  console.log('Modal State:', modal);
+  console.log('AddressHeader Debug:', {
+    addressContextData: addressData,
+    localAddressState: addressState,
+    modalState: modal,
+    currentUserId,
+    isValidUserId,
+    addressesLoading,
+    accountData: accountData?.data?.id
+  });
+
+  // Show loading state while addresses are being fetched
+  if (addressesLoading) {
+    return (
+      <Card>
+        <CardBody>
+          <div className="text-center py-4">
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+            <p className="mt-2 mb-0">Loading your addresses...</p>
+          </div>
+        </CardBody>
+      </Card>
+    );
+  }
+
+  // Show message if user is not properly authenticated
+  if (!isValidUserId) {
+    return (
+      <Card>
+        <CardBody>
+          <div className="text-center py-4 text-muted">
+            <p className="mb-2">Please login to manage your addresses</p>
+            <small>User ID: {currentUserId || 'Not available'}</small>
+          </div>
+        </CardBody>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -145,6 +209,7 @@ const AddressHeader = () => {
             color="transparent" 
             className="btn-solid" 
             onClick={() => setModal("add")}
+            disabled={!isValidUserId} // Disable if no valid user
           >
             + {t("AddNew")}
           </Btn>
@@ -160,6 +225,7 @@ const AddressHeader = () => {
               modal={modal} 
               setModal={setModal} 
               setEditAddress={setEditAddress} 
+              currentUserId={currentUserId} // Pass current user ID for security
             />
           </div>
         ) : (
@@ -195,6 +261,7 @@ const AddressHeader = () => {
                 editAddress={editAddress} // Pass address data for editing
                 modal={modal} 
                 setAddressState={setAddressState} 
+                currentUserId={currentUserId} // Pass current user ID
               />
             </div>
           </CustomModal>

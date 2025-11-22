@@ -26,28 +26,40 @@ import request from "@/utils/axiosUtils";
 import { GetUserAddress } from "@/utils/axiosUtils/API";
 import useFetchQuery from "@/utils/hooks/useFetchQuery";
 import Cookies from "js-cookie";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useCallback } from "react";
 import AccountContext from "../accountContext";
 import AddressContext from ".";
 
 const AddressProvider = (props) => {
   const cookies = Cookies.get("uat");
   const [mobileSideBar, setMobileSideBar] = useState(false);
-  const [addressData, setAddressData] = useState();
+  const [addressData, setAddressData] = useState({ data: [] });
   const { accountData } = useContext(AccountContext);
 
-  // Get the current user ID from account context
+  // Get the current user ID from account context with strict validation
   const userId = accountData?.data?.id;
 
-  // Add proper loading state for account data
-  const isAccountLoading = !accountData; // Or however you track account loading
+  // Strict validation to prevent undefined userId
+  const isValidUserId = userId && userId !== 'undefined' && typeof userId !== 'undefined' && userId !== null;
 
+  console.log('AddressProvider Debug:', {
+    userId,
+    isValidUserId,
+    hasAccountData: !!accountData,
+    hasCookies: !!cookies,
+    accountData: accountData // Log full account data for debugging
+  });
+
+  /**
+   * Fetch user addresses with query optimization
+   * Query is only enabled when both userId and authentication cookies are available
+   */
   const { data, refetch, fetchStatus, isLoading, error } = useFetchQuery(
     ['userAddress', userId], 
     () => {
-      // STRICT validation - prevent API call if userId is missing
-      if (!userId || userId === 'undefined' || userId === undefined) {
-        console.log('Skipping address fetch - invalid userId:', userId);
+      // STRICT Guard clause to prevent API call without valid userId
+      if (!isValidUserId) {
+        console.warn('Preventing API call - invalid userId:', userId);
         return Promise.resolve({ data: [] });
       }
       
@@ -57,54 +69,96 @@ const AddressProvider = (props) => {
         url: `${GetUserAddress}${userId}`, 
         withCredentials: true, 
         method: "GET" 
+      }).then(response => {
+        console.log('Address API response:', response);
+        return response;
+      }).catch(error => {
+        console.error('Address API error:', error);
+        throw error;
       });
     },
     {
-      // More strict enabling condition
-      enabled: !!userId && !!cookies && userId !== 'undefined',
+      enabled: isValidUserId && !!cookies, // STRICT enabling condition
       refetchOnWindowFocus: false,
       select: (res) => {
         return res?.data;
       },
-      // Add retry configuration
-      retry: (failureCount, error) => {
-        // Don't retry if it's a userId issue
-        if (error?.message?.includes('userId') || !userId) {
-          return false;
-        }
-        return failureCount < 2;
+      retry: false, // Prevent retries on errors
+      onError: (error) => {
+        console.error('Error fetching addresses:', error);
       }
     }
   );
 
   /**
+   * Safe refetch function that includes validation
+   */
+  const safeRefetch = useCallback(() => {
+    if (!isValidUserId) {
+      console.warn('Cannot refetch - invalid userId:', userId);
+      return Promise.resolve({ data: [] });
+    }
+    console.log('Safe refetch for userId:', userId);
+    return refetch();
+  }, [refetch, isValidUserId, userId]);
+
+  /**
    * Refetch addresses when userId becomes available
-   * This is the KEY FIX - handle the case where userId loads after component mount
+   * This handles cases where user authentication happens after component mount
    */
   useEffect(() => {
-    if (userId && cookies && userId !== 'undefined') {
+    if (isValidUserId && cookies) {
       console.log('UserId available, refetching addresses:', userId);
-      refetch();
+      safeRefetch();
     }
-  }, [userId, cookies, refetch]);
+  }, [userId, cookies, safeRefetch, isValidUserId]);
 
   /**
    * Update local address state when query data changes
+   * This provides a synchronized state for context consumers
+   * ADD SECURITY FILTER: Only show addresses for current user
    */
   useEffect(() => {
     if (data) {
-      setAddressData(data);
+      console.log('Raw address data from API:', data);
+      
+      // SECURITY FIX: Filter addresses to only show current user's addresses
+      // This protects against backend returning all addresses
+      let filteredData = data;
+      
+      if (data.data && Array.isArray(data.data)) {
+        const userAddresses = data.data.filter(address => 
+          address.userId && address.userId.toString() === userId?.toString()
+        );
+        
+        console.log('Filtered addresses for current user:', {
+          allAddresses: data.data.length,
+          userAddresses: userAddresses.length,
+          userId
+        });
+        
+        filteredData = {
+          ...data,
+          data: userAddresses
+        };
+      }
+      
+      setAddressData(filteredData);
+    } else {
+      // Reset if no data
+      setAddressData({ data: [] });
     }
-  }, [data]);
+  }, [data, userId]);
 
-  // Add debug logging to track the flow
-  console.log('AddressProvider Debug:', {
-    userId,
-    hasCookies: !!cookies,
-    isAccountLoading,
-    addressData: addressData?.data?.length,
-    shouldFetch: !!userId && !!cookies
-  });
+  /**
+   * Reset address data when user logs out
+   */
+  useEffect(() => {
+    if (!cookies || !isValidUserId) {
+      console.log('Resetting address data - user logged out or invalid');
+      setAddressData({ data: [] });
+    }
+  }, [cookies, isValidUserId]);
 
   return (
     <AddressContext.Provider 
@@ -112,11 +166,13 @@ const AddressProvider = (props) => {
         ...props, 
         addressData, 
         setAddressData, 
-        refetch, 
+        refetch: safeRefetch, // Use safe refetch
         mobileSideBar, 
         setMobileSideBar,
-        isLoading: isLoading || isAccountLoading, // Combine loading states
-        error
+        isLoading,
+        error,
+        isValidUserId, // Export for components to check
+        currentUserId: userId // Export current user ID
       }}
     >
       {props.children}
