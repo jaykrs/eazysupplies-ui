@@ -53,35 +53,56 @@ const AddressHeader = () => {
    * Synchronizes address data from context to local state
    * Ensures UI always reflects the latest data from global state
    * Runs whenever addressData context changes
-   * ADDED SECURITY: Filter addresses by current user
    */
   useEffect(() => {
     console.log('AddressHeader - Syncing address data:', {
       hasAddressData: !!addressData,
       addressCount: addressData?.data?.length,
       currentUserId,
-      isValidUserId
+      isValidUserId,
+      accountUserId: accountData?.data?.id
     });
 
     if (addressData?.data?.length > 0) {
-      // SECURITY FIX: Filter addresses to only show current user's addresses
-      const currentUserAddresses = addressData.data.filter(address => 
-        address.userId && address.userId.toString() === currentUserId?.toString()
-      );
+      // DEBUG: Let's see what's happening with user IDs
+      console.log('All addresses with user IDs:', addressData.data.map(addr => ({
+        id: addr.id,
+        addressUserId: addr.userId,
+        type: typeof addr.userId,
+        currentUserId,
+        typeCurrent: typeof currentUserId,
+        accountUserId: accountData?.data?.id
+      })));
 
-      console.log('Filtered addresses:', {
-        allAddresses: addressData.data.length,
-        userAddresses: currentUserAddresses.length,
-        currentUserId
-      });
+      // FIX: Use the correct user ID for filtering
+      // Try multiple possible user ID sources
+      const effectiveUserId = currentUserId || accountData?.data?.id;
+      
+      console.log('Using effectiveUserId for filtering:', effectiveUserId);
 
-      // Copy filtered address data from context to local state
-      setAddressState([...currentUserAddresses]);
+      if (effectiveUserId) {
+        // Convert both to string for safe comparison
+        const userAddresses = addressData.data.filter(address => 
+          address.userId && address.userId.toString() === effectiveUserId.toString()
+        );
+
+        console.log('Filtered addresses:', {
+          allAddresses: addressData.data.length,
+          userAddresses: userAddresses.length,
+          effectiveUserId
+        });
+
+        setAddressState([...userAddresses]);
+      } else {
+        // If we can't determine user ID, show all addresses from context (fallback)
+        console.warn('No user ID available for filtering, showing all addresses');
+        setAddressState([...addressData.data]);
+      }
     } else {
       // Reset local state if no addresses in context
       setAddressState([]);
     }
-  }, [addressData, currentUserId]);
+  }, [addressData, currentUserId, accountData?.data?.id]);
 
   /**
    * Mutation hook for creating new addresses
@@ -104,7 +125,7 @@ const AddressHeader = () => {
       setModal("");
     },
     (error) => {
-      console.error('Error adding address:', error);
+      console.error('❌ Error adding address:', error);
     }
   );
 
@@ -138,7 +159,7 @@ const AddressHeader = () => {
       setEditAddress("");
     },
     (error) => {
-      console.error('❌ Error updating address:', error);
+      console.error('Error updating address:', error);
     }
   );
 
@@ -152,6 +173,9 @@ const AddressHeader = () => {
     setEditAddress("");
   };
 
+  // Get effective user ID for the component
+  const effectiveUserId = currentUserId || accountData?.data?.id;
+
   /**
    * Debug logging for development
    * Helps track data flow and state changes
@@ -161,9 +185,12 @@ const AddressHeader = () => {
     localAddressState: addressState,
     modalState: modal,
     currentUserId,
+    accountUserId: accountData?.data?.id,
+    effectiveUserId,
     isValidUserId,
     addressesLoading,
-    accountData: accountData?.data?.id
+    addressCount: addressData?.data?.length,
+    filteredCount: addressState?.length
   });
 
   // Show loading state while addresses are being fetched
@@ -182,14 +209,14 @@ const AddressHeader = () => {
     );
   }
 
-  // Show message if user is not properly authenticated
-  if (!isValidUserId) {
+  // Show message if user is not properly authenticated (optional - remove if too restrictive)
+  if (!effectiveUserId) {
     return (
       <Card>
         <CardBody>
           <div className="text-center py-4 text-muted">
             <p className="mb-2">Please login to manage your addresses</p>
-            <small>User ID: {currentUserId || 'Not available'}</small>
+            <small>User ID not available</small>
           </div>
         </CardBody>
       </Card>
@@ -209,7 +236,6 @@ const AddressHeader = () => {
             color="transparent" 
             className="btn-solid" 
             onClick={() => setModal("add")}
-            disabled={!isValidUserId} // Disable if no valid user
           >
             + {t("AddNew")}
           </Btn>
@@ -225,7 +251,7 @@ const AddressHeader = () => {
               modal={modal} 
               setModal={setModal} 
               setEditAddress={setEditAddress} 
-              currentUserId={currentUserId} // Pass current user ID for security
+              currentUserId={effectiveUserId} // Pass current user ID for security
             />
           </div>
         ) : (
@@ -261,7 +287,7 @@ const AddressHeader = () => {
                 editAddress={editAddress} // Pass address data for editing
                 modal={modal} 
                 setAddressState={setAddressState} 
-                currentUserId={currentUserId} // Pass current user ID
+                currentUserId={effectiveUserId} // Pass current user ID
               />
             </div>
           </CustomModal>
