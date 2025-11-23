@@ -5,13 +5,14 @@ import Cookies from "js-cookie";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { RiSmartphoneLine } from "react-icons/ri";
+import { RiSmartphoneLine, RiBuildingLine } from "react-icons/ri";
 import { Modal, ModalBody } from "reactstrap";
 import ForgotPasswordForm from "./ForgotPasswordForm";
 import LoginForm from "./LoginForm";
 import OTPVerificationForm from "./OTPVerificationForm";
 import NumberLoginForm from "./phnLogin/LoginForm";
 import RegisterForm from "./RegisterForm";
+import GSTLoginForm from "./gstLogin/GSTLoginForm"; // Add this import
 
 const AuthModal = () => {
   const [state, setState] = useState("login");
@@ -37,6 +38,8 @@ const AuthModal = () => {
       setTitle("CreateAccount");
     } else if (state == "number") {
       setTitle("LoginWithNumber");
+    } else if (state == "gst") { // Add GST state condition
+      setTitle("LoginWithGST");
     } else {
       setTitle("SignIn");
     }
@@ -53,13 +56,23 @@ const AuthModal = () => {
                   <div>
                     <div className="auth-title">
                       <h3>{t(title)}</h3>
-                      <p>{state == "otp" ? t("OtpDescription") : state == "number" ? t("NumberLoginDescription") : t("AuthModalDescription")}</p>
+                      <p>
+                        {state == "otp" 
+                          ? t("OtpDescription") 
+                          : state == "number" 
+                          ? t("NumberLoginDescription") 
+                          : state == "gst" // Add GST description
+                          ? t("GSTLoginDescription")
+                          : t("AuthModalDescription")
+                        }
+                      </p>
                     </div>
                     {state == "register" && <RegisterForm />}
                     {state == "login" && <LoginForm setState={setState} />}
                     {state == "forgot" && <ForgotPasswordForm setState={setState} />}
                     {state == "otp" && <OTPVerificationForm setState={setState} />}
                     {state == "number" && <NumberLoginForm setState={setState} />}
+                    {state == "gst" && <GSTLoginForm setState={setState} />} {/* Add GST Login Form */}
                     {state !== "forgot" && state !== "otp" && (
                       <>
                         <div className="divider">
@@ -73,10 +86,12 @@ const AuthModal = () => {
                         </p>
                         {state == "login" && (
                           <>
-                            <Btn color="transparent" className="number-btn" onClick={() => setState("number")}>
-                              {/* <RiSmartphoneLine /> */}
+                            {/* GST Login Button */}
+                            <Btn color="transparent" className="number-btn mb-2" onClick={() => setState("gst")}>
+                              <RiBuildingLine />
                               {t("LoginWithGSTNumber")}
                             </Btn>
+                            {/* Phone Login Button */}
                             <Btn color="transparent" className="number-btn" onClick={() => setState("number")}>
                               <RiSmartphoneLine />
                               {t("LoginWithNumber")}
@@ -87,7 +102,9 @@ const AuthModal = () => {
                     )}
                   </div>
                 </div>
-                <div className="left-img w-lg-50 d-lg-block d-none">{/* <Ima  ge height={1920} width={1920} src={themeOption?.popup?.auth?.image_url ? storageURL + themeOption?.popup?.auth?.image_url : ` ${ImagePath}/placeholder/auth.png`} alt="login" /> */}</div>
+                <div className="left-img w-lg-50 d-lg-block d-none">
+                  {/* <Image height={1920} width={1920} src={themeOption?.popup?.auth?.image_url ? storageURL + themeOption?.popup?.auth?.image_url : ` ${ImagePath}/placeholder/auth.png`} alt="login" /> */}
+                </div>
               </div>
             </div>
           </ModalBody>

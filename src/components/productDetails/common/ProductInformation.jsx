@@ -293,15 +293,39 @@ const ProductInformation = ({ productState }) => {
           </li>
 
           {/* Manufacturing Date - Always show with NA fallback */}
-          <li>
+          {/*<li>
             <span className="info-label">{t("Mfd Date")} : </span>
             <span className="info-value">{displayValue(product?.mfDate.slice(0, -14))}</span>
+          </li>*/}
+
+          {/* Expiration Date - Always show with NA fallback */}
+          {/*<li>
+            <span className="info-label">{t("Exp Date")} : </span>
+            <span className="info-value">{displayValue(product?.expDate.slice(0, -14))}</span>
+          </li>*/}
+
+          {/* Manufacturing Date - Always show with NA fallback */}
+          <li>
+            <span className="info-label">{t("Mfd Date")} : </span>
+            <span className="info-value">
+              {displayValue(
+                product?.mfDate && typeof product.mfDate === 'string' && product.mfDate.length > 14 
+                  ? product.mfDate.slice(0, -14) 
+                  : product?.mfDate
+              )}
+            </span>{/* DEV: Fixed null slice error with safe type and length check */}
           </li>
 
           {/* Expiration Date - Always show with NA fallback */}
           <li>
             <span className="info-label">{t("Exp Date")} : </span>
-            <span className="info-value">{displayValue(product?.expDate.slice(0, -14))}</span>
+            <span className="info-value">
+              {displayValue(
+                product?.expDate && typeof product.expDate === 'string' && product.expDate.length > 14 
+                  ? product.expDate.slice(0, -14) 
+                  : product?.expDate
+              )}
+            </span>{/* DEV: Fixed null slice error with safe type and length check */}
           </li>
 
           {/* Tax - Show tax name and value */}

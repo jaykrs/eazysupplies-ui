@@ -1,86 +1,160 @@
+/**
+ * Checkout Shipping SelectForm
+ *
+ * This form is used to create or edit a shipping address during checkout.
+ * It now matches the simplified `address` table used across the project.
+ *
+ * Saved Fields:
+ *  - name
+ *  - address
+ *  - city
+ *  - zipcode
+ *  - phone
+ *
+ * NOTE:
+ * Country selection in UI is only for selecting phone country code.
+ * It is NOT stored in the database.
+ *
+ * Default:
+ *  - country_code = "91" (India)
+ *
+ * @developer Simran Samir
+ */
+
 import { Form } from "formik";
 import { Col, ModalFooter, Row } from "reactstrap";
 import Btn from "@/elements/buttons/Btn";
 import { useTranslation } from "react-i18next";
-import SearchableSelectInput from "@/utils/commonComponents/inputFields/SearchableSelectInput";
 import SimpleInputField from "@/components/widgets/inputFields/SimpleInputField";
+import SearchableSelectInput from "@/utils/commonComponents/inputFields/SearchableSelectInput";
 import { AllCountryCode } from "@/data/CountryCode";
+import { useEffect } from "react";
 
-const SelectForm = ({ values, isLoading, data, setModal, isFooterDisplay = true }) => {
+const SelectForm = ({
+  values,
+  isLoading,
+  setModal,
+  setFieldValue,
+  isFooterDisplay = true
+}) => {
   const { t } = useTranslation("common");
+
+  /**
+   * Set default country code only ONCE for new forms.
+   * Avoids infinite re-rendering by moving this inside useEffect.
+   */
+  useEffect(() => {
+    if (!values.country_code) {
+      setFieldValue("country_code", "91");
+    }
+  }, []);
+
   return (
     <Form>
       <Row className="g-3">
+
+        {/* Address Nickname / Label */}
         <SimpleInputField
           nameList={[
-            { name: "title", placeholder: t("EnterTitle"), toplabel: "Title", colprops: { xs: 12 }, require: "true" },
-            { name: "street", placeholder: t("EnterAddress"), toplabel: "Address", colprops: { xs: 12 }, require: "true" },
+            {
+              name: "name",
+              placeholder: t("EnterAddressType"),
+              toplabel: "Address Type",
+              colprops: { xs: 12 },
+              require: "true"
+            }
           ]}
         />
-        <Col xs='12'>
-          <div className="country-input position-relative phone-field">
-            <SimpleInputField nameList={[{ name: "phone", type: "number", placeholder: t("EnterPhoneNumber"), require: "true", toplabel: "Phone", colclass: "country-input-box" }]} />
-            <SearchableSelectInput
-              nameList={[
-                {
-                  toplabel: "Country",
-                  name: "country_code",
-                  notitle: "true",
-                  inputprops: {
+
+        {/* Address */}
+        <SimpleInputField
+          nameList={[
+            {
+              name: "address",
+              placeholder: t("EnterAddress"),
+              toplabel: "Address",
+              colprops: { xs: 12 },
+              require: "true"
+            }
+          ]}
+        />
+
+        {/* City + Zipcode */}
+        <SimpleInputField
+          nameList={[
+            {
+              name: "city",
+              placeholder: t("EnterCity"),
+              toplabel: "City",
+              colprops: { md: 6 },
+              require: "true"
+            },
+            {
+              name: "zipcode",
+              placeholder: t("EnterPincode"),
+              toplabel: "Pincode",
+              colprops: { md: 6 },
+              require: "true"
+            }
+          ]}
+        />
+
+        {/* Phone with Country Code */}
+        <Col xs={12} className="phone-field">
+          <div className="form-box position-relative">
+            <div className="country-input">
+
+              <SimpleInputField
+                nameList={[
+                  {
+                    name: "phone",
+                    type: "number",
+                    placeholder: t("EnterPhoneNumber"),
+                    require: "true",
+                    toplabel: "Phone",
+                    colprops: { xs: 12 },
+                    colclass: "country-input-box"
+                  }
+                ]}
+              />
+
+              <SearchableSelectInput
+                nameList={[
+                  {
                     name: "country_code",
-                    id: "country_code",
-                    options: AllCountryCode,
-                  },
-                },
-              ]}
-            />
+                    notitle: "true",
+                    toplabel: "Country Code",
+                    inputprops: {
+                      name: "country_code",
+                      id: "country_code",
+                      options: AllCountryCode
+                    }
+                  }
+                ]}
+              />
+
+            </div>
           </div>
         </Col>
 
-        <SearchableSelectInput
-          nameList={[
-            {
-              name: "country_id",
-              require: "true",
-              title: "Country",
-              label: "Country",
-              colprops: { sm: 6 },
-              inputprops: {
-                name: "country_id",
-                id: "country_id",
-                options: data,
-                defaultOption: "Select state",
-              },
-            },
-            {
-              name: "state_id",
-              require: "true",
-              title: "State",
-              label: "State",
-              colprops: { sm: 6 },
-              inputprops: {
-                name: "state_id",
-                id: "state_id",
-                options: values?.["country_id"] ? data?.filter((country) => Number(country.id) === Number(values?.["country_id"]))?.[0]?.["state"] : [],
-                defaultOption: "Select state",
-              },
-              disabled: values?.["country_id"] ? false : true,
-            },
-          ]}
-        />
-        <SimpleInputField
-          nameList={[
-            { name: "city", placeholder: t("EnterCity"), toplabel: "City", colprops: { xxl: 6, lg: 12, sm: 6 }, require: "true" },
-            { name: "pincode", placeholder: t("EnterPincode"), toplabel: "Pincode", colprops: { xxl: 6, lg: 12, sm: 6 }, require: "true" },
-          ]}
-        />
-
+        {/* Footer Buttons */}
         {isFooterDisplay && (
           <ModalFooter className="ms-auto justify-content-end save-back-button">
-            <Btn size="md" className="btn-outline fw-bold" title="Cancel" onClick={() => setModal(false)} />
-            <Btn className="btn-solid" type="submit" title="Submit" loading={Number(isLoading)} />
+            <Btn
+              size="md"
+              className="btn-outline fw-bold"
+              title="Cancel"
+              onClick={() => setModal(false)}
+            />
+            <Btn
+              className="btn-solid"
+              type="submit"
+              title="Submit"
+              loading={Number(isLoading)}
+            />
           </ModalFooter>
         )}
+
       </Row>
     </Form>
   );

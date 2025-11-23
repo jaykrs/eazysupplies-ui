@@ -1,46 +1,73 @@
+/**
+ * CheckoutForm (guest version)
+ *
+ * Fetches user's saved addresses (if any) and stores them into Formik
+ * field `all_addresses`. Also listens for address-updated events.
+ *
+ * Developer: Simran Samir
+ */
+
 import AccountContext from "@/context/accountContext";
 import request from "@/utils/axiosUtils";
-import { CountryAPI, GetUserAddress } from "@/utils/axiosUtils/API";
-import useFetchQuery from "@/utils/hooks/useFetchQuery";;
+import { GetUserAddress } from "@/utils/axiosUtils/API";
+import useFetchQuery from "@/utils/hooks/useFetchQuery";
 import { useRouter } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useContext, useEffect } from "react";
 import AccountSection from "./checkoutFormData/AccountSection";
-import BillingAddressForm from "./checkoutFormData/BillingAddressForm";
-import DeliverySection from "./checkoutFormData/DeliverySection";
-import PaymentSection from "./checkoutFormData/PaymentSection";
 import ShippingAddressForm from "./checkoutFormData/ShippingAddressForm";
-import Link from "next/link";
-import { Col, Row } from "reactstrap";
-import Btn from "@/elements/buttons/Btn";
-import AddressContext from "@/context/addressContext";
 
 const CheckoutForm = ({ values, setFieldValue, errors }) => {
-  const { accountData, refetch } = useContext(AccountContext);
-  const { addressData } = useContext(AddressContext);
-  const { t } = useTranslation("common");
-  const [address, setAddress] = useState([]);
+  const { accountData } = useContext(AccountContext);
   const router = useRouter();
-  useEffect(() => {
-    addressData?.data?.length > 0 && setAddress((prev) => [...addressData?.data]);
-  }, [addressData]);
+  const userId = accountData?.data?.id;
 
-  const { data } = useFetchQuery([GetUserAddress+accountData?.data?.id], () => request({ url: GetUserAddress+accountData?.data?.id }, router), {
-    refetchOnWindowFocus: false,
-    select: (res) => {
-      // console.log(res?.data?.data, "Address")
-      return res?.data?.data?.map((address) => ({ id: {country_code: "91",
-                phone: accountData?.data?.phone ?? "", name: address?.name, city: address?.city, zipcode: address?.zipcode, address: address?.address }, name: address?.name, city: address?.city, zipcode: address?.zipcode, address: address?.address }))
-    },
-  });
+  const {
+    data: addressList,
+    refetch: refetchAddresses
+  } = useFetchQuery(
+    ["checkoutAddresses", userId],
+    () => request({ url: GetUserAddress + userId }, router),
+    {
+      enabled: Boolean(userId),
+      refetchOnWindowFocus: false,
+      select: (res) =>
+        res?.data?.data?.map((addr) => ({
+          value: addr.id,
+          label: `${addr.name} - ${addr.address}`,
+          full: {
+            id: addr.id,
+            name: addr.name,
+            address: addr.address,
+            city: addr.city,
+            zipcode: addr.zipcode,
+            country_code: addr.country_code || "91",
+            phone: addr.phone
+          }
+        })),
+    }
+  );
+
+  useEffect(() => {
+    if (addressList) {
+      setFieldValue("all_addresses", addressList);
+      // default select first address if none set
+      if (!values.shipping_address_id && addressList.length > 0) {
+        setFieldValue("shipping_address_id", addressList[0].value);
+        setFieldValue("shipping_address", addressList[0].full);
+      }
+    }
+  }, [addressList]);
+
+  useEffect(() => {
+    const refresh = () => refetchAddresses();
+    window.addEventListener("address-updated", refresh);
+    return () => window.removeEventListener("address-updated", refresh);
+  }, [refetchAddresses]);
 
   return (
     <>
-      <AccountSection setFieldValue={setFieldValue} values={values} />
-      <ShippingAddressForm setFieldValue={setFieldValue} errors={errors} data={data} values={values} />
-      {/* <BillingAddressForm setFieldValue={setFieldValue} errors={errors} data={data} values={values} /> */}
-      {/* <DeliverySection values={values} setFieldValue={setFieldValue} /> */}
-      {/* <PaymentSection values={values} setFieldValue={setFieldValue} /> */}
+      <AccountSection values={values} setFieldValue={setFieldValue} />
+      <ShippingAddressForm values={values} setFieldValue={setFieldValue} data={addressList} />
     </>
   );
 };

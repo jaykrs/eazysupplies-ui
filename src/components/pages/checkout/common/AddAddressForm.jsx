@@ -1,56 +1,141 @@
+/**
+ * Checkout AddAddressForm
+ *
+ * FIXED:
+ *  - Extract clean address + phone from merged DB format
+ *  - Save back as "Address text | Phone: XXXXX"
+ *  - Ensures UI never shows merged address on Checkout
+ *
+ * @developer Simran Samir
+ */
+
 import request from "@/utils/axiosUtils";
-import { CountryAPI } from "@/utils/axiosUtils/API";
+import { AddressAPI } from "@/utils/axiosUtils/API";
 import { YupObject, nameSchema, phoneSchema } from "@/utils/validation/ValidationSchema";
-import useFetchQuery from "@/utils/hooks/useFetchQuery";;
 import { Formik } from "formik";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import SelectForm from "./SelectForm";
+import AccountContext from "@/context/accountContext";
 
-const AddAddressForm = ({ isLoading, type, editAddress, setEditAddress, modal, setModal, isFooterDisplay, method }) => {
+const AddAddressForm = ({
+  isLoading,
+  editAddress,
+  setEditAddress,
+  modal,
+  setModal,
+  isFooterDisplay
+}) => {
+
   const router = useRouter();
-  useEffect(() => {
-    modal !== "edit" && setEditAddress && setEditAddress({});
-  }, [modal]);
-  const { data } = useFetchQuery([CountryAPI], () => request({ url: CountryAPI }, router), {
-    refetchOnWindowFocus: false,
-    select: (res) => res.data.map((country) => ({ id: country.id, name: country.name, state: country.state })),
-  });
-
   const { t } = useTranslation("common");
+
+  /** Get logged-in user id */
+  const { accountData } = useContext(AccountContext);
+  const userId = accountData?.data?.id;
+
+  /** Reset editAddress when modal closes */
+  useEffect(() => {
+    if (modal !== "edit" && setEditAddress) {
+      setEditAddress({});
+    }
+  }, [modal]);
+
+  /**
+   * Split DB stored "Address text | Phone: 9999999999"
+   */
+  const parseAddress = (full) => {
+    if (!full) return { address: "", phone: "" };
+
+    const parts = full.split("| Phone:");
+    return {
+      address: parts[0]?.trim() ?? "",
+      phone: parts[1]?.trim() ?? ""
+    };
+  };
+
+  const parsed = editAddress?.address ? parseAddress(editAddress.address) : {};
+
   return (
     <Formik
+      enableReinitialize
       initialValues={{
-        title: editAddress ? editAddress?.title : "",
-        street: editAddress ? editAddress?.street : "",
-        country_id: editAddress ? editAddress?.country_id : "",
-        state_id: editAddress ? editAddress?.state_id : "",
-        city: editAddress ? editAddress?.city : "",
-        pincode: editAddress ? editAddress?.pincode : "",
-        phone: editAddress ? editAddress?.phone : "",
-        type: type ? type : null,
-        country_code: editAddress ? editAddress?.country_code : "91",
+        name: editAddress?.name || "",
+        address: parsed.address || "",
+        city: editAddress?.city || "",
+        zipcode: editAddress?.zipcode || "",
+        phone: parsed.phone || "",
+        country_code: editAddress?.country_code || "91"
       }}
+
       validationSchema={YupObject({
-        title: nameSchema,
-        street: nameSchema,
+        name: nameSchema,
+        address: nameSchema,
         city: nameSchema,
-        country_id: nameSchema,
-        state_id: nameSchema,
-        pincode: nameSchema,
-        phone: phoneSchema,
+        zipcode: nameSchema,
+        phone: phoneSchema
       })}
-      onSubmit={(values) => {
-        if (editAddress) {
-          values["_method"] = method ? method : "PUT";
+
+      onSubmit={async (values) => {
+        try {
+          values.zipcode = values.zipcode.toString();
+
+          /** Merge phone back to save */
+          const finalAddress = `${values.address} | Phone: ${values.phone}`;
+
+          let url = AddressAPI;
+          let methodToUse = "POST";
+
+          // ---- IF EDIT ----
+          if (editAddress?.id) {
+            url = `${AddressAPI}/${editAddress.id}`;
+            methodToUse = "PUT";
+          }
+
+          // ---- PAYLOAD ----
+          const payload = {
+            name: values.name,
+            address: finalAddress,       // merged format (required by backend)
+            city: values.city,
+            zipcode: values.zipcode
+          };
+
+          // Only for NEW address
+          if (!editAddress?.id) {
+            payload.userId = userId;
+          }
+
+          await request(
+            {
+              url,
+              method: methodToUse,
+              data: payload
+            },
+            router
+          );
+
+          setModal(false);
+
+          // Trigger re-fetch on Checkout
+          if (typeof window !== "undefined") {
+            window.dispatchEvent(new Event("address-updated"));
+          }
+
+        } catch (error) {
+          console.error("Checkout address save failed:", error);
         }
-        values["pincode"] = values["pincode"].toString();
-        // Put your logic here
-        setModal(false);
       }}
     >
-      {({ values, setFieldValue }) => <SelectForm values={values} setFieldValue={setFieldValue} setModal={setModal} isLoading={isLoading} data={data} isFooterDisplay={isFooterDisplay} />}
+      {({ values, setFieldValue }) => (
+        <SelectForm
+          values={values}
+          setFieldValue={setFieldValue}
+          setModal={setModal}
+          isLoading={isLoading}
+          isFooterDisplay={isFooterDisplay}
+        />
+      )}
     </Formik>
   );
 };

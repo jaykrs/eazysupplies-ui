@@ -658,5 +658,9 @@
   "ClearCart": "Clear Cart",
   "WelcomeTo": "Welcome To Our Store",
   "CallUs": "Call Us",
-  "gstn" : "GST Number"
+  "gstn" : "GST Number",
+  "LoginWithGST": "Login with GST",
+  "GSTNumber": "GST Number",
+  "EnterGSTNumber": "Enter GST Number", 
+  "GSTLoginDescription": "Login using your GST number and password"
 }

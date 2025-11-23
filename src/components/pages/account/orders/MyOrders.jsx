@@ -40,7 +40,7 @@ const MyOrders = ({ userId }) => {
   const { convertCurrency } = useContext(SettingContext);
 
   // Get API base URL from next.config.mjs environment variables
-  //const API_BASE_URL = process.env.API_PROD_URL;
+  const API_BASE_URL = process.env.API_PROD_URL;
 
   /**
    * Fetches orders for the current user from the API with pagination
@@ -59,8 +59,7 @@ const MyOrders = ({ userId }) => {
       
       // Use API URL from next.config.mjs environment configuration
       //const apiUrl = `${API_BASE_URL}/orders?userId=${userId}&page=${page}&limit=${limit}`;
-      //const apiUrl = `${API_BASE_URL}/orders/filter?userId=${userId}&page=${page}&limit=${limit}`;
-      const apiUrl = `http://api.eazysupplies.com/api/orders/filter?userId=${userId}&page=${page}&limit=${limit}`;
+      const apiUrl = `${API_BASE_URL}/orders/filter?userId=${userId}&page=${page}&limit=${limit}`;
       
       
       console.log('Fetching orders from:', apiUrl); // For debugging

@@ -1,0 +1,29 @@
+/* Add these styles to your CSS file */
+.no-data-message {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}
+
+.limited-info-message {
+  margin-top: 15px;
+  padding: 10px;
+  background-color: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-radius: 4px;
+  color: #856404;
+  font-size: 14px;
+  text-align: center;
+}
+
+.shipping-info li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.shipping-info li:last-child {
+  border-bottom: none;
+}
