@@ -152,24 +152,23 @@ const MyOrders = ({ userId }) => {
    * @returns {number} Total order price
    */
   const calculatePrice = (order) => {
-    // Check for pre-calculated total fields first
-    if (order?.totalAmount) return order.totalAmount;
-    if (order?.totalPrice) return order.totalPrice;
-    if (order?.amount) return order.amount;
-    if (order?.grandTotal) return order.grandTotal;
-    
-    // Calculate manually from items if available
-    if (order?.items && Array.isArray(order.items)) {
-      const total = order.items.reduce((sum, item) => {
-        const itemPrice = item?.price || item?.unitPrice || item?.totalPrice || 0;
-        const quantity = item?.quantity || 1;
-        return sum + (itemPrice * quantity);
-      }, 0);
-      return total;
-    }
-    
-    return 0;
+  // If backend already provides final total, use it directly
+  if (order?.totalAmount) return order.totalAmount;
+  if (order?.totalPrice) return order.totalPrice;
+  if (order?.amount) return order.amount;
+  if (order?.grandTotal) return order.grandTotal;
+
+  // If items exist, sum their line totals
+  if (order?.items && Array.isArray(order.items)) {
+    return order.items.reduce((sum, item) => {
+      // item.price is ALREADY subtotal (unit * qty)
+      const lineTotal = Number(item?.price) || 0;
+      return sum + lineTotal;
+    }, 0);
   }
+
+  return 0;
+};
 
   /**
    * Extracts order status from order object with fallback
