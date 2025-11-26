@@ -33,7 +33,7 @@ const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
 
     if (filter?.category?.length > 0) {
       axios({
-        url: ProductBySlugAPI + `category=${allCategory}&slug=y`,
+        url: ProductBySlugAPI + `category=${allCategory}&slug=n`,
         method: "get"
       }).then((res) => {
         setData1(res.data?.items)
@@ -42,7 +42,7 @@ const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
       })
     } else if (filter?.brand?.length > 0) {
       axios({
-        url: ProductBySlugAPI + + `brand=${allBrand}&slug=y`,
+        url: ProductBySlugAPI + + `brand=${allBrand}&slug=n`,
         method: "get"
       }).then((res) => {
         setData1(res.data?.items)
@@ -51,7 +51,7 @@ const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
       })
     } else if (filter?.brand?.length > 0 && filter?.category?.length > 0) {
       axios({
-        url: ProductBySlugAPI + + `brand=${allBrand}&category=${allCategory}&slug=y`,
+        url: ProductBySlugAPI + + `brand=${allBrand}&category=${allCategory}&slug=n`,
         method: "get"
       }).then((res) => {
         setData1(res.data?.items)
