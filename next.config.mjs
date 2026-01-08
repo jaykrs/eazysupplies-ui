@@ -3,8 +3,8 @@
 const nextConfig = {
   env: {
     // Change below URL with your current domain
-         API_PROD_URL: "http://api.eazysupplies.com/api",
-        storageURL: "http://api.eazysupplies.com",
+         API_PROD_URL: "https://api.eazysupplies.com/api",
+        storageURL: "https://api.eazysupplies.com",
   },
 
   images: {
