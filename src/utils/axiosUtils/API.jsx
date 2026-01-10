@@ -1,5 +1,5 @@
 // Auth
-export const BASE_URL = "http://api.eazysupplies.com";
+export const BASE_URL = "https://api.eazysupplies.com";
 export const RegisterAPI = "/auth/user";
 // export const LoginAPI = "/auth/login";
 // export const SelfAPI = "/self";
@@ -18,8 +18,8 @@ export const ThemeOptionsAPI = "/themeOptions";
 
 // Category API
 // export const CategoryAPI = "/category";
-export const CategoryAPI = "http://api.eazysupplies.com/api/categories";
-export const BrandAPI = "http://api.eazysupplies.com/api/brands";
+export const CategoryAPI = "https://api.eazysupplies.com/api/categories";
+export const BrandAPI = "https://api.eazysupplies.com/api/brands";
 
 // Product API
 // export const ProductAPI = "/product";
