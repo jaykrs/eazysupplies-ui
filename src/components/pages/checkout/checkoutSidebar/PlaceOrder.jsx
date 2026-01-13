@@ -25,7 +25,7 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
     }
   }, [access_token, values, errors]);
 
-  const handleClick = () => {
+  const handleClick = async() => {
     // alert("llll")
     const tempProduct = []
     cartProducts?.map((data, index) => {
@@ -37,37 +37,81 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
     })
     // console.log(cartProducts,tempProduct, "uuuuu")
 
-    axios({
+    if (!tempProduct || tempProduct.length === 0) {
+      alert("Cart is empty!");
+      return;
+    }
+
+    await axios({
       method: "POST",
       url: CreateOrderAPI,
       data: {
         userId: accountData?.data?.id,
         status: "PENDING",
-        "items": tempProduct,
-        "shipping": {
-          "address": values?.shipping_address?.address,
-          "city": values?.shipping_address?.city,
-          "state": values?.shipping_address?.city,
-          "postalCode": values?.shipping_address?.zipcode,
-          "country": "India"
+        items: tempProduct,
+        shipping: {
+          address: values?.shipping_address?.address,
+          city: values?.shipping_address?.city,
+          state: values?.shipping_address?.state,
+          postalCode: values?.shipping_address?.zipcode,
+          country: "India"
         },
-        "payment": {
-          "method": "CREDIT_CARD",
-          "status": "PENDING",
-          "userId": accountData?.data?.id,
-          "amount": tempProduct?.reduce((sum, item) => sum + item?.price, 0)
+        payment: {
+          method: "CREDIT_CARD",
+          status: "PENDING",
+          userId: accountData?.data?.id,
+          amount: tempProduct.reduce((sum, item) => sum + Number(item?.price || 0), 0)
         },
-        "jsonData": {
-          "note": "First test order"
+        jsonData: {
+          note: "First test order"
         }
-      }
-    }).then((res) => {
-      // console.log(res.data)
-      clearCart()
-      router.push('/account/order');
-    }, (err) => {
-      console.log(err)
+      },
+      withCredentials: true
     })
+      .then(res => {
+        alert('Order successfully placed!');
+        clearCart();
+        router.push('/account/order');
+      })
+      .catch(err => {
+        console.log(err);
+        alert('Something went wrong, please try again.');
+      });
+
+
+    // axios({
+    //   method: "POST",
+    //   url: CreateOrderAPI,
+    //   data: {
+    //     userId: accountData?.data?.id,
+    //     status: "PENDING",
+    //     "items": tempProduct,
+    //     "shipping": {
+    //       "address": values?.shipping_address?.address,
+    //       "city": values?.shipping_address?.city,
+    //       "state": values?.shipping_address?.city,
+    //       "postalCode": values?.shipping_address?.zipcode,
+    //       "country": "India"
+    //     },
+    //     "payment": {
+    //       "method": "CREDIT_CARD",
+    //       "status": "PENDING",
+    //       "userId": accountData?.data?.id,
+    //       "amount": tempProduct?.reduce((sum, item) => sum + item?.price, 0)
+    //     },
+    //     "jsonData": {
+    //       "note": "First test order"
+    //     }
+    //   }
+    // }, {withCredentials: true}).then((res) => {
+    //   // console.log(res.data)
+    //   alert('Order successfully placed!');
+    //   clearCart()
+    //   router.push('/account/order');
+    // }, (err) => {
+    //   alert('something went wrong, please try again');
+    //   console.log(err)
+    // })
   };
   return (
     <div className="text-end">
