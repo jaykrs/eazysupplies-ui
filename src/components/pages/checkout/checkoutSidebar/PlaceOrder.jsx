@@ -52,7 +52,7 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
         shipping: {
           address: values?.shipping_address?.address,
           city: values?.shipping_address?.city,
-          state: values?.shipping_address?.state,
+          state: values?.shipping_address?.state ? values?.shipping_address?.state : "NA" ,
           postalCode: values?.shipping_address?.zipcode,
           country: "India"
         },
