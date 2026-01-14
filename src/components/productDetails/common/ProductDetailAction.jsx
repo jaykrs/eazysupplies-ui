@@ -88,7 +88,7 @@ const ProductDetailAction = ({ productState, setProductState, extraOption, isDis
 
       {isDisplay && (
         <div>
-          <div className="qty-section">
+          <div className="qty-section" style={{display:"none"}}>
             <div className="cart_qty qty-box product-qty">
               <InputGroup>
                 <span className="input-group-prepend">
