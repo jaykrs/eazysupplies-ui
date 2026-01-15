@@ -18,6 +18,7 @@
  * @returns {JSX.Element} Notification management interface with filtering and actions
  * 
  * @developer Simran Samir
+ * @version: 1.0
  */
 
 import "../../../../index.css";
