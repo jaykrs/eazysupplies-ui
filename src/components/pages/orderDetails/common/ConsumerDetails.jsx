@@ -8,7 +8,7 @@ import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardBody, Col, Input, Label, Row } from "reactstrap";
 
-const ConsumerDetails = ({ data }) => {
+const ConsumerDetails = ({ data,  taxData}) => {
   const { convertCurrency } = useContext(SettingContext);
   const { t } = useTranslation("common");
   const router = useRouter();
@@ -39,6 +39,38 @@ const ConsumerDetails = ({ data }) => {
     return total.toFixed(2)
   }
 
+      function getItemsTotalPrice() {
+          let totalTax = 0, total = 0;
+          
+          data.items.forEach(el => {
+              let jsonData = el.product.jsonData;
+              let _dd = [];
+              if (!jsonData) {
+                  _dd = [{ discountPercentage: 0, discountAmount: 0, taxId: 0, taxAmount: 0, taxpercent: 0, totalPrice: 0 }];
+                  let _taxId = Number(el.product?.tax);
+                  let _taxpercent = taxData.filter((elm) => Number(elm.id) == _taxId);
+                  _taxpercent = _taxpercent[0]?.value;
+                  let _taxAmt = Number(el.product?.price) * Number(_taxpercent) / 100;
+                 
+                  totalTax = Number(el.quantity) > 0 ? totalTax + _taxAmt * Number(el.quantity) : totalTax;
+                  total = Numbder(el.quantity) > 0 ? total + (Number(el.product?.price - _dd[0].discountAmount) + _taxAmt) * Number(el.quantity) : total;
+              }
+              else {
+                  _dd = jsonData.filter(el => el.orderId == data.id);
+                  if (_dd.length > 0) {
+                      let _taxId = Number(el.product?.tax);
+                      let _taxpercent = taxData.filter((elm) => Number(elm.id) == _taxId);
+                      _taxpercent = _taxpercent[0]?.value;
+                      let _taxAmt = Number(_dd[0].sellingPrice) * Number(_taxpercent) / 100;
+                    
+                      totalTax = Number(el.quantity) > 0 ? totalTax + _taxAmt * Number(el.quantity) : totalTax;
+                      total = Number(el.quantity) > 0 ? total + (Number(el.product?.price - _dd[0].discountAmount) + _taxAmt) * Number(el.quantity) : total;
+                  }
+              }
+          });
+          return {totalTax, total}
+      }
+      
   return (
     <>
       <div className="summary-details my-3">
@@ -102,7 +134,7 @@ const ConsumerDetails = ({ data }) => {
                 <h3 className="order-title">{"summary"}</h3>
                 <div className="tracking-total tracking-wrapper">
                   <ul>
-                    <li>
+                    {/* <li>
                       {t("GST")} <span>{"27ABCDE1234F2Z5"}</span>
                     </li>
                     <li>
@@ -110,9 +142,9 @@ const ConsumerDetails = ({ data }) => {
                     </li>
                     <li>
                       {t("Shipping")} <span>{data?.shipping_total ? convertCurrency(data?.shipping_total) : convertCurrency(0)}</span>
-                    </li>
+                    </li> */}
                     <li>
-                      {t("Tax")} <span>{data?.tax_total ? convertCurrency(data?.tax_total) : convertCurrency(0)}</span>
+                      {t("Tax")} <span>{getItemsTotalPrice()?.totalTax?.toFixed(2)}</span>
                     </li>
                     {/* {data?.points_amount != 0 ? (
                       <li className="txt-primary fw-bold">
@@ -126,7 +158,7 @@ const ConsumerDetails = ({ data }) => {
                       </li>
                     ) : null} */}
                     <li>
-                      {t("Total")} <span>{data?.items ? convertCurrency(calculatePrice(data?.items)) : convertCurrency(0)}</span>
+                      {t("Total")} <span>{getItemsTotalPrice()?.total?.toFixed(2)}</span>
                     </li>
                   </ul>
                 </div>

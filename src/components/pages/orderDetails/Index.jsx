@@ -20,7 +20,7 @@ const OrderDetailsTracking = () => {
   let emailPhone = search.get("email_or_phone");
   const orderId = search.get("orderId");
   const [orderData, setOrderData] = useState([])
-
+  const [taxData, setTaxData] = useState([]);
   const router = useRouter();
   const { data, isLoading } = useFetchQuery([GetOrderById], () => request({ url: GetOrderById + orderId, method: "GET", withCredentials: true }, router), {
     enabled: true,
@@ -28,14 +28,13 @@ const OrderDetailsTracking = () => {
     select: (res) => res?.data,
   });
 
-  // useEffect(() => {
-  //   axios.get(BASE_URL + GetOrderById + orderId, { withCredentials: true }).then((res) => {
-  //     console.log(res.data, "Order Data")
-  //     setOrderData(res.data)
-  //   }, (err) => {
-  //     console.log(err)
-  //   })
-  // }, [])
+   useEffect(() => {
+     axios.get(BASE_URL + "/api/tax", { withCredentials: true }).then((res) => {
+       setTaxData(res.data.data)
+     }, (err) => {
+       console.log(err)
+     })
+   }, [])
   if (isLoading) return <Loader />;
   return (
     <>
@@ -51,7 +50,7 @@ const OrderDetailsTracking = () => {
                   <div className="dashboard-right-sidebar">
                     <TabContent>
                       <TabPane className="show active">
-                        <TrackOrderDetails data={data} isLoading={isLoading} orderNumber={orderId} />
+                        <TrackOrderDetails data={data} isLoading={isLoading} orderNumber={orderId} taxData={taxData} />
                       </TabPane>
                     </TabContent>
                   </div>
