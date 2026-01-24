@@ -15,6 +15,7 @@ const ConsumerDetails = ({ data, taxData }) => {
   const router = useRouter();
   const [paymentMode, setPaymentMode] = useState("offline");
   const [paymentMethod, setPaymentMethod] = useState("");
+  const [loading, setLoading] = useState(false);
   const { data: countryData } = useFetchQuery([CountryAPI], () => request({ url: CountryAPI }, router), {
     refetchOnWindowFocus: false,
     select: (res) => res.data.map((country) => ({ id: country.id, name: country.name, state: country.state })),
@@ -81,8 +82,8 @@ const ConsumerDetails = ({ data, taxData }) => {
     return _prdName;
   }
 
-  function proceedPayment() {
-    console.log("benepay method", data);
+  async function proceedPayment() {
+    setLoading(true);
     const amount = getItemsTotalPrice()?.total;
     const reasonForCollection = " Order Id #" + data.id;
     if (paymentMethod == "")
@@ -114,13 +115,19 @@ const ConsumerDetails = ({ data, taxData }) => {
           if(payurl !== "" && payurl?.startsWith("https")) 
             router.push(payurl);
           else
-            alert("There is some Imtermittent payment issue , please contact Support");
+            {
+              alert("Thanks for Offline payment , please contact Support Staff for further order processing");
+            router.push('/account/order');
+            }
         })
         .catch(function (error) {
           console.log(error);
         });
 
     }
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+    console.log("Action complete");
+    setLoading(false);
   }
 
   return (
@@ -230,7 +237,8 @@ const ConsumerDetails = ({ data, taxData }) => {
                         <button
                           className="btn-solid btn btn-transparent"
                           onClick={() => proceedPayment()}
-                        >Payment</button>
+                          disabled={loading}
+                        >{loading ? 'Waiting...' : 'Pay Now'}</button>
                       </li>}
                   </ul>
                 </div>
