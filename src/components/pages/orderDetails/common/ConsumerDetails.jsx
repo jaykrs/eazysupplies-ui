@@ -1,6 +1,6 @@
 import SettingContext from "@/context/settingContext";
 import request from "@/utils/axiosUtils";
-import { CountryAPI } from "@/utils/axiosUtils/API";
+import { CountryAPI, BASE_URL } from "@/utils/axiosUtils/API";
 import useFetchQuery from "@/utils/hooks/useFetchQuery"; import Link from "next/link";
 import { PaymentMethod } from "@/utils/constants";
 import { useRouter } from "next/navigation";
@@ -82,13 +82,13 @@ const ConsumerDetails = ({ data, taxData }) => {
   }
 
   function proceedPayment() {
-    console.log("benepay", data);
+    console.log("benepay method", data);
     const amount = getItemsTotalPrice()?.total;
     const reasonForCollection = " Order Id #" + data.id;
     if (paymentMethod == "")
       alert("Please Select Payment Method");
     else {
-      var data = JSON.stringify({
+      var _data = JSON.stringify({
         "orderId": data.id,
         "amount": amount,
         "method": [
@@ -96,22 +96,22 @@ const ConsumerDetails = ({ data, taxData }) => {
         ],
         "reasonForCollection": reasonForCollection
       });
-      console.log("benepay", data);
+      console.log("benepay", _data);
       var config = {
         method: 'post',
-        url: process.env.API_PRD_URL +'/payments/benePay/getUrl',
+        url: BASE_URL +'/api/payments/benePay/getUrl',
         withCredentials: true,
         headers: {
           'Content-Type': 'application/json',
         },
-        data: data
+        data: _data
       };
 
       axios(config)
         .then(function (response) {
           console.log(JSON.stringify(response.data));
           const payurl = response.data?.realTimePaymentData?.message;
-          if(payurl !== "" && payurl.startsWith("https")) 
+          if(payurl !== "" && payurl?.startsWith("https")) 
             router.push(payurl);
           else
             alert("There is some Imtermittent payment issue , please contact Support");
@@ -229,7 +229,7 @@ const ConsumerDetails = ({ data, taxData }) => {
                       <li>
                         <button
                           className="btn-solid btn btn-transparent"
-                          onClick={proceedPayment}
+                          onClick={() => proceedPayment()}
                         >Payment</button>
                       </li>}
                   </ul>
