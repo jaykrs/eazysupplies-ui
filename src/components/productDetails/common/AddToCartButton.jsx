@@ -11,6 +11,7 @@ const AddToCartButton = ({ productState, addToCart, isLoading, buyNow, extraOpti
   };
   return (
     <div className="product-buy-btn-group">
+      <span>Edit quantity in cart</span>
       {!productState?.product?.is_external ? (
         <>
           {productState?.product?.type == "simple" ? (
