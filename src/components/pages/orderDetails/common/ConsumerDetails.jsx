@@ -82,9 +82,9 @@ const ConsumerDetails = ({ data, taxData }) => {
   }
 
   function proceedPayment() {
-    const orderid = "";
+    console.log("benepay", data);
     const amount = getItemsTotalPrice()?.total;
-    const reasonForCollection = "Order Id #" + data.id + " ( " + getProductName() + " ) ";
+    const reasonForCollection = " Order Id #" + data.id;
     if (paymentMethod == "")
       alert("Please Select Payment Method");
     else {
@@ -127,7 +127,7 @@ const ConsumerDetails = ({ data, taxData }) => {
     <>
       <div className="summary-details my-3">
         <Row>
-          <Col xxl={6} lg={12} md={6}>
+          <Col xxl={6} lg={12} md={5}>
             <Card>
               <CardBody>
                 <h3 className="order-title">{t("ConsumerDetails")}</h3>
@@ -180,7 +180,7 @@ const ConsumerDetails = ({ data, taxData }) => {
               </CardBody>
             </Card>
           </Col>
-          <Col xxl={6} lg={12} md={6} className="cart-section">
+          <Col xxl={6} lg={12} md={5} className="cart-section">
             <Card className="h-m30">
               <CardBody>
                 <h3 className="order-title">{"summary"}</h3>
@@ -222,7 +222,7 @@ const ConsumerDetails = ({ data, taxData }) => {
                           className="form-select form-select-sm w-auto"
                         >
                           {PaymentMethod.map((method, index) => (
-                            <option value={method.id}>{method.name}</option>
+                            <option key={index} value={method.id}>{method.name}</option>
                           ))}
                         </select> </li>}
                     {data.status === "APPROVED" &&
