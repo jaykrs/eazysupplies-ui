@@ -61,7 +61,7 @@ const useHandlePhnLogin = (setShowBoxMessage, setState) => {
         phoneNumber = phoneNumber.substring(1);
       }
       
-      const fullPhone = data.country_code + phoneNumber;
+      const fullPhone =  phoneNumber;
       console.log("DEBUG: Sending OTP to:", fullPhone);
       
       try {
