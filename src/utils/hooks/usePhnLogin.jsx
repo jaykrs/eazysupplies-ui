@@ -66,7 +66,7 @@ const useHandlePhnLogin = (setShowBoxMessage, setState) => {
       
       try {
         // Use absolute URL with your backend port (3000)
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://api.eazysupplies.com';
         const url = `${API_URL}/api/auth/login?action=generateotp&phone=${fullPhone}`;
         
         console.log("DEBUG: Calling URL:", url);
