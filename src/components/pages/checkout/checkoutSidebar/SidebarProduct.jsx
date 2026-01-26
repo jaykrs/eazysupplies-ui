@@ -4,6 +4,7 @@ import SettingContext from "@/context/settingContext";
 import Image from "next/image";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
+import Avatar from "../../../widgets/Avatar";
 
 const SidebarProduct = ({ values }) => {
   const { t } = useTranslation("common");
@@ -21,7 +22,8 @@ const SidebarProduct = ({ values }) => {
             <li key={i}>
               {item && (
                 <div className="cart-image">
-                  <Image src={ placeHolderImage} className="img-fluid" alt={item?.product?.name || "product"} width={70} height={70} />
+                  <Avatar customClass="product-image" customImageClass={"img-fluid"} data={item?.product?.productIcon ?? item?.product?.productIcon} placeHolder={item?.product?.productIcon ?? item?.product?.productIcon} name={item?.product?.name} />
+                  {/* <Image src={item?.product?.productIcon} className="img-fluid" alt={item?.product?.name || "product"} width={70} height={70} /> */}
                 </div>
               )}
               <div className="cart-content">

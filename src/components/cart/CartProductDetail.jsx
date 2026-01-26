@@ -10,8 +10,8 @@ const CartProductDetail = ({ elem }) => {
   const { convertCurrency } = useContext(SettingContext);
   return (
     <td>
-      <Link href={`/product/${elem?.product?.slug}`} className="product-image">
-        <Avatar customClass="product-image" customImageClass={"img-fluid"} data={elem?.variation?.variation_image ?? elem?.product?.product_thumbnail} placeHolder={placeHolderImage} name={elem?.product?.name} />
+      <Link href={`/product/${elem?.product?.id}`} className="product-image">
+        <Avatar customClass="product-image" customImageClass={"img-fluid"} data={elem?.product?.productIcon ?? elem?.product?.productIcon} placeHolder={elem?.product?.productIcon ?? elem?.product?.productIcon} name={elem?.product?.name} />
       </Link>
     </td>
   );

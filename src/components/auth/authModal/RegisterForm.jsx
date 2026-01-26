@@ -461,7 +461,7 @@ const RegisterForm = () => {
                       ) : null}
                     </div>
                     <span className="checkbox-text">
-                      {t("IAgreeWithTermsAndPrivacy") || "I agree with"} <a href="http://api.eazysupplies.com/api/file?file=EazySupplies_Terms_and_Conditions.pdf" target="_blank" className="terms-link">Terms & Policy</a>
+                      {t("IAgreeWithTermsAndPrivacy") || "I agree with"} <a href="https://api.eazysupplies.com/api/file?file=EazySupplies_Terms_and_Conditions.pdf" target="_blank" className="terms-link">Terms & Policy</a>
                     </span>
                   </label>
                 </div>
