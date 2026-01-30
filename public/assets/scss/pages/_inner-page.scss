@@ -6560,7 +6560,7 @@
     li {
       position: relative;
       width: 100%;
-      background-color: $top-header;
+      background-color: #ffffff;
       border-radius: 0;
       padding: calc(13px + (17 - 13) * ((100vw - 320px) / (1920 - 320))) 0 calc(13px + (17 - 13) * ((100vw - 320px) / (1920 - 320))) calc(21px + (25 - 21) * ((100vw - 320px) / (1920 - 320)));
 
@@ -6574,7 +6574,7 @@
         height: 0;
         border-top: 38px solid transparent;
         border-bottom: 38px solid transparent;
-        border-left: 17px solid $top-header;
+        border-left: 17px solid #ffffff;
         transition: border-color 0.2s ease;
       }
 
@@ -6587,7 +6587,7 @@
         height: 0;
         border-top: calc(28px + (40 - 28) * ((100vw - 320px) / (1920 - 320))) solid transparent;
         border-bottom: calc(28px + (40 - 28) * ((100vw - 320px) / (1920 - 320))) solid transparent;
-        border-left: 17px solid $white;
+        border-left: 17px solid #f8f8f8;
         transition: border-color 0.2s ease;
       }
 

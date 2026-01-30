@@ -6,7 +6,6 @@ export const PaymentMethod = [
     {name:"Net Banking", id:"NB"},
     {name:"Debit Card", id:"DC"},
     {name:"Credit card", id:"CC"},
-    {name:"Net Banking", id:"NB"},
     {name:"UPI(Unified Payments Interface)", id:"UPI"},
     {name:"Offline", id:"OFF"}
 ]
