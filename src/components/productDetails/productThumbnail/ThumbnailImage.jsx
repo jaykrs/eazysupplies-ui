@@ -22,7 +22,25 @@ const ThumbnailProductImage = ({ productState, slideToShow }) => {
   const slider1 = useRef();
   const slider2 = useRef();
   const { nav1, nav2 } = state;
-  const currentVariation = productState?.selectedVariation?.variation_galleries?.length ? productState?.selectedVariation?.variation_galleries : productState?.product?.product_galleries;
+  const buildCurrentVariation = (filesString) => {
+    if (!filesString) return [];
+  const baseUrl = process.env.NEXT_PUBLIC_FILE_API_URL;
+  if (!baseUrl) {
+    console.error("NEXT_PUBLIC_FILE_API_URL is not defined");
+    return [];
+  }
+   return filesString.split(",").map((file) => {
+    const trimmedFile = file.trim();
+    const name = trimmedFile.replace(/\.[^/.]+$/, "");
+      return {
+        original_url: `${baseUrl}${encodeURIComponent(trimmedFile)}`,
+        name,
+        mime_type: 'image/jpeg'
+      };
+    });
+};
+  const currentVariation = buildCurrentVariation(productState?.product?.productImage);
+  const currentVariation1 = productState?.selectedVariation?.variation_galleries?.length ? productState?.selectedVariation?.variation_galleries : productState?.product?.product_galleries;
 
   useEffect(() => {
     setState({
@@ -100,14 +118,13 @@ const ThumbnailProductImage = ({ productState, slideToShow }) => {
                           </audio>
                         </div>
                       ) : (
-                        <ImageZoom src={image?.original_url} alt={image?.name} zoom="200" className="img-fluid" height={670} width={670} />
+                        <ImageZoom src={image ? image.original_url :  placeHolderImage} alt={image?.name} zoom="200" className="img-fluid" height={670} width={670} />
                       )}
                     </div>
                   </div>
                 ))}
               </Slider>
-              {!currentVariation?.length && <img src={productState?.product?.productImage ? productState?.product?.productImage : placeHolderImage} className="img-fluid" alt={productState?.product?.name} />}
-
+              
               {productState?.product?.product_type == "digital" && <DigitalImageOptions product={productState?.product} />}
             </div>
           </Col>
@@ -130,7 +147,7 @@ const ThumbnailProductImage = ({ productState, slideToShow }) => {
                         <RiHeadphoneLine size={100} />
                       </span>
                     ) : (
-                      <Image src={image?.original_url} alt={image?.name} className="img-fluid" height={130} width={130} />
+                      <Image src={image?.original_url} alt={image?.name} className="img-fluid xxx" height={130} width={130} />
                     )}
                   </div>
                 ))}
