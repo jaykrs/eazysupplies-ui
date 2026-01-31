@@ -249,10 +249,9 @@ const NotificationItem = memo(({
       <div className="notification-body-modern">
         <div 
           className={`notification-message-modern ${isExpanded ? 'expanded' : 'collapsed'}`}
-        >
-          {isExpanded ? remarks : truncatedRemarks}
-        </div>
         
+          dangerouslySetInnerHTML={{ __html: isExpanded ? remarks : truncatedRemarks }}
+        />
         {isLongText && (
           <button 
             className="expand-toggle-btn-modern"

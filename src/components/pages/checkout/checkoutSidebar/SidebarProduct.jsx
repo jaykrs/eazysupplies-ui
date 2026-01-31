@@ -10,6 +10,15 @@ const SidebarProduct = ({ values }) => {
   const { t } = useTranslation("common");
   const { cartProducts } = useContext(CartContext);
   const { convertCurrency } = useContext(SettingContext);
+  const getFirstOriginalUrl = (filesString) => {
+  if (!filesString) return null;
+  const [firstFile] = filesString.split(",");
+  if (!firstFile) return null;
+  const trimmedFile = firstFile.trim();
+  const url = new URL(process.env.NEXT_PUBLIC_FILE_API_URL);
+  url.searchParams.set("file", trimmedFile);
+  return url.toString();
+};
   return (
     <div className="checkout-details">
       <div className="order-box">
@@ -22,7 +31,7 @@ const SidebarProduct = ({ values }) => {
             <li key={i}>
               {item && (
                 <div className="cart-image">
-                  <Avatar customClass="product-image" customImageClass={"img-fluid"} data={item?.product?.productIcon ?? item?.product?.productIcon} placeHolder={item?.product?.productIcon ?? item?.product?.productIcon} name={item?.product?.name} />
+                  <Avatar customClass="product-image" customImageClass={"img-fluid"} data={getFirstOriginalUrl(item?.product?.productIcon)} placeHolder={getFirstOriginalUrl(item?.product?.productIcon)} name={item?.product?.name} />
                   {/* <Image src={item?.product?.productIcon} className="img-fluid" alt={item?.product?.name || "product"} width={70} height={70} /> */}
                 </div>
               )}

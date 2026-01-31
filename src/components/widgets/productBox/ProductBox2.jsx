@@ -11,7 +11,16 @@ import ProductHoverButton from "./widgets/ProductHoverButton";
 
 const ProductBox2 = ({ productState, setProductState }) => {
   const { t } = useTranslation("common");
-
+const getFirstOriginalUrl = (filesString) => {
+  if (!filesString) return null;
+  const [firstFile] = filesString.split(",");
+  if (!firstFile) return null;
+  const trimmedFile = firstFile.trim();
+  const url = new URL(process.env.NEXT_PUBLIC_FILE_API_URL);
+  url.searchParams.set("file", trimmedFile);
+  return url.toString();
+};
+const originalUrl = getFirstOriginalUrl(productState?.product?.productImage);
   const { convertCurrency } = useContext(SettingContext);
   return (
     <div className={`basic-product theme-product-1 ${productState?.product?.stock_status === "out_of_stock" ? "sold-out" : ""}`}>
@@ -24,7 +33,7 @@ const ProductBox2 = ({ productState, setProductState }) => {
           ) : null}
 
           <Link href={`/product/${productState?.product?.id}`}>
-            <img src={productState?.product?.productImage ? productState?.product?.productImage : productState?.product?.productIcon? productState?.product?.productIcon : placeHolderImage} className="img-fluid bg-img" alt={productState?.product?.name} />
+            <img src={originalUrl ? originalUrl : placeHolderImage} className="img-fluid bg-img" alt={productState?.product?.name} />
           </Link>
           <div className="rating-label">
             <RiStarSFill />
