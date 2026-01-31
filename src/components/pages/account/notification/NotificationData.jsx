@@ -18,7 +18,7 @@
  * @returns {JSX.Element} Notification management interface with filtering and actions
  * 
  * @developer Simran Samir
- * @version: 1.0
+ * @version: 2.0
  */
 
 import "../../../../index.css";
@@ -35,25 +35,133 @@ import {
   RiMailLine,
   RiExternalLinkLine,
   RiArrowLeftSLine,
-  RiArrowRightSLine as RiArrowRightLine
+  RiArrowRightSLine as RiArrowRightLine,
+  RiUserLine
 } from "react-icons/ri";
 import { Card, CardBody } from "reactstrap";
 import AccountHeading from "../common/AccountHeading";
 import { useState, useEffect, useCallback, useMemo, memo } from "react";
+
+// Utility function to get user data from storage
+const getUserDataFromStorage = () => {
+  // Try multiple storage locations and keys
+  const storageChecks = [
+    // localStorage
+    () => {
+      try {
+        const userStr = localStorage.getItem('user');
+        if (userStr) {
+          const user = JSON.parse(userStr);
+          return {
+            id: user?.id || user?.userId || user?.user_id || user?.UserID,
+            name: user?.name || user?.username || user?.fullName || user?.firstName || 'User',
+            email: user?.email,
+            role: user?.role
+          };
+        }
+      } catch (e) {
+        return null;
+      }
+      return null;
+    },
+    
+    // sessionStorage
+    () => {
+      try {
+        const userStr = sessionStorage.getItem('user');
+        if (userStr) {
+          const user = JSON.parse(userStr);
+          return {
+            id: user?.id || user?.userId || user?.user_id || user?.UserID,
+            name: user?.name || user?.username || user?.fullName || user?.firstName || 'User',
+            email: user?.email,
+            role: user?.role
+          };
+        }
+      } catch (e) {
+        return null;
+      }
+      return null;
+    },
+    
+    // Check common alternative keys
+    () => {
+      const alternativeKeys = ['currentUser', 'auth', 'userData', 'profile', 'userInfo'];
+      for (const key of alternativeKeys) {
+        try {
+          const dataStr = localStorage.getItem(key) || sessionStorage.getItem(key);
+          if (dataStr) {
+            const data = JSON.parse(dataStr);
+            const userId = data?.id || data?.userId || data?.user_id || data?.UserID;
+            const userName = data?.name || data?.username || data?.fullName || data?.firstName;
+            if (userId || userName) {
+              return {
+                id: userId,
+                name: userName || 'User',
+                email: data?.email,
+                role: data?.role
+              };
+            }
+          }
+        } catch (e) {
+          // Skip this key
+        }
+      }
+      return null;
+    }
+  ];
+  
+  // Run all checks
+  for (const check of storageChecks) {
+    const userData = check();
+    if (userData && (userData.id || userData.name !== 'User')) {
+      return userData;
+    }
+  }
+  
+  // Return a minimal user object with null ID
+  return { id: null };
+};
 
 // Memoized Notification Item for better performance
 const NotificationItem = memo(({ 
   notification, 
   isExpanded, 
   onToggleExpand, 
-  onMarkRead 
+  onMarkRead,
+  currentUserId 
 }) => {
-  const remarks = notification?.remarks || notification?.data?.message || notification?.name || "You have a new notification";
-  const truncatedRemarks = remarks.length > 180 ? remarks.substring(0, 180) + "..." : remarks;
-  const email = remarks.match(/[\w\.-]+@[\w\.-]+\.\w+/)?.[0] || "";
-  const activationLink = remarks.match(/https?:\/\/[^\s]+/g)?.[0] || "";
-  const isLongText = remarks.length > 180;
-  const type = notification?.type || "General";
+  // Get the message from remarks property
+  const getNotificationMessage = useCallback(() => {
+    if (notification?.remarks) return notification.remarks;
+    if (notification?.Remarks) return notification.Remarks;
+    if (notification?.name) return notification.name;
+    return "You have a new notification";
+  }, [notification]);
+  
+  const remarks = getNotificationMessage();
+  const truncatedRemarks = remarks && remarks.length > 180 ? remarks.substring(0, 180) + "..." : remarks || "";
+  const email = remarks?.match(/[\w\.-]+@[\w\.-]+\.\w+/)?.[0] || "";
+  const activationLink = remarks?.match(/https?:\/\/[^\s]+/g)?.[0] || "";
+  const isLongText = remarks && remarks.length > 180;
+  
+  // Get notification type
+  const getNotificationType = useCallback(() => {
+    if (notification?.type) return notification.type;
+    if (notification?.Type) return notification.Type;
+    return "General";
+  }, [notification]);
+  
+  const type = getNotificationType();
+  
+  // Get notification title
+  const getNotificationTitle = useCallback(() => {
+    if (notification?.name) return notification.name;
+    if (notification?.Name) return notification.Name;
+    return "New Notification";
+  }, [notification]);
+  
+  const title = getNotificationTitle();
   
   const handleClick = useCallback(() => {
     if (!notification.readStatus) {
@@ -63,14 +171,46 @@ const NotificationItem = memo(({
   }, [notification.id, notification.readStatus, onMarkRead, onToggleExpand]);
   
   const getNotificationIcon = useCallback((type) => {
-    switch(type?.toLowerCase()) {
+    const typeLower = type?.toLowerCase() || '';
+    switch(typeLower) {
       case 'welcome': return <RiMailLine />;
       case 'order': return '📦';
       case 'payment': return '💰';
       case 'system': return '⚙️';
+      case 'email': return <RiMailLine />;
+      case 'alert': return '🚨';
       default: return <RiNotification2Line />;
     }
   }, []);
+  
+  // Determine recipient display
+  const getRecipientDisplay = useCallback(() => {
+    const recipient = notification.recepient;
+    
+    if (recipient === 'all' || recipient === 'ALL') {
+      return (
+        <span className="notification-recipient-modern">
+          <RiNotification2Line size={12} /> All Users
+        </span>
+      );
+    }
+    
+    // If recipient matches current user
+    if (currentUserId && recipient == currentUserId) {
+      return (
+        <span className="notification-recipient-modern">
+          <RiUserLine size={12} /> You
+        </span>
+      );
+    }
+    
+    // For other recipients, show generic
+    return (
+      <span className="notification-recipient-modern">
+        👤 User {recipient}
+      </span>
+    );
+  }, [notification.recepient, currentUserId]);
   
   return (
     <li 
@@ -84,21 +224,13 @@ const NotificationItem = memo(({
           </div>
           <div>
             <h4 className="notification-title-modern">
-              {notification?.name || "New Notification"}
+              {title}
             </h4>
             <div className="notification-meta-modern">
               <span className="notification-type-modern">
                 {type}
               </span>
-              {notification.recepient === 'all' ? (
-                <span className="notification-recipient-modern">
-                  <RiNotification2Line size={12} /> All Users
-                </span>
-              ) : (
-                <span className="notification-recipient-modern">
-                  👤 User {notification.recepient}
-                </span>
-              )}
+              {getRecipientDisplay()}
             </div>
           </div>
         </div>
@@ -190,18 +322,19 @@ const NotificationData = () => {
   const { t } = useTranslation("common");
   const [expandedId, setExpandedId] = useState(null);
   const [filter, setFilter] = useState('all');
-  const [currentUserId, setCurrentUserId] = useState(null);
+  const [currentUser, setCurrentUser] = useState({ id: null });
   const [page, setPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5); // Changed to state variable
+  const [itemsPerPage, setItemsPerPage] = useState(5);
   const [allNotifications, setAllNotifications] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   
+  // Get user data on component mount
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
-    setCurrentUserId(user?.id || user?.userId || '3');
+    const userData = getUserDataFromStorage();
+    setCurrentUser(userData || { id: null });
   }, []);
 
-  // Fetch all notifications (simplified - no pagination params)
+  // Fetch all notifications - modified to always fetch regardless of user ID
   const fetchNotifications = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -211,33 +344,57 @@ const NotificationData = () => {
         withCredentials: true 
       });
       
-      const fetchedNotifications = response?.notifications || response?.data?.notifications || [];
-      console.log("Fetched notifications:", fetchedNotifications.length);
-      setAllNotifications(fetchedNotifications);
+      // Handle different response structures
+      let fetchedNotifications = [];
+      
+      if (response?.data?.notifications) {
+        fetchedNotifications = response.data.notifications;
+      } else if (response?.notifications) {
+        fetchedNotifications = response.notifications;
+      } else if (Array.isArray(response)) {
+        fetchedNotifications = response;
+      } else if (response?.data && Array.isArray(response.data)) {
+        fetchedNotifications = response.data;
+      }
+      
+      setAllNotifications(fetchedNotifications || []);
       
     } catch (error) {
       console.error("Failed to fetch notifications:", error);
+      setAllNotifications([]);
     } finally {
       setIsLoading(false);
     }
   }, []);
 
-  // Initial load
+  // Fetch notifications on mount - always fetch regardless of user ID
   useEffect(() => {
-    if (currentUserId) {
-      fetchNotifications();
-    }
-  }, [currentUserId, fetchNotifications]);
+    fetchNotifications();
+  }, [fetchNotifications]);
 
   // Filter notifications for current user only
   const filterNotifications = useCallback((notificationsList) => {
-    if (!notificationsList || !currentUserId) return [];
+    if (!notificationsList) return [];
     
-    return notificationsList.filter(notification => 
-      notification.recepient === currentUserId.toString() || 
-      notification.recepient === 'all'
-    );
-  }, [currentUserId]);
+    // If we have a current user ID, filter by it
+    if (currentUser.id) {
+      return notificationsList.filter(notification => {
+        const recipient = notification.recepient;
+        
+        // Include notification if:
+        // 1. Recipient matches current user ID (using loose equality)
+        // 2. Recipient is 'all' or 'ALL' (for all users)
+        // 3. No recipient specified
+        return recipient == currentUser.id || // Loose equality
+               recipient === 'all' || 
+               recipient === 'ALL' ||
+               !recipient;
+      });
+    }
+    
+    // If no user ID, return all notifications (they'll be filtered later by recipient='all')
+    return notificationsList;
+  }, [currentUser.id]);
 
   // Get filtered notifications based on status
   const getFilteredNotifications = useCallback(() => {
@@ -294,6 +451,7 @@ const NotificationData = () => {
   const markAllAsRead = async () => {
     try {
       const unreadNotifications = filteredNotifications.filter(n => !n.readStatus);
+      
       await Promise.all(
         unreadNotifications.map(notification => 
           request({
@@ -323,7 +481,7 @@ const NotificationData = () => {
   // Handle filter change
   const handleFilterChange = useCallback((newFilter) => {
     setFilter(newFilter);
-    setPage(1); // Reset to first page when filter changes
+    setPage(1);
     setExpandedId(null);
   }, []);
 
@@ -337,8 +495,6 @@ const NotificationData = () => {
   const handleItemsPerPageChange = useCallback((e) => {
     const newItemsPerPage = parseInt(e.target.value, 10);
     setItemsPerPage(newItemsPerPage);
-    
-    // Reset to page 1 when changing items per page
     setPage(1);
     setExpandedId(null);
   }, []);
@@ -390,7 +546,6 @@ const NotificationData = () => {
               </button>
             )}
             
-            {/* Refresh button */}
             <button
               className="notification-refresh-button"
               onClick={fetchNotifications}
@@ -400,7 +555,7 @@ const NotificationData = () => {
             </button>
           </div>
 
-          {/* Page Size Selector - Moved to top for better visibility */}
+          {/* Page Size Selector */}
           <div className="page-size-selector-top">
             <label htmlFor="pageSize">Items per page: </label>
             <select 
@@ -427,6 +582,7 @@ const NotificationData = () => {
                     isExpanded={expandedId === notification.id}
                     onToggleExpand={toggleExpanded}
                     onMarkRead={markAsRead}
+                    currentUserId={currentUser.id}
                   />
                 ))}
               </ul>
@@ -435,10 +591,14 @@ const NotificationData = () => {
                 <div className="notification-empty-icon-modern">
                   <RiNotification2Line />
                 </div>
-                <h3 className="notification-empty-title-modern">No notifications found</h3>
+                <h3 className="notification-empty-title-modern">
+                  {allNotifications.length === 0 ? 'No notifications available' : 'No notifications found'}
+                </h3>
                 <p className="notification-empty-description-modern">
-                  {filter === 'all' 
-                    ? "You're all caught up! When you get new notifications, they'll appear here."
+                  {allNotifications.length === 0
+                    ? "Could not load notifications from the server."
+                    : filter === 'all'
+                    ? `You don't have any notifications.`
                     : filter === 'unread'
                     ? "You don't have any unread notifications."
                     : "You haven't marked any notifications as read."}
