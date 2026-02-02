@@ -15,6 +15,7 @@ import TopBar from "../widgets/TopBar";
 import { useTranslation } from "react-i18next";
 import { Href } from "@/utils/constants";
 
+
 const HeaderOne = () => {
   const { themeOption, setOpenAuthModal, openAuthModal, mobileSideBar, setMobileSideBar } = useContext(ThemeOptionContext);
   const UpScroll = useHeaderScroll(false);
@@ -72,11 +73,11 @@ const HeaderOne = () => {
                         <li className="onhover-div">
                           <HeaderSearchbar />
                         </li>
-                        <li className="onhover-div">
+                        {/*<li className="onhover-div">
                           <Link href={isAuthenticated ? "/wishlist" : Href} onClick={handleWishlistClick}>
                             <RiHeartLine />
                           </Link>
-                        </li>
+                        </li>*/}
                         <li className="onhover-div">
                           <HeaderCart />
                         </li>
