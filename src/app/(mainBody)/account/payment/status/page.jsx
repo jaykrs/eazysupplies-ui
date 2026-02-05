@@ -4,14 +4,13 @@ import Link from "next/link";
 import { useSearchParams } from 'next/navigation';
 import { crypto } from 'crypto';
 export default function TransactionConfirmationPage() {
+  const searchParams = useSearchParams();
   const paymentResponse = searchParams.get('response'); 
   const SECRET_KEY = "E0A9DC01CBA5A67F2A620931E1945D07A6B76788BC2508CA954CB5A93DD4071A";
   const paymentjson = decrypt(paymentResponse, SECRET_KEY);
   console.log(paymentjson);
   const transactionStatus = "SUCCESS"; // SUCCESS | FAILED | PENDING
   const transactionId = paymentjson.transactionId;
-  const searchParams = useSearchParams();
-
   const paymentDate = new Date().toLocaleString("en-IN", {
     dateStyle: "medium",
     timeStyle: "short",
