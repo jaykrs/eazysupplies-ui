@@ -154,7 +154,7 @@ const StatusDetail = ({ data }) => {
       currentSequence = 6; // Rejected - Terminal state
     } else {
       // Check order status progression
-      if (data?.status?.toLowerCase() === "delivered") {
+      if (data?.status?.toLowerCase() === "completed") {
         currentSequence = 5; // Delivered
       } 
       else if (data?.status?.toLowerCase() === "shipped") {

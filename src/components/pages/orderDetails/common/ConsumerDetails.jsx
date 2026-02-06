@@ -487,14 +487,15 @@ const ConsumerDetails = ({ data, taxData }) => {
                           </div>
                           
                           <div className="d-flex gap-3 justify-content-center">
-                            <button className="btn btn-outline-primary px-4 py-2 rounded-pill">
+                            <a target="_blank" href={"https://api.eazysupplies.com/api/file?userId="+data?.userId+"&file=performa-invoice"+data?.id+".pdf"} ><button className="btn btn-outline-primary px-4 py-2 rounded-pill">
                               <i className="ri-download-line me-2"></i>
                               Invoice
-                            </button>
+                            </button></a>
+                            <a target="_blank" href={"https://api.eazysupplies.com/api/file?userId="+data?.userId+"&file=performa-transportReport"+data?.id+".pdf"} >
                             <button className="btn-modern-primary px-4 py-2">
                               <i className="ri-chat-3-line me-2"></i>
                               Track Order
-                            </button>
+                            </button></a>
                           </div>
                         </>
                       ) : isPaymentFailed ? (
