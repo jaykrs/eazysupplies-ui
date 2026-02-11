@@ -686,5 +686,7 @@
   "EnterYourEmail": "Enter your email address",
   "SendResetLink": "Send Reset Link",
   "BackToEmailLogin": "Back To Email Login",
-   "RegisterDescription": "Sign up for a free account at our store. Registration is quick and easy. It allows you to be able to order from our shop. To start shopping click register."
+   "RegisterDescription": "Sign up for a free account at our store. Registration is quick and easy. It allows you to be able to order from our shop. To start shopping click register.",
+  "EmailVerificationCode": "Email Verification",
+  "EmailOtpDescription": "Enter the verification code sent to your email"
 }

@@ -5094,6 +5094,345 @@
 }
 
 
+/* Add these styles to your CSS */
+.change-email-btn {
+  background: transparent;
+  border: none;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.change-email-btn:hover:not(:disabled) {
+  background: #f8fafc;
+  color: #475569;
+  text-decoration: none;
+}
+
+.change-email-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.change-email-btn svg {
+  flex-shrink: 0;
+}
+
+
+
+
+/* Email Display Card */
+.email-display-card {
+  background: linear-gradient(145deg, #f8faff, #f0f4ff);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid rgba(67, 97, 238, 0.1);
+}
+
+.email-icon-wrapper {
+  width: 48px;
+  height: 48px;
+  background: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.08);
+}
+
+.email-address {
+  font-size: 15px;
+  background: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  border: 1px solid rgba(67, 97, 238, 0.2);
+}
+
+/* OTP Section */
+.otp-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.otp-digit-wrapper {
+  flex: 1;
+}
+
+.otp-digit {
+  width: 100% !important;
+  height: 56px;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  background: white;
+  transition: all 0.2s ease;
+  color: #1e293b;
+}
+
+.otp-digit:focus {
+  border-color: #4361ee !important;
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1) !important;
+  outline: none;
+}
+
+.otp-digit.filled {
+  border-color: #4361ee !important;
+  background: #f8faff;
+}
+
+.otp-digit.error {
+  border-color: #ef4444 !important;
+  background: #fef2f2;
+}
+
+.otp-error-message {
+  display: flex;
+  align-items: center;
+  color: #ef4444;
+  font-size: 13px;
+  padding: 8px 12px;
+  background: #fef2f2;
+  border-radius: 8px;
+}
+
+/* Password Section */
+.password-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.password-field-wrapper {
+  margin-bottom: 20px;
+}
+
+.password-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.password-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.password-strength {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.strength-text {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.strength-bars {
+  display: flex;
+  gap: 4px;
+}
+
+.strength-bar {
+  width: 24px;
+  height: 4px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.strength-bar.active {
+  background: #10b981;
+}
+
+.password-match-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #10b981;
+  background: #f0fdf4;
+  padding: 4px 8px;
+  border-radius: 20px;
+}
+
+.password-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 45px 0 16px !important;
+  border: 2px solid #e2e8f0 !important;
+  border-radius: 10px !important;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.password-input:focus {
+  border-color: #4361ee !important;
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1) !important;
+  outline: none;
+}
+
+.password-input.error {
+  border-color: #ef4444 !important;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.password-toggle-btn:hover {
+  color: #4361ee;
+}
+
+/* Password Feedback */
+.password-feedback {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.password-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ef4444;
+  font-size: 13px;
+  padding: 8px 12px;
+  background: #fef2f2;
+  border-radius: 8px;
+}
+
+.password-requirements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.requirement-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.requirement-item svg {
+  color: #94a3b8;
+}
+
+.requirement-item.met {
+  color: #10b981;
+}
+
+.requirement-item.met svg {
+  color: #10b981;
+}
+
+/* Update Password Button */
+.update-password-btn {
+  background: linear-gradient(135deg, #4361ee, #3a56d4) !important;
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 14px 20px !important;
+  border-radius: 12px !important;
+  transition: all 0.3s ease;
+  height: 52px;
+  font-size: 16px;
+}
+
+.update-password-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(67, 97, 238, 0.2);
+}
+
+.update-password-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: linear-gradient(135deg, #94a3b8, #64748b) !important;
+}
+
+/* Resend Section */
+.resend-section {
+  padding: 8px 0;
+}
+
+.resend-btn {
+  background: transparent;
+  border: none;
+  color: #4361ee;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.resend-btn:hover:not(:disabled) {
+  background: #f0f4ff;
+}
+
+.countdown-text {
+  color: #4361ee;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .email-display-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 16px;
+  }
+  
+  .otp-digit {
+    height: 48px;
+    font-size: 20px;
+  }
+  
+  .password-requirements {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
 
 
 

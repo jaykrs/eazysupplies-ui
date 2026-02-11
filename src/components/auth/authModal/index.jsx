@@ -30,6 +30,7 @@ import { Modal, ModalBody } from "reactstrap";
 import ForgotPasswordForm from "./ForgotPasswordForm";
 import LoginForm from "./LoginForm";
 import OTPVerificationForm from "./OTPVerificationForm";
+import EmailOTPVerificationForm from "./EmailOTPVerificationForm";
 import NumberLoginForm from "./phnLogin/LoginForm";
 import RegisterForm from "./RegisterForm";
 import GSTLoginForm from "./gstLogin/GSTLoginForm";
@@ -39,6 +40,7 @@ const AuthModal = () => {
   const [state, setState] = useState("login");
   const [title, setTitle] = useState("Sign in");
   const [description, setDescription] = useState("");
+  const [showBoxMessage, setShowBoxMessage] = useState(null); // ADD THIS STATE
   
   const { t } = useTranslation("common");
   const { openAuthModal, setOpenAuthModal, themeOption } = useContext(ThemeOptionContext);
@@ -58,30 +60,34 @@ const AuthModal = () => {
 
   useEffect(() => {
     // Set title based on state
-    if (state == "forgot") {
+    if (state === "forgot") {
       setTitle("ForgotPassword");
-    } else if (state == "otp") {
+    } else if (state === "otp") {
       setTitle("EnterVerificationCode");
-    } else if (state == "register") {
+    } else if (state === "emailOtp") {
+      setTitle("EmailVerificationCode"); // New title for email OTP
+    } else if (state === "register") {
       setTitle("CreateAccount");
-    } else if (state == "number") {
+    } else if (state === "number") {
       setTitle("LoginWithNumber");
-    } else if (state == "gst") {
+    } else if (state === "gst") {
       setTitle("LoginWithGST");
     } else {
       setTitle("SignIn");
     }
 
     // Set description based on state
-    if (state == "otp") {
+    if (state === "otp") {
       setDescription(t("OtpDescription") || "Enter the verification code sent to your phone");
-    } else if (state == "number") {
+    } else if (state === "emailOtp") {
+      setDescription(t("EmailOtpDescription") || "Enter the verification code sent to your email"); // New description
+    } else if (state === "number") {
       setDescription(t("NumberLoginDescription") || "Enter your mobile number to continue");
-    } else if (state == "gst") {
+    } else if (state === "gst") {
       setDescription(t("GSTLoginDescription") || "Enter your GST details to continue");
-    } else if (state == "forgot") {
+    } else if (state === "forgot") {
       setDescription(t("ForgotPasswordDescription") || "Enter your email to reset your password");
-    } else if (state == "register") {
+    } else if (state === "register") {
       setDescription(t("RegisterDescription") || "Create your account to get started");
     } else {
       setDescription(t("AuthModalDescription") || "Sign in to your account to continue");
@@ -92,6 +98,7 @@ const AuthModal = () => {
   const getStateIcon = () => {
     switch(state) {
       case "otp":
+      case "emailOtp": // Both OTP states can use same icon
         return <RiShieldUserLine />;
       case "number":
         return <RiSmartphoneLine />;
@@ -140,18 +147,26 @@ const AuthModal = () => {
                 </p>
               </div>
 
+              {/* Show message if exists */}
+              {showBoxMessage && (
+                <div className={`alert alert-${showBoxMessage.type} mb-4`} role="alert">
+                  {showBoxMessage.message}
+                </div>
+              )}
+
               {/* Dynamic form rendering based on state */}
               <div className="auth-forms-container">
-                {state == "register" && <RegisterForm setState={setState} />}
-                {state == "login" && <LoginForm setState={setState} />}
-                {state == "forgot" && <ForgotPasswordForm setState={setState} />}
-                {state == "otp" && <OTPVerificationForm setState={setState} />}
-                {state == "number" && <NumberLoginForm setState={setState} />}
-                {state == "gst" && <GSTLoginForm setState={setState} />}
+                {state === "register" && <RegisterForm setState={setState} />}
+                {state === "login" && <LoginForm setState={setState} />}
+                {state === "forgot" && <ForgotPasswordForm setState={setState} setShowBoxMessage={setShowBoxMessage} />}
+                {state === "otp" && <OTPVerificationForm setState={setState} setShowBoxMessage={setShowBoxMessage} />}
+                {state === "emailOtp" && <EmailOTPVerificationForm setState={setState} setShowBoxMessage={setShowBoxMessage} />}
+                {state === "number" && <NumberLoginForm setState={setState} />}
+                {state === "gst" && <GSTLoginForm setState={setState} />}
               </div>
 
               {/* Show additional options for non-forgot/OTP states */}
-              {state !== "forgot" && state !== "otp" && (
+              {state !== "forgot" && state !== "otp" && state !== "emailOtp" && (
                 <div className="auth-options mt-4">
                   {/* Divider */}
                   {state !== "register" && (
