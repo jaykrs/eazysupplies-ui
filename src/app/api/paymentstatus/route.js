@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-
+import {BASE_URL } from "@/utils/axiosUtils/API";
 const MESSAGES = { SERVER_ERROR: "Internal server error" }
-
+const axios = require('axios');
 
 var crypto = require("crypto");
 
@@ -63,8 +63,34 @@ export async function GET(request) {
         const paymentResponse = searchParams.get("response");
         const resp = decrypt(paymentResponse, SECRET_KEY);
         const jsonObject = JSON.parse(resp);
+        let transectionids = '';
+        let orderid = '';
         if (paymentResponse) {
-            return NextResponse.json({ transactionId: jsonObject.transactionId, payerName: jsonObject.payerName, transactionStatus: jsonObject.transactionStatus, transactionAmt: jsonObject.amountPaid }, { status: 200 });
+            transectionids = jsonObject.requestorTransactionId+"__"+jsonObject.transactionId;
+            orderid = jsonObject.reasonForCollection.replace(' Order Id #', '');
+                let data = JSON.stringify({
+                "transectionid": transectionids,
+                 "orderId": orderid,
+                "status": jsonObject.transactionStatus === 'PAID' ? "SUCCESS" : "FAILED"
+                });
+                let config = {
+                method: 'put',
+                maxBodyLength: Infinity,
+                url: BASE_URL+'/api/payments/benePay/update',
+               withCredentials: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                    },
+                data : data
+                };
+                axios.request(config)
+                .then((response) => {
+                console.log(JSON.stringify(response.data));
+                })
+                .catch((error) => {
+                console.log(error);
+                });
+            return NextResponse.json({ transactionId: transectionids, orderid : orderid , payerName: jsonObject.payerName, transactionStatus: jsonObject.transactionStatus, transactionAmt: jsonObject.amountPaid }, { status: 200 });
         }
     } catch (e) { console.log(e); }
     return NextResponse.json({ error: MESSAGES.SERVER_ERROR }, { status: 500 });
