@@ -70,7 +70,7 @@ export async function GET(request) {
             orderid = jsonObject.reasonForCollection.replace(' Order Id #', '');
                 let data = JSON.stringify({
                 "transectionid": transectionids,
-                 "orderId": orderid,
+                 "orderId": Number(orderid),
                 "status": jsonObject.transactionStatus === 'PAID' ? "SUCCESS" : "FAILED"
                 });
                 let config = {
