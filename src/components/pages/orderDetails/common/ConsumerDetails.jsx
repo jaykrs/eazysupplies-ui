@@ -476,7 +476,8 @@ const ConsumerDetails = ({ data, taxData }) => {
                                 <p className="font-monospace fw-bold mb-0">
                                   {data?.payment?.transectionid || "N/A"}
                                 </p>
-                              </Col>
+                              </Col></Row>
+                              <Row>
                               <Col xs={6}>
                                 <p className="text-muted small mb-1">Amount Paid</p>
                                 <p className="fw-bold mb-0">
