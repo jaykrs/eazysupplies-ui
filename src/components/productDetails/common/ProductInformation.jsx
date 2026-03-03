@@ -305,7 +305,7 @@ const ProductInformation = ({ productState }) => {
           </li>*/}
 
           {/* Manufacturing Date - Always show with NA fallback */}
-          <li>
+          <li style={{display:'none'}} >
             <span className="info-label">{t("Mfd Date")} : </span>
             <span className="info-value">
               {displayValue(
@@ -317,7 +317,7 @@ const ProductInformation = ({ productState }) => {
           </li>
 
           {/* Expiration Date - Always show with NA fallback */}
-          <li>
+          <li style={{display:'none'}}>
             <span className="info-label">{t("Exp Date")} : </span>
             <span className="info-value">
               {displayValue(
@@ -327,7 +327,10 @@ const ProductInformation = ({ productState }) => {
               )}
             </span>{/* DEV: Fixed null slice error with safe type and length check */}
           </li>
-
+          <li>
+            <span className="info-label">{t("selflife")} : </span>
+            <span className="info-value">{product?.selfLife} Month</span>
+          </li>
           {/* Tax - Show tax name and value */}
           <li>
             <span className="info-label">{t("Tax")} : </span>
@@ -337,7 +340,7 @@ const ProductInformation = ({ productState }) => {
           </li>
 
           {/* Case Rate - Always show with NA fallback */}
-          <li>
+          <li style={{display:'none'}}>
             <span className="info-label">{t("Case Rate")} : </span>
             <span className="info-value">{formatINR(product?.caseRate)}</span>
           </li>

@@ -20,7 +20,7 @@ const FooterNewsLetter = ({ style }) => {
       {style == "basic" && (
         <div className="light-layout">
           <Container>
-            <section className="small-section border-section border-top-0 section-t-space">
+            <section style={{display: 'none'}} className="small-section border-section border-top-0 section-t-space">
               <Row>
                 <Col lg="6">
                   <div className="subscribe">
@@ -40,7 +40,7 @@ const FooterNewsLetter = ({ style }) => {
                     }}
                   >
                     {({ errors, touched }) => (
-                      <Form className="form-inline subscribe-form auth-form needs-validation">
+                      <Form  className="form-inline subscribe-form auth-form needs-validation">
                         <div className="form-group">
                           <Field type="email" className="form-control" placeholder="Enter Email Address" name="email" />
                           {(errors.email || touched.email) && (

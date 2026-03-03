@@ -1,5 +1,5 @@
 import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter,useSearchParams  } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RiCloseLine } from "react-icons/ri";
@@ -10,7 +10,8 @@ const CollectionFilter = ({ filter, setFilter, categorySlug }) => {
   const { t } = useTranslation("common");
   const [selectedFilters, setSelectedFilters] = useState([]);
   const pathname = usePathname();
-
+    const searchParams = useSearchParams();
+  let title = searchParams.get('title');
   const splitFilter = (filterKey) => {
     return filter && filter[filterKey] ? filter[filterKey] : [];
   };
@@ -79,7 +80,7 @@ const CollectionFilter = ({ filter, setFilter, categorySlug }) => {
       <ul className="filter-list">
         {selectedFilters?.map((elem, i) => (
           <li key={i}>
-            <a>{ModifyWord(elem)}</a>
+            <a>{title ? title : 'NA'} <span style={{display: 'none'}}>{ModifyWord(elem)}</span></a>
             <RiCloseLine className="close-icon" onClick={() => removeParams(elem)} />
           </li>
         ))}
