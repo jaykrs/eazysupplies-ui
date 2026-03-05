@@ -72,7 +72,7 @@ const MenuList = ({ menu, isOpen, setIsOpen, level }) => {
                 </div>
               ) : (
                 menu?.child?.map((megaMenu, i) => (
-                  <div className="dropdown-column col-xl-3" key={i}>
+                  <div className="dropdown-column col-xl-4" key={i}>
                     <LinkBox menu={megaMenu} />
                   </div>
                 ))

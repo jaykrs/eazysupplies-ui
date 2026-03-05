@@ -12,14 +12,13 @@ const FooterCategories = () => {
   const categoryData = filterCategory("product");
   const filteredCategories = FilterItemIds({ neededData: themeOption?.footer?.footer_categories, mainData: categoryData });
   const { t } = useTranslation("common");
-
   return (
     <div className="footer-content">
-      {filteredCategories?.length ? (
+      {themeOption?.footer?.footer_categories?.length ? (
         <ul>
-          {filteredCategories?.map((category) => (
+          {themeOption?.footer?.footer_categories?.map((category) => (
             <li key={category.id}>
-              <Link href={`/collections?category=${category?.slug}`} className="text-content">
+              <Link href={`/collections?category=${category?.id}`+`&title=${category.name}`} className="text-content">
                 {t(category?.name)}
               </Link>
             </li>

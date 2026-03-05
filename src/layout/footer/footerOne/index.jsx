@@ -41,7 +41,7 @@ const FooterOne = () => {
                 {themeOption?.footer?.social_media_enable && <FooterSocial />}
               </div>
             </Col>
-            <Col xl="2" lg="3" md="4" onClick={() => toggle("categories")}>
+            <Col style={{display : 'none'}} xl="2" lg="3" md="4" onClick={() => toggle("categories")}>
               <div className="sub-title">
                 <div className={`footer-title ${openClose?.categories ? "show" : ""}`}>
                   <h4>{t("Categories")}</h4>
@@ -49,7 +49,7 @@ const FooterOne = () => {
                 <FooterCategories />
               </div>
             </Col>
-            <Col lg="2" md="3" className="col-xl">
+            <Col lg="2" md="6" className="col-xl">
               <div className="sub-title" onClick={() => toggle("useFulLinks")}>
                 <div className={`footer-title ${openClose?.useFulLinks ? "show" : ""}`}>
                   <h4>{t("UsefulLinks")}</h4>
@@ -57,7 +57,15 @@ const FooterOne = () => {
                 <FooterUsefulLinks />
               </div>
             </Col>
-            <Col xl="2" md="3" onClick={() => toggle("helpCenter")}>
+            <Col xl="2" md="6" onClick={() => toggle("helpCenter")}>
+              <div className="sub-title">
+                <div className={`footer-title ${openClose?.helpCenter ? "show" : ""}`}>
+                  <h4>Policy</h4>
+                </div>
+                <FooterHelpCenter />
+              </div>
+            </Col>
+            <Col xl="2" md="6" onClick={() => toggle("helpCenter")}>
               <div className="sub-title">
                 <div className={`footer-title ${openClose?.helpCenter ? "show" : ""}`}>
                   <h4>{t("HelpCenter")}</h4>

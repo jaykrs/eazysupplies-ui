@@ -69,7 +69,7 @@ const originalUrl = getFirstOriginalUrl(productState?.product?.productImage);
               ) : null} */}
             </h4>
           </div>
-          <ul className="offer-panel">
+          {/* <ul className="offer-panel">
             {[1, 2, 3].map((_, index) => (
               <li key={index}>
                 <span className="offer-icon">
@@ -78,7 +78,7 @@ const originalUrl = getFirstOriginalUrl(productState?.product?.productImage);
                 {t("LimitedTimeOffer")}: {productState?.product?.discount}% off
               </li>
             ))}
-          </ul>
+          </ul> */}
         </div>
       </div>
     </div>
