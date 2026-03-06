@@ -33,7 +33,7 @@ import { useTranslation } from "react-i18next";
 import ThemeOptionContext from "@/context/themeOptionsContext";
 import { useRouter } from "next/navigation";
 import "../../../index.css";
-
+import { tsurl } from "@/utils/constants";
 const RegisterForm = () => {
   const [showBoxMessage, setShowBoxMessage] = useState();
   const [successMessage, setSuccessMessage] = useState(null);
@@ -42,7 +42,7 @@ const RegisterForm = () => {
   const [focusedField, setFocusedField] = useState(null);
   const { setOpenAuthModal } = useContext(ThemeOptionContext);
   const router = useRouter();
-
+  
   // Custom success handler
   const handleSuccess = (resData) => {
     // Show success message
@@ -461,7 +461,7 @@ const RegisterForm = () => {
                       ) : null}
                     </div>
                     <span className="checkbox-text">
-                      {t("IAgreeWithTermsAndPrivacy") || "I agree with"} <a href="https://api.eazysupplies.com/api/file?file=EazySupplies_Terms_and_Conditions.pdf" target="_blank" className="terms-link">Terms & Policy</a>
+                      {t("IAgreeWithTermsAndPrivacy") || "I agree with"} <a href= {tsurl} target="_blank" className="terms-link">Terms & Policy</a>
                     </span>
                   </label>
                 </div>

@@ -67,7 +67,7 @@ const ShowProduct = ({ productState, setProductState }) => {
   }, [totalPrice]);
   const { convertCurrency } = useContext(SettingContext);
   return (
-    <div className="sticky-bottom-cart container">
+    <div style={{display:'none'}} className="sticky-bottom-cart container">
       <Container className="p-0">
         <div className="cart-content">
           <div className="product-image d-md-inline-flex d-none">
@@ -110,6 +110,7 @@ const ShowProduct = ({ productState, setProductState }) => {
             </div>
           </div>
           <div className="add-btn">
+            <span>Quantity can be modified from cart page</span>
             <StickyCheckoutButtons productState={productState} setProductState={setProductState} extraOption={false} />
           </div>
         </div>
