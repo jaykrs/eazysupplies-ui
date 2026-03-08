@@ -5,6 +5,7 @@ import { Col, Container, Row } from "reactstrap";
 import FooterAbout from "../widgets/FooterAbout";
 import FooterCategories from "../widgets/FooterCategories";
 import FooterHelpCenter from "../widgets/FooterHelpCenter";
+import PolicyFooterHelpCenter from "../widgets/PolicyFooterHelpCenter";
 import FooterLogo from "../widgets/FooterLogo";
 import FooterNewsLetter from "../widgets/FooterNewsLetter";
 import FooterSocial from "../widgets/FooterSocial";
@@ -62,7 +63,7 @@ const FooterOne = () => {
                 <div className={`footer-title ${openClose?.helpCenter ? "show" : ""}`}>
                   <h4>Policy</h4>
                 </div>
-                <FooterHelpCenter />
+                <PolicyFooterHelpCenter />
               </div>
             </Col>
             <Col xl="2" md="6" onClick={() => toggle("helpCenter")}>

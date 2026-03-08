@@ -9,5 +9,5 @@ export const PaymentMethod = [
     {name:"UPI(Unified Payments Interface)", id:"UPI"},
     {name:"Offline", id:"OFF"}
 ]
-export const tsurl = process.env.API_PROD_URL +'/file?file=EazySupplies_Terms_and_Conditions.pdf';
+export const tsurl = '/pages?name=website-policy';
 export const prodapiurl = process.env.API_PROD_URL; 

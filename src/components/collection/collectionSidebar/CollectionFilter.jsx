@@ -72,7 +72,7 @@ const CollectionFilter = ({ filter, setFilter, categorySlug }) => {
   if (selectedFilters.length <= 0) return null;
   return (
     <div className="shop-filter-category">
-      <div className="filter-title">
+      <div style={{display: 'none'}} className="filter-title">
         <h2>{t("Filters")}</h2>
         <a onClick={clearParams}>{t("ClearAll")}</a>
         <a onClick={filterProduct}>{t("Search")}</a>
@@ -81,7 +81,7 @@ const CollectionFilter = ({ filter, setFilter, categorySlug }) => {
         {selectedFilters?.map((elem, i) => (
           <li key={i}>
             <a>{title ? title : 'NA'} <span style={{display: 'none'}}>{ModifyWord(elem)}</span></a>
-            <RiCloseLine className="close-icon" onClick={() => removeParams(elem)} />
+            <RiCloseLine style={{display: 'none'}} className="close-icon" onClick={() => removeParams(elem)} />
           </li>
         ))}
       </ul>

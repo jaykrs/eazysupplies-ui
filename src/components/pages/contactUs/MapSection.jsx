@@ -1,7 +1,7 @@
 const MapSection = () => {
   return (
     <div className="map-box">
-      <iframe src="https://www.google.com/maps/embed?pb=!1m23!1m12!1m3!1d2994.3803116994895!2d55.29773782339708!3d25.222534631321!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m8!3e6!4m5!1s0x3e5f43496ad9c645%3A0xbde66e5084295162!2sDubai%20-%20United%20Arab%20Emirates!3m2!1d25.2048493!2d55.2707828!4m0!5e1!3m2!1sen!2sin!4v1652217109535!5m2!1sen!2sin" style={{ border: 0,height:'100%',width:'100%' }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2922.1821181000014!2d77.1877425745737!3d28.655283883048813!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d0397098726e9%3A0x839649ca906e621a!2sEarthling%20Consumer%20Products%20Private%20Limited!5e1!3m2!1sen!2sin!4v1772996646204!5m2!1sen!2sin" style={{ border: 0,height:'100%',width:'100%' }} allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
     </div>
   );
 };
