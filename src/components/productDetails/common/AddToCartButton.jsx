@@ -4,7 +4,6 @@ import { RiShoppingCartLine } from "react-icons/ri";
 
 const AddToCartButton = ({ productState, addToCart, isLoading, buyNow, extraOption }) => {
   const { t } = useTranslation("common");
-  alert(productState?.product?.name + "has been added to card.");
   const externalProductLink = (link) => {
     if (link) {
       window.open(link, "_blank");
