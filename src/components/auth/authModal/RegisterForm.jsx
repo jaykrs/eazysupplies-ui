@@ -59,14 +59,17 @@ const RegisterForm = () => {
       setOpenAuthModal(false);
       // Uncomment if you want to redirect to home page
       // router.push('/');
-    }, 3000);
+    }, 8000);
   };
 
   // Custom error handler
   const handleError = (err) => {
     let errorMessage = "Registration failed. Please try again.";
-    
-    if (err?.response?.data?.message) {
+    if (status === 409) {
+    errorMessage =
+      "An account already exists with this email or phone number. Please login.";
+  } 
+    else if (err?.response?.data?.message) {
       errorMessage = err.response.data.message;
     } else if (err?.message) {
       errorMessage = err.message;
@@ -117,7 +120,7 @@ const RegisterForm = () => {
       // Auto-hide success message after 5 seconds
       const timer = setTimeout(() => {
         setSuccessMessage(null);
-      }, 5000);
+      }, 8000);
       
       return () => clearTimeout(timer);
     }

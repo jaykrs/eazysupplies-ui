@@ -1,7 +1,7 @@
 import ThemeOptionContext from "@/context/themeOptionsContext";
 import Link from "next/link";
 import React, { useContext } from "react";
-import { RiFacebookFill, RiInstagramFill, RiPinterestFill, RiTwitterFill } from "react-icons/ri";
+import { RiFacebookFill, RiInstagramFill, RiYoutubeFill , RiPinterestFill, RiTwitterFill, RiLinkedinFill  } from "react-icons/ri";
 
 const FooterSocial = () => {
   const { themeOption } = useContext(ThemeOptionContext)
@@ -16,10 +16,10 @@ const FooterSocial = () => {
               </Link>
             </li>
           )}
-          {themeOption?.footer?.twitter && (
+          {themeOption?.footer?.linkedin && (
             <li>
-              <Link href={themeOption?.footer?.twitter} target="_blank">
-                <RiTwitterFill />
+              <Link href={themeOption?.footer?.linkedin} target="_blank">
+                <RiLinkedinFill  />
               </Link>
             </li>
           )}
@@ -30,10 +30,10 @@ const FooterSocial = () => {
               </Link>
             </li>
           )}
-          {themeOption?.footer?.pinterest && (
+          {themeOption?.footer?.youtube && (
             <li>
-              <Link href={themeOption?.footer?.pinterest} target="_blank">
-                <RiPinterestFill />
+              <Link href={themeOption?.footer?.youtube} target="_blank">
+                <RiYoutubeFill />
               </Link>
             </li>
           )}
