@@ -18,7 +18,12 @@ const HeaderTwo = () => {
   const router = useRouter();
   const isAuthenticated = Cookies.get("uat");
   const handleProfileClick = (path) => {
-    isAuthenticated ? router.push("/account/dashboard") : setOpenAuthModal(true);
+    e.preventDefault(); 
+    if (isAuthenticated) {
+      router.replace("/account/dashboard");
+    } else {
+      setOpenAuthModal(true);
+    }
   };
   const { t } = useTranslation("common");
 

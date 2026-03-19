@@ -22,11 +22,19 @@ const HeaderOne = () => {
   const { t } = useTranslation("common");
   const router = useRouter();
   const isAuthenticated = Cookies.get("uat");
-  const handleProfileClick = (path) => {
-    isAuthenticated ? router.push("/account/dashboard") : setOpenAuthModal(true);
-  };
+  const handleProfileClick = (e) => {
+    // Prevent the <Link> component from navigating on its own
+    e.preventDefault(); 
+
+    if (isAuthenticated) {
+      router.replace("/account/dashboard");
+    } else {
+      setOpenAuthModal(true);
+    }
+};
+
   const handleWishlistClick = () => {
-    isAuthenticated ? router.push("/wishlist") : setOpenAuthModal(true);
+    isAuthenticated ? router.replace("/wishlist") : setOpenAuthModal(true);
   };
 
   return (

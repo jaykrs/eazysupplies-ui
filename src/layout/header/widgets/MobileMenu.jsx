@@ -40,19 +40,19 @@ const MobileMenu = () => {
           </Link>
         </li>
         <li className={active == "3" ? "active" : ""}>
-          <a href={Href} onClick={() => setCartCanvas(true)}>
+          <a href={"/cart"} onClick={() => setCartCanvas(true)}>
             <RiShoppingBagLine />
             <span>{t("Cart")}</span>
           </a>
         </li>
         <li className={active == "4" ? "active" : ""}>
-          <a href={Href} onClick={() => handleWishlist()}>
+          <a href={"/account/order"} onClick={() => handleWishlist()}>
             <RiHeartLine />
-            <span>{t("Wishlist")}</span>
+            <span>{t("Order") ? t("Order") : "Order"}</span>
           </a>
         </li>
         <li className={active == "5" ? "active" : ""} onClick={() => handleProfileClick()}>
-          <a href={Href}>
+          <a href={"account/dashboard"}>
             <RiUserLine />
             <span>{t("User")}</span>
           </a>

@@ -38,7 +38,7 @@ const MenuMedia = ({ menu }) => {
 
   return (
     <>
-      {menu?.mega_menu_type === "product_box" && (
+      {menu?.mega_menu_type === "simple" && (
         <Col xl={6} className="dropdown-column d-xl-block d-none">
           {filterProduct?.length > 0 ? (
             <div className="menu-product-slider">
@@ -57,7 +57,7 @@ const MenuMedia = ({ menu }) => {
           )}
         </Col>
       )}
-      {menu.mega_menu_type === "side_banner" && (
+      {menu.mega_menu_type === "simple" && (
         <Col xl={3} className="dropdown-column d-xl-block d-none">
           <div className="menu-img-banner">
             <Link href={`/product/deliciously-sweet-watermelon`} className="text-title">

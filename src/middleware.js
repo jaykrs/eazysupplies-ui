@@ -1,5 +1,15 @@
 import { NextResponse } from "next/server";
 
+function noCacheHeaders(response) {
+  response.headers.set(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0"
+  );
+  response.headers.set("Pragma", "no-cache");
+  response.headers.set("Expires", "0");
+  return response;
+}
+
 export async function middleware(request) {
   const { pathname, search } = request.nextUrl;
 
@@ -8,39 +18,60 @@ export async function middleware(request) {
     const response = NextResponse.next();
 
     response.headers.set("Access-Control-Allow-Origin", "*");
-    response.headers.set("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-    response.headers.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    response.headers.set(
+      "Access-Control-Allow-Methods",
+      "GET, POST, PUT, DELETE, OPTIONS"
+    );
+    response.headers.set(
+      "Access-Control-Allow-Headers",
+      "Content-Type, Authorization"
+    );
 
-    // Preflight request (OPTIONS)
     if (request.method === "OPTIONS") {
-      return new NextResponse(null, {
-        status: 204,
-        headers: response.headers,
-      });
+      return noCacheHeaders(
+        new NextResponse(null, {
+          status: 204,
+          headers: response.headers,
+        })
+      );
     }
 
-    return response;
+    return noCacheHeaders(response);
   }
 
-  // ✅ Your existing logic (only for non-API routes)
+  // ✅ Default response (important!)
+  let response = NextResponse.next();
+
+  // 👉 Apply no-cache globally
+  noCacheHeaders(response);
+
+  // ===============================
+  // Your existing logic
+  // ===============================
+
   const urlSearchParams = new URLSearchParams(search);
   const params = Object.fromEntries(urlSearchParams.entries());
 
   let myHeaders = new Headers();
   myHeaders.append("Authorization", `Bearer ${request.cookies.get("uat")?.value}`);
+
   let requestOptions = {
     method: "GET",
     headers: myHeaders,
   };
 
-  let settingData = await (await fetch(process.env.API_PROD_URL + "/settings", requestOptions))?.json();
+  let settingData = await (
+    await fetch(process.env.API_PROD_URL + "/settings", requestOptions, {
+      cache: "no-store", // 🔥 important
+    })
+  )?.json();
 
   const protectedRoutes = [
     `/account/dashboard`,
     `/account/notification`,
     `/account/wallet`,
     `/account/bank-details`,
-    `/account/point`,
+    `/account/payment`,
     `/account/refund`,
     `/account/order`,
     `/account/addresses`,
@@ -48,66 +79,24 @@ export async function middleware(request) {
     `/compare`,
   ];
 
-  if (request.cookies.has("maintenance") && pathname !== `/maintenance`) {
-    let myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${request.cookies.get("uat")?.value}`);
-    let requestOptions = { method: "GET", headers: myHeaders };
-
-    let response = await fetch(process.env.API_PROD_URL + "/settings", requestOptions);
-    if (!response.ok) {
-      throw new Error(`Fetch failed with status ${response.status}`);
-    }
-    let data = await response.json();
-
-    if (data?.values?.maintenance?.maintenance_mode && pathname !== `/maintenance`) {
-      return NextResponse.redirect(new URL(`/maintenance`, request.url));
-    } else {
-      if (request.cookies.get("maintenance")) {
-        return NextResponse.next();
-      } else {
-        const response = NextResponse.next();
-        response.cookies.delete("maintenance");
-        return NextResponse.redirect(new URL(`/`, request.url));
-      }
-    }
-  }
-
+  // Example: redirect with no-cache
   if (protectedRoutes.includes(pathname) && !request.cookies.has("uat")) {
-    const response = NextResponse.redirect(new URL(request?.cookies?.get("currentPath").value, request.url));
-    response.cookies.set("showAuthToast", "true", { httpOnly: false });
-    return response;
+    const redirectResponse = NextResponse.redirect(
+      new URL(request?.cookies?.get("currentPath")?.value || "/", request.url)
+    );
+    redirectResponse.cookies.set("showAuthToast", "true", { httpOnly: false });
+
+    return noCacheHeaders(redirectResponse); // 🔥 critical
   }
 
-  if (!request.cookies.has("maintenance") && pathname == `/maintenance`) {
-    return NextResponse.redirect(new URL(`/`, request.url));
+  // Apply same pattern to ALL redirects
+  if (pathname === `/auth/login` && request.cookies.has("uat")) {
+    return noCacheHeaders(
+      NextResponse.redirect(new URL(`/`, request.url))
+    );
   }
 
-  if (pathname == `/checkout` && !request.cookies.has("uat")) {
-    if (settingData?.values?.activation?.guest_checkout) {
-      if (request.cookies.get("cartData") == "digital") {
-        return NextResponse.redirect(new URL(`/auth/login`, request.url));
-      }
-    } else {
-      return NextResponse.redirect(new URL(`/auth/login`, request.url));
-    }
-  }
-
-  if (pathname == `/auth/login` && request.cookies.has("uat")) {
-    return NextResponse.redirect(new URL(`/`, request.url));
-  }
-
-  if (pathname != `/auth/login`) {
-    if (pathname == `/auth/otp-verification` && !request.cookies.has("ue")) {
-      return NextResponse.redirect(new URL(`/auth/login`, request.url));
-    }
-    if (pathname == `/auth/update-password` && (!request.cookies.has("uo") || !request.cookies.has("ue"))) {
-      return NextResponse.redirect(new URL(`/auth/login`, request.url));
-    }
-  }
-
-  if (request.headers.get("x-redirected")) {
-    return NextResponse.next();
-  }
+  return response;
 }
 
 export const config = {

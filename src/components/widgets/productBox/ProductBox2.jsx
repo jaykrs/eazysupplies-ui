@@ -40,9 +40,9 @@ const originalUrl = getFirstOriginalUrl(productState?.product?.productImage);
             <span>{productState?.product?.reviews_count}</span>
           </div>
           <div className="cart-info">
-            <WishlistButton customAnchor={true} productstate={productState?.product} />
+            {/* <WishlistButton customAnchor={true} productstate={productState?.product} /> */}
             <CartButton productState={productState} selectedVariation={productState.selectedVariation} />
-            <ProductHoverButton productstate={productState?.product} actionsToHide={"wishlist"} />
+            {/* <ProductHoverButton productstate={productState?.product} actionsToHide={"wishlist"} /> */}
           </div>
         </div>
         <div className="product-detail">
@@ -68,6 +68,7 @@ const originalUrl = getFirstOriginalUrl(productState?.product?.productImage);
                 </>
               ) : null} */}
             </h4>
+            <div className="price"><CartButton productState={productState} text={"Add to Cart"} selectedVariation={productState.selectedVariation} /></div>
           </div>
           {/* <ul className="offer-panel">
             {[1, 2, 3].map((_, index) => (

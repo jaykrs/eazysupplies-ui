@@ -14,7 +14,7 @@ const FooterUsefulLinks = () => {
         <ul>
           {themeOption?.footer?.useful_link?.map((item, i) => (
             <li key={i}>
-              <Link href={`/collections?category=${item?.id}`+`&title=${item.name}`} >{t(item?.name)}</Link>
+              <Link href={`/collections?layout=collection_3_grid&category=${item?.id}`+`&title=${item.name}`} >{t(item?.name)}</Link>
             </li>
           ))}
         </ul>

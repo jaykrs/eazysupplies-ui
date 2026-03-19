@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RiAddLine, RiDeleteBinLine, RiSubtractLine } from "react-icons/ri";
 import { Input } from "reactstrap";
+import Cookies from "js-cookie";
 
 const CartButton = ({ productState, text, classes, iconClass = true, quantity = false, selectedVariation }) => {
   const { cartProducts, handleIncDec } = useContext(CartContext);
@@ -13,7 +14,7 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
   const { t } = useTranslation("common");
   const [productQty, setProductQty] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-
+  const isAuthenticated = Cookies.get("uat");
   const getSelectedVariant = useMemo(() => {
     return cartProducts.find((elem) => (elem?.variation_id ? elem?.variation_id == productState?.selectedVariation?.id : elem.product_id === productState?.product?.id));
   }, [cartProducts, productState]);
@@ -46,7 +47,7 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
         <>
           {quantity ? (
             <>
-              {productState?.product?.stock_status === "in_stock" ? (
+              {Number(productState?.product?.stock) > 0 && isAuthenticated ? (
                 <button
                   id={`add-to-cart${productState?.product?.id}`}
                   className="add-button add_cart"
@@ -59,7 +60,7 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                 </button>
               ) : (
                 <button id={`add-to-cart${productState?.product?.id}`} className="add-button add_cart" disabled>
-                  {t("OutOfStock")}
+                  {isAuthenticated ? t("OutOfStock") : ""}
                 </button>
               )}
 
@@ -91,11 +92,11 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                 </div>
               )}
             </>
-          ) : productState?.product?.stock_status == "in_stock" ? (
+          ) : Number(productState?.product?.stock) > 0 && isAuthenticated ? (
             <Btn
               color="transparent"
               id={`add-to-cart'+${productState?.product?.id}`}
-              className={`${classes ? classes : ""}  ${productQty > 0 ? "active" : ""}`}
+              className={`${classes ? classes : "btn"}  ${productQty > 0 ? "active" : ""} font-bold text-xl px-8 py-4`}
               iconClass={iconClass ? iconClass : <RiAddLine />}
               onClick={() => {
                 productState?.product?.external_url ? window.open(productState?.product?.external_url, "_blank") : setCartCanvas(true);
@@ -103,12 +104,12 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                 productState?.product?.type === "classified" ? setVariationModal(productState?.product?.id) : setCartCanvas(!cartCanvas);
               }}
             >
-              <i className="ri-shopping-cart-line"></i>
+              <i className="ri-shopping-cart-line" style={{ fontSize: '20px' }}></i>
               <span> {!(productQty > 0) ? text : "Added"}</span>
             </Btn>
           ) : (
-            <Btn id={`out-of-stock'+${productState?.product?.id}`} className={classes ? classes : ""} disabled={true} iconClass={iconClass ? iconClass : <RiAddLine />}>
-              {text ? "Out of stock" : ""}
+            <Btn style={{ fontSize: '10px' }} id={`out-of-stock'+${productState?.product?.id}`} className={classes ? classes : ""} disabled={true} iconClass={iconClass ? iconClass : <RiAddLine />}>
+              {isAuthenticated && text ? "Out of stock" : "Login to proceed"}
             </Btn>
           )}
         </>
