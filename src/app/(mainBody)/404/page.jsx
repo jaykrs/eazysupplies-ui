@@ -10,5 +10,5 @@ const PageNotFound = () => {
   if (isLoading) return <Loader />;
   return <NotFoundPage />;
 };
-export const revalidate = 0;
+export const dynamic = 'force-dynamic';
 export default PageNotFound;
