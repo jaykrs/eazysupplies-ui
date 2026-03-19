@@ -20,11 +20,13 @@ const useHandleGSTLogin = (setShowBoxMessage, setState) => {
     onSuccess: (responseData, requestData) => {
       if (responseData.status === 200 || responseData.data?.success) {
         const finalCallBackUrl = Cookies.get("CallBackUrl") ? Cookies.get("CallBackUrl") : "/account/dashboard";
-        setShowBoxMessage(responseData.data?.message || "Login successful!");    
-        Cookies.set("uat", responseData.data?.access_token, { path: "/", expires: new Date(Date.now() + 24 * 60 * 6000) });
+        setShowBoxMessage(responseData.data?.message || "Login successful!");
+        const authToken =   Cookies.get("authToken");  
+        Cookies.set("uat", authToken, { path: "/", expires: new Date(Date.now() + 24 * 60 * 6000) });
             const ISSERVER = typeof window === "undefined";
-            if (typeof window !== "undefined") {
+            if (!ISSERVER) {
               Cookies.set("account", JSON.stringify(responseData.data));
+              Cookies.set("uat", authToken, { path: "/", expires: new Date(Date.now() + 24 * 60 * 6000) });
               localStorage.setItem("account", JSON.stringify(responseData.data));
             }
         // Close modal after success

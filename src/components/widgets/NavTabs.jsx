@@ -20,7 +20,15 @@ const NavTabTitles = ({ classes = {}, activeTab, setActiveTab, titleList, isLogo
     }
   };
 
+  const clearAllCookies = () => {
+  const allCookies = Cookies.get() // Gets an object of all cookies
+  Object.keys(allCookies).forEach(cookieName => {
+    Cookies.remove(cookieName, { path: '/' }) // Ensure path matches where it was set
+  })
+}
+
   const handleLogout = () => {
+    clearAllCookies();
     router.push(`/`);
     setAccountData();
     Cookies.remove("authToken");

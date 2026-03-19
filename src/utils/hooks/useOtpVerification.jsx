@@ -42,18 +42,15 @@ const LoginWithMobileHandle = (responseData, router, refetch, compareRefetch, Ca
   if (responseData.status === 200 || responseData.status === 201) {
     // SET COOKIES EXACTLY LIKE EMAIL LOGIN
     // 1. Set uat cookie (access token) - use a placeholder for OTP login
-    Cookies.set("uat", "phone-login-token", { 
-      path: "/", 
-      expires: new Date(Date.now() + 24 * 60 * 6000) // Same expiry as email login
-    });
-    
+    const authToken =   Cookies.get("authToken");  
+    Cookies.set("uat", authToken, { path: "/", expires: new Date(Date.now() + 24 * 60 * 6000) });
     // 2. Set account cookie with user data
     if (typeof window !== "undefined" && responseData.data) {
       Cookies.set("account", JSON.stringify(responseData.data), { 
         path: "/", 
         expires: new Date(Date.now() + 24 * 60 * 6000)
       });
-      
+      Cookies.set("uat", authToken, { path: "/", expires: new Date(Date.now() + 24 * 60 * 6000) });
       // 3. Set account in localStorage
       localStorage.setItem("account", JSON.stringify(responseData.data));
     }

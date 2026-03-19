@@ -27,7 +27,7 @@ const HeaderOne = () => {
     e.preventDefault(); 
 
     if (isAuthenticated) {
-      router.replace("/account/dashboard");
+      router.push("/account/dashboard");
     } else {
       setOpenAuthModal(true);
     }
