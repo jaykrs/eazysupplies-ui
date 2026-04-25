@@ -286,12 +286,12 @@ const ProductInformation = ({ productState }) => {
             <span className="info-value">{displayValue(product?.sku)}</span>
           </li>
           
-          {/* SKU Type - Always show with NA fallback */}
+          {/* SKU Type - Always show with NA fallback Hidden
           <li>
             <span className="info-label">{t("SKU Type")} : </span>
             <span className="info-value">{displayValue(product?.skuType)}</span>
           </li>
-
+        */}
           {/* Manufacturing Date - Always show with NA fallback */}
           {/*<li>
             <span className="info-label">{t("Mfd Date")} : </span>

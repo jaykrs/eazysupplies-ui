@@ -62,9 +62,9 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
           )}
           <div className="price-text">
             <h3>
-              <span className="text-dark fw-normal">MRP:</span>
+              <span className="text-dark fw-normal">Price : </span>
               {productState?.product?.price ? convertCurrency(productState?.product?.price) : convertCurrency(productState?.product?.price)}
-
+               / {productState?.product?.skuType} 
               {productState?.selectedVariation?.discount || productState?.product?.discount ? <del>{productState?.selectedVariation ? convertCurrency(productState?.selectedVariation?.price) : convertCurrency(productState?.product?.price)}</del> : null}
 
               {productState?.selectedVariation?.discount || productState?.product?.discount ? (

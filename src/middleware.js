@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { cookies } from 'next/headers';
 
 function noCacheHeaders(response) {
   response.headers.set(
@@ -7,12 +8,15 @@ function noCacheHeaders(response) {
   );
   response.headers.set("Pragma", "no-cache");
   response.headers.set("Expires", "0");
+  response.cookies.set('from-middleware', 'true');
   return response;
 }
 
 export async function middleware(request) {
   const { pathname, search } = request.nextUrl;
-
+  const cookieStore = await cookies();
+  const autht = cookieStore.get("authToken");
+  cookieStore.set('uat', autht);
   // ✅ Handle CORS for API routes
   if (pathname.startsWith("/api")) {
     const response = NextResponse.next();

@@ -328,9 +328,9 @@
   "ShoppingCart": "Shopping Cart",
   "Spend": "Spend",
   "moreandenjoy": "More and enjoy",
-  "FREESHIPPING!": "Free Shipping !",
+  "FREESHIPPING!": "Happy Shopping !",
   "Congratulations": "Congratulations",
-  "Enjoyfreeshippingonus": "Enjoy free shipping on us",
+  "Enjoyfreeshippingonus": "Enjoy Shopping with us",
   "Shippingandtaxesarecomputedatcheckout": "Shipping and taxes are computed at checkout",
   "NeverMissAnythingFromStoreBySigningUpToOurNewsletter": "Never Miss Anything From Store By Signing Up To Our Newsletter",
   "ViewCart": "View Cart",
@@ -466,8 +466,8 @@
   "Availability": "Availability",
   "Rating": "Rating",
   "Weight": "Weight",
-  "NoItemsAdded": "No Items Added",
-  "NoItemsAddedDescription": "It appears that nothing has been added to your cart. Explore categories if you want to.",
+  "NoItemsAdded": "Your Cart is Empty !",
+  "NoItemsAddedDescription": "Look like you haven't added anything to your cart.",
   "NoCompareItemsAddedDescription":"It appears that nothing has been added to your Compare. Explore categories if you want to.",  
   "Compare": "Compare",
   "EnterFullName": "Enter Full Name",
@@ -689,5 +689,6 @@
    "RegisterDescription": "Sign up for a free account at our store. Registration is quick and easy. It allows you to be able to order from our shop. To start shopping click register.",
   "EmailVerificationCode": "Email Verification",
   "EmailOtpDescription": "Enter the verification code sent to your email",
-  "selflife" : "Self Life"
+  "selflife" : "Self Life",
+  "Dimension" : "Packaging"
 }

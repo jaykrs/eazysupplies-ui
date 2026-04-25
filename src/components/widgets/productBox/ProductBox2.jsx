@@ -20,6 +20,11 @@ const getFirstOriginalUrl = (filesString) => {
   url.searchParams.set("file", trimmedFile);
   return url.toString();
 };
+
+const lowercase = (text) => {
+return text.toLowerCase();
+}
+
 const originalUrl = getFirstOriginalUrl(productState?.product?.productImage);
   const { convertCurrency } = useContext(SettingContext);
   return (
@@ -59,7 +64,7 @@ const originalUrl = getFirstOriginalUrl(productState?.product?.productImage);
               <h6>{ productState?.product?.brand?.name}</h6>
             </a>
             <h4 className="price">
-              {convertCurrency(productState?.product?.price)}
+              {convertCurrency(productState?.product?.price)} / {lowercase(productState?.product?.skuType)}
               {/* {productState?.selectedVariation ? convertCurrency(productState?.selectedVariation.sale_price) : convertCurrency(productState?.product?.sale_price)} Adjust currencySymbol based on your implementation
               {(productState?.selectedVariation ? productState?.selectedVariation.discount : productState?.product?.discount) ? (
                 <>
