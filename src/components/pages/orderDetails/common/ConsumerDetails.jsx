@@ -343,7 +343,8 @@ const ConsumerDetails = ({ data, taxData }) => {
                     <p className="text-muted small mb-0">Complete payment details and total amount</p>
                   </div>
                   <div className="order-id-badge-modern">
-                    Order #<span>{data.id}</span>
+                     <span>Order # {data.id}</span>
+                     <span><a className="link-primary small mb-0" href={`${process.env.API_PROD_URL}/invoice/${data.id}`} target="_blank">Invoice</a></span>
                   </div>
                 </div>
 
