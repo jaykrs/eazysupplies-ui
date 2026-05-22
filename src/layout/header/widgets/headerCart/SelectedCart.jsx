@@ -30,6 +30,16 @@ const SelectedCart = ({ modal, setSelectedVariation, setModal }) => {
     Cookies.set("CallBackUrl", "/checkout");
   };
 
+    const getFirstOriginalUrl = (filesString) => {
+      if (!filesString) return null;
+      const [firstFile] = filesString.split(",");
+      if (!firstFile) return null;
+      const trimmedFile = firstFile.trim();
+      const url = new URL(process.env.NEXT_PUBLIC_FILE_API_URL);
+      url.searchParams.set("file", trimmedFile);
+      return url.toString();
+};
+
   useEffect(() => {
     cartProducts?.filter((elem) => {
       if (elem?.variation) {
@@ -48,7 +58,8 @@ const SelectedCart = ({ modal, setSelectedVariation, setModal }) => {
             <li className="product-box-contain" key={i}>
               <div className="media">
                 <Link href={`/product/${elem?.product?.id}`}>
-                  <Avatar customClass={""} data={elem?.variation?.variation_image ?? elem?.product?.product_thumbnail} placeHolder={placeHolderImage} name={elem?.product?.name} height={72} width={87} />
+                
+                <Avatar customClass={""} data={elem?.product?.productIcon ? getFirstOriginalUrl(elem?.product?.productIcon) : placeHolderImage} placeHolder={elem?.product?.productIcon ? getFirstOriginalUrl(elem?.product?.productIcon) : placeHolderImage} name={elem?.product?.name} height={72} width={87} />
                 </Link>
                 <div className="media-body">
                   <Link href={`/product/${elem?.product?.id}`}>
