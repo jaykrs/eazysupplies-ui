@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Col, Row, Table } from "reactstrap";
 import NoDataFound from "../widgets/NoDataFound";
 import CartData from "./CartData";
+import Link from 'next/link';
 
 const ShowCartData = () => {
   const { getTotal, cartProducts } = useContext(CartContext);
@@ -63,7 +64,12 @@ const ShowCartData = () => {
           </Col>
         </>
       ) : (
-        <NoDataFound customClass="no-data-added" imageUrl={`/assets/svg/empty-items.svg`} title="NoItemsAdded" description="NoItemsAddedDescription" height={230} width={270} />
+       <div className="empty-cart-message text-center">
+  <h4>Your cart is empty.</h4>
+  <Link href="/" className="btn btn-solid mt-3">
+    Return to Home
+  </Link>
+</div>
       )}
     </Row>
   );

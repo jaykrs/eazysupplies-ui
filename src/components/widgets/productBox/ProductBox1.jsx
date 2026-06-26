@@ -23,7 +23,7 @@ const ProductBox1 = ({ productState, setProductState }) => {
         </div>
 
         <div className="cart-info">
-          <CartButton classes={"addto-cart-bottom"} productState={productState} selectedVariation={productState?.selectedVariation} text="Add to Cart" />
+          <CartButton classes={"addto-cart-bottom d-flex justify-content-center align-items-center w-100"} productState={productState} selectedVariation={productState?.selectedVariation} text="Add to Cart" />
           <ProductHoverButton productstate={productState?.product} />
         </div>
 

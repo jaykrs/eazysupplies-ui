@@ -24,7 +24,7 @@ const ProfileInformation = () => {
               </li>
               <li>
                 <h6>
-                  {t("Phone")} : +{accountData?.data?.countryCode} {accountData?.data?.phone}
+                  {t("Phone")} : {accountData?.data?.countryCode} {accountData?.data?.phone}
                 </h6>
               </li>
               {/* {accountData?.address[0] ? (

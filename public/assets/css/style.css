@@ -15250,7 +15250,10 @@ header.stickycls {
 }
 
 .recently-purchase .media-body .product-name {
-    color: var(--theme-color)
+    color: var(--theme-color);
+    white-space: normal !important;
+word-wrap: break-word;
+overflow-wrap: break-word;
 }
 
 .recently-purchase .media-body .timeAgo {
@@ -23798,7 +23801,10 @@ header.stickycls {
 }
 
 .compare-page .table-wrapper .table .product-name {
-    width: 15%
+    width: 15%;
+    white-space: normal ;
+word-wrap: break-word;
+overflow-wrap: break-word;
 }
 
 .compare-page .table-wrapper .table .featured-image {

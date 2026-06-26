@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { RiAddLine, RiDeleteBinLine, RiSubtractLine } from "react-icons/ri";
 import { Input } from "reactstrap";
 import Cookies from "js-cookie";
-
+import Link from 'next/link';
 const CartButton = ({ productState, text, classes, iconClass = true, quantity = false, selectedVariation }) => {
   const { cartProducts, handleIncDec } = useContext(CartContext);
   const { cartCanvas, setCartCanvas } = useContext(ThemeOptionContext);
@@ -109,7 +109,7 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
             </Btn>
           ) : (
             <Btn style={{ fontSize: '10px' }} id={`out-of-stock'+${productState?.product?.id}`} className={classes ? classes : ""} disabled={true} iconClass={iconClass ? iconClass : <RiAddLine />}>
-              {isAuthenticated && text ? "Out of stock" : "Login to proceed"}
+            {isAuthenticated && text ? "Out of stock" : <Link href="/auth/login" className="text-decoration-underline" style={{ color: 'inherit' }}>Login to proceed</Link>}
             </Btn>
           )}
         </>

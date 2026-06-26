@@ -793,7 +793,8 @@
       width: calc(190px + (240 - 190) * ((100vw - 320px) / (1920 - 320)));
       overflow: hidden;
       text-overflow: ellipsis;
-      white-space: nowrap;
+      white-space: normal;
+      word-wrap: break-word;
       display: block;
       font-size: calc(11px + (14 - 11) * ((100vw - 320px) / (1920 - 320)));
     }
