@@ -10,7 +10,7 @@ const RightVariationModal = ({ cloneVariation }) => {
   const { t } = useTranslation("common");
   return (
     <>
-      <h2 className="main-title">{cloneVariation?.selectedVariation ? cloneVariation?.selectedVariation?.name : cloneVariation?.product?.name}</h2>
+<h2 className="main-title text-break">{cloneVariation?.selectedVariation ? cloneVariation?.selectedVariation?.name : cloneVariation?.product?.name}</h2>
       <div className="product-rating">
         <ProductRating totalRating={cloneVariation?.product?.rating_count} />
         <span className="divider">|</span>
@@ -33,7 +33,7 @@ const RightVariationModal = ({ cloneVariation }) => {
         </h3>
         <span>{t("InclusiveAllTheText")} </span>
       </div>
-      <TextLimit classes="description-text" value={cloneVariation?.product?.short_description} maxLength={200} tag={"p"} />
+     <TextLimit classes="description-text text-break" value={cloneVariation?.product?.short_description} maxLength={200} tag={"p"} />
     </>
   );
 };

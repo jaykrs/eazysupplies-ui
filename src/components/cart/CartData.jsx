@@ -25,7 +25,7 @@ const CartData = ({ elem }) => {
     <tr>
       <CartProductDetail elem={elem} />
       <td>
-        <Link href={`/product/${elem?.product?.id}`}>{ elem?.product?.name}</Link>
+        <Link href={`/product/${elem?.product?.id}`} className="text-wrap text-break">{ elem?.product?.name}</Link>
         <Row className="mobile-cart-content">
           <Col>
             <div className="qty-box">

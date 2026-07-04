@@ -24,7 +24,13 @@ const HandleQuantity = ({ classes = {}, productObj, elem, customIcon }) => {
   const handleIncrease = useCallback(() => {
     handleIncDec(1, productObj, productQty, setProductQty, false, elem);
   }, [handleIncDec, productObj, productQty, elem]);
-
+const handleChange = (e) => {
+  const newQty = parseInt(e.target.value, 10);
+  if (!isNaN(newQty) && newQty > 0) {
+    const diff = newQty - productQty;
+    handleIncDec(diff, productObj, productQty, setProductQty, false, elem);
+  }
+};
   return (
     <div className="qty-box">
       <InputGroup>
@@ -33,7 +39,7 @@ const HandleQuantity = ({ classes = {}, productObj, elem, customIcon }) => {
             {customIcon && productQty <= 1 ? customIcon : <RiSubtractLine />}
           </Btn>
         </span>
-        <Input className="input-number qty-input" type="text" name="quantity" value={productQty} readOnly />
+      <Input className="input-number qty-input" type="number" name="quantity" value={productQty} onChange={handleChange} />
         <span className="input-group-prepend" onClick={handleIncrease}>
           <Btn className="quantity-left-plus" id="quantity-left-plus" type="button">
             <RiAddLine />

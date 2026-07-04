@@ -140,11 +140,12 @@ const NotificationItem = memo(({
   }, [notification]);
   
   const remarks = getNotificationMessage();
-  const truncatedRemarks = remarks && remarks.length > 180 ? remarks.substring(0, 180) + "..." : remarks || "";
+  // Strip HTML tags for the short text preview to prevent broken rendering
+  const plainTextRemarks = remarks ? remarks.replace(/<[^>]+>/g, '').trim() : "";
+  const truncatedRemarks = plainTextRemarks.length > 180 ? plainTextRemarks.substring(0, 180) + "..." : plainTextRemarks;
   const email = remarks?.match(/[\w\.-]+@[\w\.-]+\.\w+/)?.[0] || "";
   const activationLink = remarks?.match(/https?:\/\/[^\s]+/g)?.[0] || "";
-  const isLongText = remarks && remarks.length > 180;
-  
+  const isLongText = plainTextRemarks.length > 180;
   // Get notification type
   const getNotificationType = useCallback(() => {
     if (notification?.type) return notification.type;
@@ -230,7 +231,7 @@ const NotificationItem = memo(({
               <span className="notification-type-modern">
                 {type}
               </span>
-              {getRecipientDisplay()}
+              
             </div>
           </div>
         </div>
@@ -246,12 +247,14 @@ const NotificationItem = memo(({
         </div>
       </div>
       
-      <div className="notification-body-modern">
-        <div 
-          className={`notification-message-modern ${isExpanded ? 'expanded' : 'collapsed'}`}
-        
-          dangerouslySetInnerHTML={{ __html: isExpanded ? remarks : truncatedRemarks }}
-        />
+     <div className="notification-body-modern">
+        <div className={`notification-message-modern ${isExpanded ? 'expanded' : 'collapsed'}`}>
+          {isExpanded ? (
+            <div dangerouslySetInnerHTML={{ __html: remarks }} />
+          ) : (
+            <div className="notification-short-text">{truncatedRemarks}</div>
+          )}
+        </div>
         {isLongText && (
           <button 
             className="expand-toggle-btn-modern"
