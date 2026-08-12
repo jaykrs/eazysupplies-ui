@@ -7,7 +7,7 @@ const useCustomDataQuery = ({ params }) => {
     ["data", params],
     async () => {
       const response = await request({ url: `${BASE_URL}${GetHomePageData}` });
-      return response?.data?.jsonData?.data?.content;
+      return response?.data?.jsonData?.data?.content || {};
     },
     {
       select: (data) => data,

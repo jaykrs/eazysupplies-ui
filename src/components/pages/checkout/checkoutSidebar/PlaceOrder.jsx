@@ -5,13 +5,17 @@ import { CreateOrderAPI } from "@/utils/axiosUtils/API";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from 'next/navigation';
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { ToastNotification } from "@/utils/customFunctions/ToastNotification";
 
 const PlaceOrder = ({ values, addToCartData, errors }) => {
   const { t } = useTranslation("common");
   const access_token = Cookies.get("uat");
   const [disable, setDisable] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const submissionLock = useRef(false);
+  const idempotencyKey = useRef(null);
   const { cartProducts, clearCart } = useContext(CartContext);
   const { accountData } = useContext(AccountContext);
   const router = useRouter();
@@ -26,22 +30,31 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
   }, [access_token, values, errors]);
 
   const handleClick = async() => {
+    if (!access_token) {
+      ToastNotification("info", "Please log in to complete checkout. Your cart has been saved.");
+      router.push("/auth/login?redirect=/checkout");
+      return;
+    }
+    if (submissionLock.current) return;
     // alert("llll")
     const tempProduct = []
     cartProducts?.map((data, index) => {
       tempProduct?.push({
         "productId": data?.product_id,
         "quantity": data?.quantity,
-        "price": data?.sub_total
+        "price": data?.product?.price
       })
     })
     // console.log(cartProducts,tempProduct, "uuuuu")
 
     if (!tempProduct || tempProduct.length === 0) {
-      alert("Cart is empty!");
+      ToastNotification("warn", "Your cart is empty. Add an item before checkout.");
       return;
     }
 
+    submissionLock.current = true;
+    setIsSubmitting(true);
+    idempotencyKey.current ||= globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`;
     await axios({
       method: "POST",
       url: CreateOrderAPI,
@@ -66,16 +79,22 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
           note: "First test order"
         }
       },
+      headers: { "Idempotency-Key": idempotencyKey.current },
       withCredentials: true
     })
       .then(res => {
-        alert('Order successfully placed!');
+        ToastNotification("success", "Order placed successfully. You can track it in My Orders.");
         clearCart();
+        idempotencyKey.current = null;
         router.push('/account/order');
       })
       .catch(err => {
         console.log(err);
-        alert('Something went wrong, please try again.');
+        ToastNotification("error", err?.response?.data?.error || "We couldn't place the order. Your cart is still saved; please try again.");
+      })
+      .finally(() => {
+        submissionLock.current = false;
+        setIsSubmitting(false);
       });
 
 
@@ -115,8 +134,8 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
   };
   return (
     <div className="text-end">
-      <Btn className="order-btn" onClick={handleClick}>
-        {t("PlaceRequest")}
+      <Btn className="order-btn" onClick={handleClick} disabled={isSubmitting || cartProducts?.length === 0}>
+        {isSubmitting ? "Placing order..." : t("PlaceRequest")}
       </Btn>
       {/* {addToCartData?.is_digital_only ? (
         <Btn className="order-btn" onClick={handleClick} disabled={values["billing_address_id"] && values["payment_method"] ? false : true}>

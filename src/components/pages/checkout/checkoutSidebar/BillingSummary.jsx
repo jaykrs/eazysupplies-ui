@@ -38,7 +38,7 @@ const BillingSummary = ({ data, values, setFieldValue, isLoading, mutate, storeC
                 </li>
                 <li>
                   {t("Shipping")}
-                  <span className="count">{convertCurrency("0")}</span>
+                  <span className="count">Calculated after order review</span>
                 </li>
                 <li>
                   {t("Tax")}

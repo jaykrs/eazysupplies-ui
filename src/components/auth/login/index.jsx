@@ -5,10 +5,12 @@ import useHandleLogin from "@/utils/hooks/useLogin";
 import { YupObject, emailSchema, passwordSchema } from "@/utils/validation/ValidationSchema";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import { Col, Container, FormGroup, Row } from "reactstrap";
 
 const LoginContainer = () => {
-  const { mutate } = useHandleLogin();
+  const [message, setMessage] = useState("");
+  const { mutate, isPending } = useHandleLogin(setMessage);
   const { t } = useTranslation("common");
   return (
     <>
@@ -19,10 +21,11 @@ const LoginContainer = () => {
             <Col lg="6">
               <h3>Login</h3>
               <div className="theme-card">
+                {message && <div className="alert alert-danger" role="alert">{message}</div>}
                 <Formik
                   initialValues={{
-                    email: "john.customer@example.com",
-                    password: "123456789",
+                    email: "",
+                    password: "",
                   }}
                   validationSchema={YupObject({
                     email: emailSchema,
@@ -42,7 +45,7 @@ const LoginContainer = () => {
                         <Field name="password" type="password" className="form-control" id="review" placeholder="Enter your password" required />
                         {errors.password && touched.password && <ErrorMessage name="password" render={(msg) => <div className="invalid-feedback d-block">{errors.password}</div>} />}
                       </FormGroup>
-                      <Btn  type="submit" className="btn-solid">
+                      <Btn type="submit" className="btn-solid" loading={isPending} disabled={isPending}>
                         {t("Login")}
                       </Btn>
                     </Form>

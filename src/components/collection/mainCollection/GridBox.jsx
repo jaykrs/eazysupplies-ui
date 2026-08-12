@@ -18,9 +18,9 @@ const GridBox = ({ grid, setGrid }) => {
         <li className={` ${grid == 4 ? "active" : ""}`} onClick={() => setGrid(4)}>
           <Image src={`${ImagePath}/icon/4.png`} className="product-4-layout-view" alt="grid image" height={16} width={25} />
         </li>
-        {/* <li className={` ${grid == "list" ? "active" : ""}`} onClick={() =>  {setGrid("list"),setVariant('product_box_eleven')}}>
+        <li className={` ${grid == "list" ? "active" : ""}`} onClick={() => { setGrid("list"); setVariant("product_box_eleven"); }}>
           <Image src={`${ImagePath}/icon/list.png`} className="product-6-layout-view" alt="grid image" height={12} width={18} />
-        </li> */}
+        </li>
       </ul>
     </div>
   );

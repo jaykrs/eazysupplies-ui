@@ -67,7 +67,7 @@ const ShowCartData = () => {
        <div className="empty-cart-message text-center">
   <h4>Your cart is empty.</h4>
   <Link href="/" className="btn btn-solid mt-3">
-    Return to Home
+    Return to Shop
   </Link>
 </div>
       )}

@@ -12,7 +12,9 @@ import Cookies from "js-cookie";
  * - Cookies (withCredentials)
  */
 const client = axios.create({
-  baseURL: process.env.API_PROD_URL, 
+  baseURL: process.env.NEXT_PUBLIC_API_URL
+    ? `${process.env.NEXT_PUBLIC_API_URL}/api`
+    : process.env.API_PROD_URL,
   withCredentials: true, // IMPORTANT: send cookies on every request
   headers: {
     Accept: "application/json",

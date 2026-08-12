@@ -90,8 +90,8 @@ const CartProvider = (props) => {
         return removeCart(cloneVariation?.variation_id || productObj?.id);
       }
 
-      const productStockQty = cart[index]?.variation?.quantity || cart[index]?.product?.quantity;
-      if (productStockQty < newQuantity) {
+      const productStockQty = Number(cart[index]?.variation?.quantity ?? cart[index]?.product?.stock ?? 0);
+      if (newQuantity > productStockQty) {
         ToastNotification("error", `Only ${productStockQty} items in stock.`);
         return false;
       }
@@ -105,7 +105,7 @@ const CartProvider = (props) => {
     }
 
     // Update local qty and UI triggers
-    setIsProductQty && setIsProductQty(updatedQty);
+    setIsProductQty && setIsProductQty(index === -1 ? updatedQty : Math.max(0, cart[index]?.quantity ?? updatedQty));
     isOpenFun && isOpenFun(true);
   };
 

@@ -3,6 +3,7 @@ import useFetchQuery from "@/utils/hooks/useFetchQuery";
 import { useEffect, useState } from "react";
 import MenuList from "./MenuList";
 import { BASE_URL } from "@/utils/axiosUtils/API";
+import Link from "next/link";
 
 const MainHeaderMenu = () => {
   const [isOpen, setIsOpen] = useState([]);
@@ -43,6 +44,11 @@ const MainHeaderMenu = () => {
         </ul>
       ) : (
         <ul className="navbar-nav">
+          <li className="nav-item">
+            <Link className="dropdown-item" href="/collections?layout=collection_3_grid">
+              All Products
+            </Link>
+          </li>
           {headerMenu?.map((menu, i) => (
             <MenuList menu={menu} key={i} customClass={`${!menu?.path ? "dropdown" : ""} nav-item `} level={0} isOpen={isOpen} setIsOpen={setIsOpen} />
           ))}

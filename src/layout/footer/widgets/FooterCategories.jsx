@@ -16,8 +16,8 @@ const FooterCategories = () => {
     <div className="footer-content">
       {themeOption?.footer?.footer_categories?.length ? (
         <ul>
-          {themeOption?.footer?.footer_categories?.map((category) => (
-            <li key={category.id}>
+          {themeOption?.footer?.footer_categories?.map((category, index) => (
+            <li key={category?.id ?? `${category?.name}-${index}`}>
               <Link href={`/collections?category=${category?.id}`+`&title=${category.name}`} className="text-content">
                 {t(category?.name)}
               </Link>

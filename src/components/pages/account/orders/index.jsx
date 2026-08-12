@@ -2,7 +2,6 @@
 import WrapperComponent from "@/components/widgets/WrapperComponent";
 import Breadcrumb from "@/utils/commonComponents/breadcrumb";
 import { Col, TabPane } from "reactstrap";
-import AccountSidebar from "../common/AccountSidebar";
 import ResponsiveMenuOpen from "../common/ResponsiveMenuOpen";
 import MyOrders from "./MyOrders";
 import AccountContext from "@/context/accountContext";
@@ -18,8 +17,7 @@ const AccountOrders = () => {
     <>
       <Breadcrumb title={"Order"} subNavigation={[{ name: "Order" }]} />
       <WrapperComponent classes={{ sectionClass: "dashboard-section section-b-space user-dashboard-section", fluidClass: "container" }} customCol={true}>
-        <AccountSidebar tabActive={"order"} />
-        <Col lg={9}>
+        <Col lg={12}>
           <div className="faq-content">
             <div className="tab-content">
               <ResponsiveMenuOpen />

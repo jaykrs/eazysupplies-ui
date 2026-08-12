@@ -15,7 +15,8 @@ import SearchDropDown from "./SearchDropdown";
 const FullSearch = () => {
   const { t } = useTranslation("common");
   const [searchValue, setSearchValue] = useState("");
-  const { searchList } = useContext(ProductContext);
+  const { productData, productRefetch } = useContext(ProductContext);
+  const searchList = (productData?.data || productData || []).filter((item) => String(item?.name || item?.title || "").toUpperCase() !== "DEFAULT");
   const [searchArr, setSearchArray] = useState([]);
   const [paginate, setPaginate] = useState(4);
   const pathName = usePathname();
@@ -26,6 +27,10 @@ const FullSearch = () => {
   const [selectedItemIndex, setSelectedItemIndex] = useState(null);
   const router = useRouter();
   const { data: categoryData, refetch, isLoading: categoryIsLoading } = useFetchQuery(["CategoryAPIMinimalSearch"], () => request({ url: CategoryAPI, params: { status: 1, paginate: 4, search: categoryCustomSearch ? categoryCustomSearch : null } }), { enabled: false, refetchOnWindowFocus: false, select: (data) => data.data.data });
+
+  useEffect(() => {
+    productRefetch?.();
+  }, [productRefetch]);
 
   useEffect(() => {
     setSelectedItemIndex(null);
@@ -62,14 +67,14 @@ const FullSearch = () => {
   };
 
   useEffect(() => {
-    const search = searchList?.filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()));
+    const search = searchList?.filter((item) => String(item?.name || item?.title || "").toLowerCase().includes(searchValue.toLowerCase()));
     setSearchArray(search);
   }, [searchValue]);
   
   const handleEnterKey = () => {
     if (selectedItemIndex !== null) {
       const selectedItem = searchArr[selectedItemIndex];
-      router.push(`/product/${selectedItem.slug}`);
+      router.push(`/product/${selectedItem.slug || selectedItem.id}`);
     }
   };
 
@@ -85,7 +90,7 @@ const FullSearch = () => {
       if (selectedItemElement) {
         selectedItemElement.scrollIntoView({ behavior: "smooth", block: "center" });
       }
-      setSearchValue(searchArr[newIndex]?.title);
+      setSearchValue(searchArr[newIndex]?.name || searchArr[newIndex]?.title || "");
       setSelectedItemIndex(newIndex);
     }
   };

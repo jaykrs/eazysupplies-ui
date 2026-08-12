@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { cookies } from 'next/headers';
 
 function noCacheHeaders(response) {
   response.headers.set(
@@ -53,20 +52,6 @@ export async function middleware(request) {
 
   const urlSearchParams = new URLSearchParams(search);
   const params = Object.fromEntries(urlSearchParams.entries());
-
-  let myHeaders = new Headers();
-  myHeaders.append("Authorization", `Bearer ${request.cookies.get("uat")?.value}`);
-
-  let requestOptions = {
-    method: "GET",
-    headers: myHeaders,
-  };
-
-  let settingData = await (
-    await fetch(process.env.API_PROD_URL + "/settings", requestOptions, {
-      cache: "no-store", // 🔥 important
-    })
-  )?.json();
 
   const protectedRoutes = [
     `/account/dashboard`,

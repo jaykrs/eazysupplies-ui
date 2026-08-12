@@ -34,16 +34,7 @@ const ContactLeftSideBox = () => {
             </div>
             <Media body>
               <h6>{themeOption?.contact_us?.detail_3?.label}</h6>
-              <p>{themeOption?.contact_us?.detail_3?.text}</p>
-            </Media>
-          </li>
-          <li>
-            <div className="contact-icon">
-              <RiCellphoneFill />
-            </div>
-            <Media body>
-              <h6>{themeOption?.contact_us?.detail_4?.label}</h6>
-              <p>{themeOption?.contact_us?.detail_4?.text}</p>
+              <p><a href="mailto:info@eazysupplies.com">info@eazysupplies.com</a></p>
             </Media>
           </li>
         </ul>

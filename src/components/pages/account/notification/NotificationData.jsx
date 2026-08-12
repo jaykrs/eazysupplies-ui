@@ -205,12 +205,7 @@ const NotificationItem = memo(({
       );
     }
     
-    // For other recipients, show generic
-    return (
-      <span className="notification-recipient-modern">
-        👤 User {recipient}
-      </span>
-    );
+    return null;
   }, [notification.recepient, currentUserId]);
   
   return (
@@ -289,7 +284,7 @@ const NotificationItem = memo(({
                   rel="noopener noreferrer"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  Open Activation Link
+                  Activate Account
                 </a>
               </div>
             )}

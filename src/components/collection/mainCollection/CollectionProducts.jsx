@@ -28,45 +28,22 @@ const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
   const fetchData = async () => {
     // console.log(filter?.category.length, filter, "uuuuu")
 
-    const allCategory = filter?.category?.join(",")
-    const allBrand = filter?.brand?.join(",")
-
-    if (filter?.category?.length > 0) {
-      axios({
-        url: ProductBySlugAPI + `category=${allCategory}&slug=n`,
-        method: "get"
-      }).then((res) => {
-        setData1(res.data?.items)
-      }, (err) => {
-        console.log(err)
-      })
-    } else if (filter?.brand?.length > 0) {
-      axios({
-        url: ProductBySlugAPI + `brand=${allBrand}&slug=n`,
-        method: "get"
-      }).then((res) => {
-        setData1(res.data?.items)
-      }, (err) => {
-        console.log(err)
-      })
-    } else if (filter?.brand?.length > 0 && filter?.category?.length > 0) {
-      axios({
-        url: ProductBySlugAPI + `brand=${allBrand}&category=${allCategory}&slug=n`,
-        method: "get"
-      }).then((res) => {
-        setData1(res.data?.items)
-      }, (err) => {
-        console.log(err)
-      })
-    } else {
-      axios({
-        url: ProductAPI,
-        method: "get"
-      }).then((res) => {
-        setData1(res.data.data)
-      }, (err) => {
-        console.log(err)
-      })
+    try {
+      const response = await axios.get(ProductAPI, {
+        params: {
+          status: 1,
+          page,
+          paginate: filter?.paginate || 12,
+          category_ids: filter?.category?.join(",") || undefined,
+          brand_ids: filter?.brand?.join(",") || undefined,
+          sort: filter?.sortBy || "asc",
+          field: filter?.field || "createdAt",
+        },
+      });
+      setData1(response.data?.data || []);
+    } catch (error) {
+      console.error("Unable to load filtered products", error);
+      setData1([]);
     }
     // return request({
     //   url: ProductAPI,
