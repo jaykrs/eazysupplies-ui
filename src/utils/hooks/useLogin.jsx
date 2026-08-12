@@ -35,9 +35,9 @@ const LoginHandle = (responseData, router, refetch, CallBackUrl, setShowBoxMessa
     if (typeof window !== "undefined") {
       Cookies.set("account", JSON.stringify(responseData.data));
       localStorage.setItem("account", JSON.stringify(responseData.data));
-      setShowBoxMessage(responseData.data?.message)
+      setShowBoxMessage(responseData.data?.message);
     }
-    // router.push(`${CallBackUrl}`);
+    router.push(CallBackUrl);
 
     refetch();
     // compareRefetch();
@@ -56,7 +56,7 @@ const LoginHandle = (responseData, router, refetch, CallBackUrl, setShowBoxMessa
   }
 };
 
-const useHandleLogin = (setShowBoxMessage) => {
+const useHandleLogin = (setShowBoxMessage = () => {}) => {
   const { setOpenAuthModal } = useContext(ThemeOptionContext);
   // const { mutate } = useCreate(SyncCart, false, false, "No");
   // const { addToWishlist } = useContext(WishlistContext);
@@ -66,7 +66,15 @@ const useHandleLogin = (setShowBoxMessage) => {
   // const { refetch: cartRefetch } = useContext(CartContext);
   // const { refetch: compareRefetch } = useContext(CompareContext);
   const router = useRouter();
-  return useMutation({ mutationFn: (data) => request({ url: BASE_URL + LoginAPI, method: "post", data, withCredentials: true }), onSuccess: (responseData) => LoginHandle(responseData, router, refetch, CallBackUrl, setShowBoxMessage, setOpenAuthModal), onError: (err) => setShowBoxMessage(typeof (err) == 'string' ? err : typeof (err) == 'object' ? JSON.stringify(err) : "") });
+  return useMutation({
+    mutationFn: async (data) => {
+      const response = await request({ url: BASE_URL + LoginAPI, method: "post", data, withCredentials: true });
+      if (response?.response) throw response;
+      return response;
+    },
+    onSuccess: (responseData) => LoginHandle(responseData, router, refetch, CallBackUrl, setShowBoxMessage, setOpenAuthModal),
+    onError: (err) => setShowBoxMessage(err?.response?.data?.error || err?.message || "Unable to log in"),
+  });
 };
 
 export default useHandleLogin;

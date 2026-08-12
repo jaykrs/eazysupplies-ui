@@ -21,12 +21,10 @@ const FooterStoreInformation = ({ icon }) => {
           {t("CallUs")}: {themeOption?.footer?.support_number}
         </li>
       )}
-      {themeOption?.footer?.about_email && (
-        <li>
-          {icon && <RiMailLine />}
-          {t("EmailUs")}: {themeOption?.footer?.about_email}
-        </li>
-      )}
+      <li>
+        {icon && <RiMailLine />}
+        {t("EmailUs")}: <a href="mailto:info@eazysupplies.com">info@eazysupplies.com</a>
+      </li>
     </ul>
   );
 };

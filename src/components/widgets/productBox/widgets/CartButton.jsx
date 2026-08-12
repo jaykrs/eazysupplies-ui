@@ -14,7 +14,6 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
   const { t } = useTranslation("common");
   const [productQty, setProductQty] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-  const isAuthenticated = Cookies.get("uat");
   const getSelectedVariant = useMemo(() => {
     return cartProducts.find((elem) => (elem?.variation_id ? elem?.variation_id == productState?.selectedVariation?.id : elem.product_id === productState?.product?.id));
   }, [cartProducts, productState]);
@@ -47,7 +46,7 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
         <>
           {quantity ? (
             <>
-              {Number(productState?.product?.stock) > 0 && isAuthenticated ? (
+              {Number(productState?.product?.stock) > 0 ? (
                 <button
                   id={`add-to-cart${productState?.product?.id}`}
                   className="add-button add_cart"
@@ -60,7 +59,7 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                 </button>
               ) : (
                 <button id={`add-to-cart${productState?.product?.id}`} className="add-button add_cart" disabled>
-                  {isAuthenticated ? t("OutOfStock") : ""}
+                  {t("OutOfStock")}
                 </button>
               )}
 
@@ -77,7 +76,12 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                     >
                       {productQty > 1 ? <RiSubtractLine /> : <RiDeleteBinLine />}
                     </Btn>
-                    <Input className="form-control input-number qty-input" type="text" name="quantity" value={productQty} readOnly />
+                    <Input className="form-control input-number qty-input" type="number" min="1" max={productState?.product?.stock} name="quantity" value={productQty} onChange={(event) => {
+                      const requested = Number(event.target.value);
+                      if (Number.isInteger(requested) && requested >= 1) {
+                        handleIncDec(requested - productQty, productState?.product, productQty, setProductQty, setIsOpen, getSelectedVariant || null);
+                      }
+                    }} />
                     <Btn
                       type="button"
                       className="btn quantity-right-plus"
@@ -92,7 +96,7 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                 </div>
               )}
             </>
-          ) : Number(productState?.product?.stock) > 0 && isAuthenticated ? (
+          ) : Number(productState?.product?.stock) > 0 ? (
             <Btn
               color="transparent"
               id={`add-to-cart'+${productState?.product?.id}`}
@@ -109,7 +113,7 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
             </Btn>
           ) : (
             <Btn style={{ fontSize: '10px' }} id={`out-of-stock'+${productState?.product?.id}`} className={classes ? classes : ""} disabled={true} iconClass={iconClass ? iconClass : <RiAddLine />}>
-            {isAuthenticated && text ? "Out of stock" : <Link href="/auth/login" className="text-decoration-underline" style={{ color: 'inherit' }}>Login to proceed</Link>}
+            {text ? "Out of stock" : t("OutOfStock")}
             </Btn>
           )}
         </>

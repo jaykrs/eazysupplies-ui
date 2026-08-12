@@ -10,7 +10,7 @@ const RecursiveCategory = ({ categories }) => (
         <Link
           href={{
             pathname: `/collections`,
-            query: { category: category?.slug },
+            query: { category: category?.id },
           }}
         >
           {category.name}
@@ -66,7 +66,7 @@ const SearchDropDown = React.forwardRef((props, ref) => {
                   <Image height={50} width={50} src={data?.original_url ? data?.original_url : "/assets/images/placeholder.png"} alt="product image" />
                 </div>
                 <div className="suggestion-category">
-                  <Link href={`/product/${data?.slug}`}>{data.title}</Link>
+                  <Link href={`/product/${data?.slug || data?.id}`}>{data?.name || data?.title}</Link>
                   <div>
                     {data?.categories?.map((category, index) => (
                       <p key={index}>

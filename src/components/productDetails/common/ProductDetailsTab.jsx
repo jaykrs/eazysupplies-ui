@@ -31,8 +31,21 @@ const ProductDetailsTab = ({ productState }) => {
             }
           `}</style>
           <div className={`product-description more-less-box ${showMore ? "more" : ""}`}>
-{productState?.product?.description?.length > 1500 ? showMore ? <TextLimit classes={'more-text'} value={productState?.product?.description} /> : <TextLimit classes={'more-text'} value={productState?.product?.description?.substring(0, productState?.product?.description?.length / 2)} /> : <TextLimit classes={'more-text'} value={productState?.product?.description} />}
-            {productState?.product?.description?.length > 1500 && <Btn className="btn-solid hover-solid bg-theme btn-md scroll-button btn-sm mt-3 more-lest-btn" onClick={seeMore}>
+  <ul style={{ listStyleType: "disc", paddingLeft: "1.5rem" }}>
+    {(showMore || productState?.product?.description?.length <= 1500
+      ? productState?.product?.description
+      : productState?.product?.description?.substring(0, productState?.product?.description?.length / 2) + "..."
+    )
+      ?.split("\n")
+      .filter((line) => line.trim() !== "")
+      .map((line, index) => (
+        <li key={index} className="text-content" style={{ marginBottom: "0.5rem", display: "list-item" }}>
+          {line}
+        </li>
+      ))}
+  </ul>
+    {productState?.product?.description?.length > 1500 && <Btn className="btn-solid hover-solid bg-theme btn-md scroll-button btn-sm mt-3 more-lest-btn" onClick={seeMore}>
+              {showMore ? "Show Less" : "Show more"}
               <RiArrowDownSLine />
             </Btn>}
           </div>

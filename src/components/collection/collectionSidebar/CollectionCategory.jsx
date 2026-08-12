@@ -10,9 +10,8 @@ import { AccordionBody, Input, Label } from "reactstrap";
 
 const CollectionCategory = ({ filter, setFilter }) => {
   const [brand, attribute, price, rating, sortBy, field, layout] = useCustomSearchParams(["brand", "attribute", "price", "rating", "sortBy", "field", "layout"]);
-  // const { filterCategory } = useContext(CategoryContext);
-  const showList1 = JSON.parse( localStorage.getItem("categoryList"))
-  const [showList, setShowList] = useState(JSON.parse(localStorage.getItem("categoryList")));
+  const { categoryData = [] } = useContext(CategoryContext);
+  const [showList, setShowList] = useState([]);
   const [state, setState] = useState(false);
   const { t } = useTranslation("common");
 
@@ -48,12 +47,12 @@ const CollectionCategory = ({ filter, setFilter }) => {
     setState(!state);
     const keyword = event.target.value.toLowerCase();
     if (keyword !== "") {
-      const updatedData = filterCategory("product")
+      const updatedData = categoryData
         ?.map((item) => filterCategories(item, keyword))
         .filter((item) => item);
       setShowList(updatedData);
     } else {
-      setShowList(filterCategory("product"));
+      setShowList(categoryData);
     }
   };
   const redirectToCollection = (event, slug) => {
@@ -80,28 +79,19 @@ const CollectionCategory = ({ filter, setFilter }) => {
   };
 
   useEffect(() => {
-    console.log(showList1, "lllll")
-    if (showList?.length <= 0) {
-      axios.get(CategoryAPI).then((res) => {
-        console.log(res.data, "cate")
-
-       localStorage.setItem("categoryList",JSON.stringify(res.data))
-      }, (err) => {
-        console.log(err)
-      })
-    }
-  }, [])
+    setShowList(categoryData);
+  }, [categoryData]);
 
   return (
     <div className="accordion-collapse collapse show">
       <AccordionBody accordionId="1">
-        {/* {filterCategory("product").length > 5 && (
+        {categoryData.length > 5 && (
           <div className="theme-form search-box">
             <Input placeholder={t("Search")} onChange={handleChange} />
           </div>
-        )} */}
+        )}
 
-        {showList1?.length > 0 ? <RecursiveCategory redirectToCollection={redirectToCollection} categories={showList1} filter={filter} /> : <NoDataFound customClass="search-not-found-box" title="NoCategoryFound" />}
+        {showList?.length > 0 ? <RecursiveCategory redirectToCollection={redirectToCollection} categories={showList} filter={filter} /> : <NoDataFound customClass="search-not-found-box" title="NoCategoryFound" />}
       </AccordionBody>
     </div>
   );
@@ -114,16 +104,16 @@ const RecursiveCategory = ({ redirectToCollection, categories, filter }) => (
     {categories.map((elem, i) => (
       <li key={i}>
         <div className="form-check collection-filter-checkbox">
-          <Input className="form-check-input" type="checkbox" id={elem?.slug} checked={filter?.category?.includes(elem?.slug)} onChange={(e) => redirectToCollection(e, elem?.slug)} />
-          <Label className="form-check-label" htmlFor={elem?.id}>
+          <Input className="form-check-input" type="checkbox" id={`category-${elem?.id}`} checked={filter?.category?.includes(String(elem?.id))} onChange={(e) => redirectToCollection(e, String(elem?.id))} />
+          <Label className="form-check-label" htmlFor={`category-${elem?.id}`}>
             <span className="name">{elem?.name}</span>
           </Label>
         </div>
-        {/* {elem.subcategories.length > 0 ? (
+        {elem?.subcategories?.length > 0 ? (
           <ul className="sub-category-list">
             <RecursiveCategory redirectToCollection={redirectToCollection} categories={elem?.subcategories} filter={filter} />
           </ul>
-        ) : null} */}
+        ) : null}
       </li>
     ))}
   </ul>
