@@ -4,10 +4,13 @@ import { detectLanguage } from "./i18n/server";
 
 
 export async function generateMetadata() {
-  // fetch data
-  const themeOption = await fetch(`${process.env.API_PROD_URL}/themeOptions`)
+  // Metadata must never hold up a production build when the API is slow or
+  // temporarily unreachable. Fall back to the defaults below after 10s.
+  const themeOption = await fetch(`${process.env.API_PROD_URL}/themeOptions`, {
+    signal: AbortSignal.timeout(10000),
+  })
     .then((res) => res.json())
-    .catch((err) => console.log("err", err));
+    .catch(() => null);
   return {
     metadataBase: new URL(process.env.API_PROD_URL),
     title: themeOption?.options?.seo?.meta_tags,
@@ -28,11 +31,6 @@ export async function generateMetadata() {
 }
 
 export default async function RootLayout({ children }) {
-  const settings = await fetch(`${process.env.API_PROD_URL}/settings`)
-    .then((res) => res.json())
-    .catch((err) => {
-      return err;
-    });
   const lng = await detectLanguage();
   return (
     <I18nProvider language={lng}>
