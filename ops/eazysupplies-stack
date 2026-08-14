@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+readonly APP_USER="i2k2admin"
+readonly PM2_HOME_DIR="/home/i2k2admin/.pm2"
+readonly NODE_BIN_DIR="/home/i2k2admin/.nvm/versions/node/v24.12.0/bin"
+readonly PM2_BIN="${NODE_BIN_DIR}/pm2"
+
+run_pm2() {
+  /usr/sbin/runuser -u "${APP_USER}" -- \
+    /usr/bin/env PM2_HOME="${PM2_HOME_DIR}" PATH="${NODE_BIN_DIR}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" \
+    "${PM2_BIN}" "$@"
+}
+
+start_stack() {
+  /usr/bin/systemctl start nginx
+  if run_pm2 describe my-app >/dev/null 2>&1; then
+    run_pm2 start my-app
+  else
+    run_pm2 resurrect
+  fi
+}
+
+stop_stack() {
+  run_pm2 stop my-app || true
+  /usr/bin/systemctl stop nginx
+}
+
+restart_stack() {
+  /usr/bin/systemctl restart nginx
+  if run_pm2 describe my-app >/dev/null 2>&1; then
+    run_pm2 restart my-app --update-env
+  else
+    run_pm2 resurrect
+  fi
+}
+
+status_stack() {
+  /usr/bin/systemctl --no-pager status nginx
+  run_pm2 describe my-app
+}
+
+case "${1:-}" in
+  start) start_stack ;;
+  stop) stop_stack ;;
+  restart) restart_stack ;;
+  status) status_stack ;;
+  *)
+    echo "Usage: $0 {start|stop|restart|status}" >&2
+    exit 2
+    ;;
+esac
