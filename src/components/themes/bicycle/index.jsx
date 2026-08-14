@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import ImageLink from "@/components/widgets/imageLink";
 import TitleBox from "@/components/widgets/title";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
@@ -58,7 +59,7 @@ const BicycleHomePage = () => {
       {data?.products_list?.status && (
         <section className="section-b-space pt-0 position-relative overflow-hidden section-t-space">
           <div className="animated-wheel d-md-block d-none">
-            <img src={`${ImagePath}/bicycle/wheel.png`} className="img-fluid" alt="wheel" />
+            <OptimizedImage src={`${ImagePath}/bicycle/wheel.png`} className="img-fluid" alt="wheel" />
           </div>
           <TitleBox type="basic" title={data?.products_list} />
           <Container>

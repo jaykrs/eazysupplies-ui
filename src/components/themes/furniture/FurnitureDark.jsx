@@ -1,4 +1,5 @@
 "use client";
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import ImageLink from "@/components/widgets/imageLink";
 import TitleBox from "@/components/widgets/title";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
@@ -95,7 +96,7 @@ const FurnitureDark = ({ slug }) => {
                 <a href={Href}>
                   <div className="collection-banner p-right text-center dark-banner-skeleton">
                     <div className="absolute-img">
-                      <img src={storageURL + data?.offer_banner?.banner_1?.image_url} className="img-fluid" alt="offers" />
+                      <OptimizedImage src={storageURL + data?.offer_banner?.banner_1?.image_url} className="img-fluid" alt="offers" />
                     </div>
                     <div className="contain-banner banner-3">
                       <div>
@@ -114,7 +115,7 @@ const FurnitureDark = ({ slug }) => {
                 <a href={Href}>
                   <div className="collection-banner p-right text-center dark-banner-skeleton">
                     <div className="absolute-img">
-                      <img src={storageURL + data?.offer_banner?.banner_2?.image_url} className="img-fluid" alt="" />
+                      <OptimizedImage src={storageURL + data?.offer_banner?.banner_2?.image_url} className="img-fluid" alt="" />
                     </div>
                     <div className="contain-banner banner-3">
                       <div>
@@ -133,7 +134,7 @@ const FurnitureDark = ({ slug }) => {
                 <a href={Href}>
                   <div className="collection-banner p-right text-center dark-banner-skeleton">
                     <div className="absolute-img">
-                      <img src={storageURL + data?.offer_banner?.banner_3?.image_url} className="img-fluid" alt="" />
+                      <OptimizedImage src={storageURL + data?.offer_banner?.banner_3?.image_url} className="img-fluid" alt="" />
                     </div>
                     <div className="contain-banner banner-3">
                       <div>

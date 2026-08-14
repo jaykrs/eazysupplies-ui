@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import NoDataFound from "@/components/widgets/NoDataFound";
 import BrandIdsContext from "@/context/brandIdsContext";
 import { BrandSlider } from "@/data/sliderSetting/SliderSetting";
@@ -27,7 +28,7 @@ const HomeBrand = ({ bgLight, brandIds, sliderOptions }) => {
                 {filteredBrand?.map((item, index) => (
                   <div key={index}>
                     <Link className="logo-block" key={index} href={`/brand/${item?.slug}`}>
-                      {item.brand_image?.original_url ? <img src={item.brand_image?.original_url} alt="" className="img-fluid" /> : <h4>{item?.name}</h4>}
+                      {item.brand_image?.original_url ? <OptimizedImage src={item.brand_image?.original_url} alt="" className="img-fluid" /> : <h4>{item?.name}</h4>}
                     </Link>
                   </div>
                 ))}

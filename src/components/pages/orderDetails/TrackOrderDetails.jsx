@@ -36,6 +36,7 @@
  * @developer : Simran Samir
  */
 
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import Loader from "@/layout/loader";
 import ConsumerDetails from "./common/ConsumerDetails";
 import StatusDetail from "./common/StatusDetails";
@@ -126,7 +127,7 @@ const TrackOrderDetails = ({ data, isLoading, orderNumber, taxData }) => {
                   <div className="product-main">
                     <div className="product-image">
                       {el?.product?.image ? (
-                        <img src={el.product.image} alt={el.product.name} />
+                        <OptimizedImage src={el.product.image} alt={el.product.name} />
                       ) : (
                         <div className="image-placeholder">
                           <i className="ri-image-line"></i>

@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import SettingContext from "@/context/settingContext";
 import Link from "next/link";
 import React, { useContext } from "react";
@@ -38,7 +39,7 @@ const originalUrl = getFirstOriginalUrl(productState?.product?.productImage);
           ) : null}
 
           <Link href={`/product/${productState?.product?.id}`}>
-            <img src={originalUrl ? originalUrl : placeHolderImage} className="img-fluid bg-img" alt={productState?.product?.name} />
+            <OptimizedImage src={originalUrl ? originalUrl : placeHolderImage} className="img-fluid bg-img" alt={productState?.product?.name} />
           </Link>
           <div className="rating-label">
             <RiStarSFill />

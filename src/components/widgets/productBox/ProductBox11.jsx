@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import SettingContext from "@/context/settingContext";
 import Link from "next/link";
 import React, { useContext } from "react";
@@ -33,7 +34,7 @@ const ProductBox11 = ({ productState, setProductState }) => {
         <div className="img-wrapper">
           <div className="zoom">
             <Link href={`/product/${normalizedProduct?.slug}`}>
-              <img src={thumbnail?.original_url} className="img-fluid bg-img" alt={normalizedProduct?.name} loading="lazy" />
+              <OptimizedImage src={thumbnail?.original_url} className="img-fluid bg-img" alt={normalizedProduct?.name} loading="lazy" />
             </Link>
           </div>
           <CartButton productState={productState} selectedVariation={productState.selectedVariation} text="Add to cart" classes="addto-cart-bottom" />

@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import SettingContext from "@/context/settingContext";
 import Link from "next/link";
 import React, { useContext } from "react";
@@ -23,7 +24,7 @@ const ProductBox7 = ({ productState }) => {
           </ul>
 
           <Link href={`/product/${productState?.product?.slug}`} className="img-fluid lazyload bg-img bg-top">
-            <img src={productState?.product?.product_thumbnail?.original_url} className="img-fluid bg-img" alt="product-image" />
+            <OptimizedImage src={productState?.product?.product_thumbnail?.original_url} className="img-fluid bg-img" alt="product-image" />
           </Link>
           <div className="cart-info">
             <ProductHoverButton productstate={productState.product} />

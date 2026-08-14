@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import ImageLink from "@/components/widgets/imageLink";
 import TitleBox from "@/components/widgets/title";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
@@ -92,7 +93,7 @@ const MarketplaceFour = () => {
 
       {/* Parallax Banner  */}
       <section className="section-b-space bg-size section-t-space" style={{ backgroundImage: `url(${storageURL + data?.slider_products?.image_url})` }}>
-        <img src={storageURL + data?.slider_products?.image_url} alt="" className="bg-img" />
+        <OptimizedImage src={storageURL + data?.slider_products?.image_url} alt="" className="bg-img" />
         <div className="ratio_square">
           <Container>
             <Row>

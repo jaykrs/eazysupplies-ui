@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import TitleBox from "@/components/widgets/title";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
 import BlogIdsContext from "@/context/blogIdsContext";
@@ -102,7 +103,7 @@ const BeautyHomePage = () => {
                 <Col md="8" className="offset-md-2">
                   <a href={Href}>
                     <div className="video-img">
-                      <img src={storageURL + data?.product_video?.image_url} alt={data?.product_video?.title || "image"} className="img-fluid lazyload" />
+                      <OptimizedImage src={storageURL + data?.product_video?.image_url} alt={data?.product_video?.title || "image"} className="img-fluid lazyload" />
                       {data?.product_video?.video_url && (
                         <div className="play-btn" onClick={() => setOpenModal(true)}>
                           <span>

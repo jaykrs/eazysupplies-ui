@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import SettingContext from "@/context/settingContext";
 import Link from "next/link";
 import React, { useContext } from "react";
@@ -16,7 +17,7 @@ const ProductBox5 = ({ productState, setProductState }) => {
       <div className={`basic-product theme-product-4 ${productState?.product?.stock_status === "out_of_stock" ? "sold-out" : ""}`}>
         <div className="img-wrapper">
           <Link href={`/product/${productState?.product?.slug}`}>
-            <img src={productState?.selectedVariation?.variation_image ? productState?.selectedVariation.variation_image.original_url : productState?.product?.product_thumbnail.original_url} className="img-fluid bg-img" alt={productState?.product?.name} />
+            <OptimizedImage src={productState?.selectedVariation?.variation_image ? productState?.selectedVariation.variation_image.original_url : productState?.product?.product_thumbnail.original_url} className="img-fluid bg-img" alt={productState?.product?.name} />
           </Link>
           <ul className="trending-label">
             {productState?.product?.stock_status === "out_of_stock" ? <li className="out_of_stock">{t("SoldOut")}</li> : null}

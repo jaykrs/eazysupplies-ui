@@ -1,4 +1,5 @@
 "use client";
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import ImageLink from "@/components/widgets/imageLink";
 import TitleBox from "@/components/widgets/title";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
@@ -112,7 +113,7 @@ const PetsHomePage = ({ slug }) => {
       {data?.parallax_banner?.status && (
         <section className="pet-parallax section-t-space">
           <div className="full-banner parallax text-center bg-size" style={{ backgroundImage: `url( ${storageURL + data?.parallax_banner?.image_url})` }}>
-            <img src={storageURL + data?.parallax_banner?.image_url} alt="" className="bg-img" />
+            <OptimizedImage src={storageURL + data?.parallax_banner?.image_url} alt="" className="bg-img" />
             <Container>
               <Row>
                 <Col>

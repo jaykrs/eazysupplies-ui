@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import request from "@/utils/axiosUtils";
 import { ProductAPI } from "@/utils/axiosUtils/API";
 import { FilterItemIds } from "@/utils/customFunctions/FilterItemIds";
@@ -17,7 +18,7 @@ const SliderProducts = ({ data = {}, classes }) => {
             {filteredItems?.map((item, i) => (
               <div className="media" key={i}>
                 <a href="product-page(no-sidebar).html">
-                  <img className="img-fluid  lazyload" src={item?.product_galleries[0]?.original_url} alt />
+                  <OptimizedImage className="img-fluid  lazyload" src={item?.product_galleries[0]?.original_url} alt />
                 </a>
                 <div className="media-body align-self-center">
                   <div className="rating">

@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import ImageLink from "@/components/widgets/imageLink";
 import TitleBox from "@/components/widgets/title";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
@@ -136,7 +137,7 @@ const Gradient = () => {
               {filteredCoupons?.map((coupon, i) => (
                 <a href={Href} key={i}>
                   <div className="deal-category">
-                    <img src={images[i % images.length]} className="img-fluid w-100" alt={coupon?.title} />
+                    <OptimizedImage src={images[i % images.length]} className="img-fluid w-100" alt={coupon?.title} />
                     <div className="deal-content">
                       <div>
                         <h2>{coupon?.title}</h2>

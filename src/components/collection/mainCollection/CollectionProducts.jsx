@@ -103,7 +103,7 @@ const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
     } else if (grid == 3) {
       setAdjustGrid("col-xl-4 col-lg-6 col-md-4 col-6");
     } else if (grid == 4) {
-      setAdjustGrid("col-xxl-3 col-xl-4 col-lg-6 col-md-4 col-6");
+      setAdjustGrid("col-xl-3 col-lg-4 col-md-6 col-6");
     } else if (grid == "list") {
       setAdjustGrid("col-6 col-sm-12");
     }

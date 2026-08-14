@@ -1,4 +1,5 @@
 "use client";
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
 import BlogIdsContext from "@/context/blogIdsContext";
 import BrandIdsContext from "@/context/brandIdsContext";
@@ -84,7 +85,7 @@ const Fashion3 = () => {
         {data?.full_banner?.status && (
           <div className="p-0 banner-sale">
             <Link href={redirectBannerLink(data?.full_banner?.redirect_link)}>
-              <img src={storageURL + data?.full_banner?.image_url} className="bg-img w-100 " alt="banner" />
+              <OptimizedImage src={storageURL + data?.full_banner?.image_url} className="bg-img w-100 " alt="banner" />
             </Link>
           </div>
         )}

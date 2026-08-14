@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import React from "react";
 import { Col, Row } from "reactstrap";
 import SwiperCore, { Navigation } from "swiper/core";
@@ -19,7 +20,7 @@ const ProductSliderBottom = ({ productState }) => {
               {productState?.product?.product_galleries?.map((img, index) => (
                 <SwiperSlide key={index}>
                   <div>
-                    <img className="img-fluid" src={img.original_url} alt={`Image ${index}`} />
+                    <OptimizedImage className="img-fluid" src={img.original_url} alt={`Image ${index}`} />
                   </div>
                 </SwiperSlide>
               ))}
@@ -32,7 +33,7 @@ const ProductSliderBottom = ({ productState }) => {
           {productState?.product?.product_galleries?.map((img, index) => (
             <SwiperSlide key={index}>
               <div className="slider-image">
-                <img className="img-fluid" src={img.original_url} alt={`Image ${index}`} />
+                <OptimizedImage className="img-fluid" src={img.original_url} alt={`Image ${index}`} />
               </div>
             </SwiperSlide>
           ))}
