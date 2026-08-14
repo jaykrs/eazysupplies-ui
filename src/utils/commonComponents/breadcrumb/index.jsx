@@ -1,4 +1,4 @@
-import { Href } from "@/utils/constants";
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import { Breadcrumb, Container } from "reactstrap";
 
@@ -11,11 +11,11 @@ const Breadcrumbs = ({ mainHeading, subNavigation, subTitle, title }) => {
         <nav className="theme-breadcrumb">
           <Breadcrumb>
             <div className="breadcrumb-item active">
-              <a href={Href}> {t("Home")} </a>
+              <Link href="/"> {t("Home")} </Link>
             </div>
             {subNavigation?.map((result, i) => (
               <div key={i} className="breadcrumb-item active ">
-                <a href={Href}> {t(result?.name?.replaceAll("-", " "))} </a>
+                {result?.link ? <Link href={result.link}> {t(result?.name?.replaceAll("-", " "))} </Link> : <span> {t(result?.name?.replaceAll("-", " "))} </span>}
               </div>
             ))}
           </Breadcrumb>
