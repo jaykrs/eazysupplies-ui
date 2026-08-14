@@ -3,7 +3,6 @@ import Link from "next/link";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 import CartButton from "./widgets/CartButton";
-import ImageVariant from "./widgets/ImageVariant";
 import ProductBoxVariantAttribute from "./widgets/ProductBoxVariantAttributes";
 import ProductHoverButton from "./widgets/ProductHoverButton";
 
@@ -32,7 +31,11 @@ const ProductBox11 = ({ productState, setProductState }) => {
     <>
       <div className={`basic-product theme-product-10 ${productState?.selectedVariation ? (productState?.selectedVariation.stock_status === "out_of_stock" || !productState?.selectedVariation.status ? "sold-out" : "") : productState?.product?.stock_status === "out_of_stock" ? "sold-out" : ""}`}>
         <div className="img-wrapper">
-          <ImageVariant thumbnail={thumbnail} gallery_images={product?.product_galleries} product={normalizedProduct} width={750} height={750} />
+          <div className="zoom">
+            <Link href={`/product/${normalizedProduct?.slug}`}>
+              <img src={thumbnail?.original_url} className="img-fluid bg-img" alt={normalizedProduct?.name} loading="lazy" />
+            </Link>
+          </div>
           <CartButton productState={productState} selectedVariation={productState.selectedVariation} text="Add to cart" classes="addto-cart-bottom" />
           <div className="cart-info">
             <ProductHoverButton productstate={productState?.product} />
