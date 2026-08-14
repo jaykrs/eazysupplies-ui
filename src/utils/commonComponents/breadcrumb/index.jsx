@@ -35,14 +35,14 @@ const Breadcrumbs = ({ mainHeading, subNavigation, subTitle, title }) => {
             {subNavigation?.map((result, i) => (
               <div key={i} className="breadcrumb-item active ">
                 {result?.categoryPopover ? (
-                  <Dropdown isOpen={categoryPopoverOpen} toggle={() => setCategoryPopoverOpen((open) => !open)}>
-                    <DropdownToggle tag="button" color="link" className="p-0 border-0 text-uppercase" style={{ color: "inherit", fontSize: "inherit", fontWeight: 600, textDecoration: "none" }}>
+                  <Dropdown className="breadcrumb-category-dropdown" isOpen={categoryPopoverOpen} toggle={() => setCategoryPopoverOpen((open) => !open)}>
+                    <DropdownToggle tag="button" color="link" className="breadcrumb-category-toggle p-0 border-0 text-uppercase">
                       {t(result?.name?.replaceAll("-", " "))}
                     </DropdownToggle>
                     <DropdownMenu style={{ maxHeight: "320px", minWidth: "280px", overflowY: "auto" }}>
                       <DropdownItem header>{t("Categories")}</DropdownItem>
                       {visibleCategories.map((category) => (
-                        <DropdownItem key={category.id} active={String(category.id) === searchParams.get("category")} onClick={() => openCategory(category)}>
+                        <DropdownItem key={category.id} toggle={false} active={String(category.id) === searchParams.get("category")} onClick={() => openCategory(category)}>
                           {category.name}
                         </DropdownItem>
                       ))}

@@ -72,9 +72,39 @@
     margin: 0;
     padding-right: 0;
 
+    .breadcrumb-item {
+      display: inline-flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
     a {
       color: $grey2;
       font-weight: 600;
+    }
+
+    .breadcrumb-category-dropdown {
+      display: inline-flex;
+      position: relative;
+      vertical-align: baseline;
+      width: auto !important;
+      flex: 0 0 auto;
+
+      .breadcrumb-category-toggle {
+        color: inherit;
+        font-size: inherit;
+        font-weight: 600;
+        line-height: inherit;
+        text-decoration: none;
+      }
+
+      .dropdown-menu {
+        position: absolute !important;
+        width: max-content !important;
+        min-width: 280px !important;
+        max-width: min(360px, calc(100vw - 30px));
+        margin-top: 8px;
+      }
     }
   }
 }
