@@ -1,4 +1,5 @@
 "use client";
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
 import { homeBannerSettings } from "@/data/sliderSetting/SliderSetting";
 import Slider from "react-slick";
@@ -15,14 +16,14 @@ const HomeBanner = ({ data = {}, wrapperClass = {}, classes = {}, ...props }) =>
             {banners?.map((item, index) => (
               <div key={index}>
                 <div className="home">
-                  <img src={item.image_url} alt="" />
+                  <OptimizedImage src={item.image_url} alt="" />
                 </div>
               </div>
             ))}
           </Slider>
         ) : (
           <div className="home text-start">
-            <img src={image_url} alt="" />
+            <OptimizedImage src={image_url} alt="" />
           </div>
         )}
       </div>

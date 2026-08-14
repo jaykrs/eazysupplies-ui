@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import NoDataFound from "@/components/widgets/NoDataFound";
 import CategoryContext from "@/context/categoryContext";
 import { ImagePath } from "@/utils/constants";
@@ -57,7 +58,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
               {mainCategories?.map((category, index) => (
                 <li key={index}>
                   <Link href={`/category/${category?.slug}`}>
-                    <img height={height ? height : ""} width={width ? width : ""} src={category?.category_icon ? category?.category_icon?.original_url : `${ImagePath}/placeholder/category.png`} alt="" className="img-fluid me-2 rounded-0 rounded-0" />
+                    <OptimizedImage height={height ? height : ""} width={width ? width : ""} src={category?.category_icon ? category?.category_icon?.original_url : `${ImagePath}/placeholder/category.png`} alt="" className="img-fluid me-2 rounded-0 rounded-0" />
                     <div className="skeleton-category-img"></div>
                     <span>{category?.name}</span>
                     <span className="skeleton-category-text"></span>
@@ -73,7 +74,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                   <Link href={`/category/${category?.slug}`}>
                     <div className="category-boxes">
                       <div className="img-sec">
-                        <img height={height ? height : 58} width={width ? width : 58} src={category.category_icon ? category.category_icon.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category?.name} />
+                        <OptimizedImage height={height ? height : 58} width={width ? width : 58} src={category.category_icon ? category.category_icon.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category?.name} />
                         <div className="skeleton-img-sec"></div>
                       </div>
                       <h4>{category.name}</h4>
@@ -91,7 +92,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                     <div className={`gradient-category ${i == 1 ? "hover-effect" : ""}`}>
                       <div className="gradient-border">
                         <div className="img-sec">
-                          <img height={height ? height : ""} width={width ? width : ""} src={category.category_image ? category?.category_image?.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category.name} />
+                          <OptimizedImage height={height ? height : ""} width={width ? width : ""} src={category.category_image ? category?.category_image?.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category.name} />
                         </div>
                       </div>
                       <h4>{category.name}</h4>
@@ -109,11 +110,11 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                     <div>
                       {category?.category_image ? (
                         <div>
-                          <img src={category?.category_image?.original_url} className="img-fluid" alt={category.name} />
+                          <OptimizedImage src={category?.category_image?.original_url} className="img-fluid" alt={category.name} />
                         </div>
                       ) : (
                         <div>
-                          <img src={`${ImagePath}/tools/category/1.jpg`} className="img-fluid" alt={category.name} />
+                          <OptimizedImage src={`${ImagePath}/tools/category/1.jpg`} className="img-fluid" alt={category.name} />
                         </div>
                       )}
                       <h4>
@@ -171,7 +172,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                         <Link href={`/category/${category?.slug}`}>
                           <div className="category-image svg-image">
                             <div className="img-sec">
-                              <img src={category.category_icon ? category.category_icon.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category?.name} />
+                              <OptimizedImage src={category.category_icon ? category.category_icon.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category?.name} />
                             </div>
                           </div>
                         </Link>
@@ -191,7 +192,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                       <Link href={`/category/${category?.slug}`}>
                         <div className="category-image svg-image">
                           <div className="img-sec">
-                            <img src={category.category_icon ? category.category_icon.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category?.name} />
+                            <OptimizedImage src={category.category_icon ? category.category_icon.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category?.name} />
                           </div>
                         </div>
                       </Link>
@@ -212,7 +213,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                 <div key={i} className="category-block">
                   <Link href={`/category/${category?.slug}`}>
                     <div className="category-image">
-                      <img src={category.category_icon ? category.category_icon.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category?.name} />
+                      <OptimizedImage src={category.category_icon ? category.category_icon.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category?.name} />
                     </div>
                   </Link>
                   <div className="category-details">
@@ -230,7 +231,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                 <Col sm="4" key={i} className=" border-padding">
                   <div className="category-banner">
                     <div className="img-fluid lazyload bg-img" style={{ backgroundImage: `url(${category.category_image ? category?.category_image?.original_url : `${ImagePath}/placeholder/category.png`}` }}>
-                      <img src={category.category_image ? category?.category_image?.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid lazyload bg-img" alt={category?.name} />
+                      <OptimizedImage src={category.category_image ? category?.category_image?.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid lazyload bg-img" alt={category?.name} />
                     </div>
                     <div className="category-box">
                       <Link href={`/category/${category?.slug}`}>
@@ -252,7 +253,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                         <div className="category-block" key={index}>
                           <Link href={`/category/${category?.slug}`}>
                             <div className="category-image">
-                              <img src={category.category_image ? category.category_image.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category.name} />
+                              <OptimizedImage src={category.category_image ? category.category_image.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category.name} />
                             </div>
                           </Link>
                           <div className="category-details">
@@ -271,7 +272,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                     <div className="category-block">
                       <Link href={`/category/${category?.slug}`}>
                         <div className="category-image">
-                          <img src={category?.category_image ? category?.category_image?.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category.name} />
+                          <OptimizedImage src={category?.category_image ? category?.category_image?.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category.name} />
                         </div>
                       </Link>
                       <div className="category-details">
@@ -293,7 +294,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                     <Link href={`/category/${category?.slug}`}>
                       <div className="img-category">
                         <div className="img-sec bg-size" style={{ backgroundImage: `url(${category.category_image ? category.category_image.original_url : `${ImagePath}/placeholder/category.png`})` }}>
-                          <img src={category.category_image ? category.category_image.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid bg-img" alt={category.name} />
+                          <OptimizedImage src={category.category_image ? category.category_image.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid bg-img" alt={category.name} />
                         </div>
                         <h4>{category.name}</h4>
                       </div>
@@ -307,7 +308,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                       <Link key={index} href={`/category/${category?.slug}`}>
                         <div className="img-category">
                           <div className="img-sec bg-size" style={{ backgroundImage: `url(${category.category_image ? category.category_image.original_url : `${ImagePath}/placeholder/category.png`})` }}>
-                            <img src={category.category_image ? category.category_image.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid bg-img" alt={category.name} />
+                            <OptimizedImage src={category.category_image ? category.category_image.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid bg-img" alt={category.name} />
                           </div>
                           <h4>{category.name}</h4>
                         </div>
@@ -326,7 +327,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                   <Link href={`/category/${category?.slug}`}>
                     <div className="img-category">
                       <div className="img-sec">
-                        <img src={category.category_icon ? category.category_icon.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category.name} />
+                        <OptimizedImage src={category.category_icon ? category.category_icon.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category.name} />
                       </div>
                       <h4>{category.name}</h4>
                     </div>
@@ -343,7 +344,7 @@ const HomeCategorySidebar = ({ categoryIds, height, width, style, slider, slider
                   <div className="category-nft">
                     <Link href={`/category/${category?.slug}`}>
                       <div className="category-image">
-                        <img src={category.category_image ? category?.category_image?.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category?.name} />
+                        <OptimizedImage src={category.category_image ? category?.category_image?.original_url : `${ImagePath}/placeholder/category.png`} className="img-fluid" alt={category?.name} />
                       </div>
 
                       <div className="category-details">

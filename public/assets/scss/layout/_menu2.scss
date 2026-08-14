@@ -1626,6 +1626,15 @@ header {
   }
 }
 
+// Let a navigation click clear desktop hover state before menus can reopen.
+.navbar-nav.menu-closing {
+  .dropdown-menu {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+  }
+}
+
 @media (max-width: 1199px) {
   header {
     .navbar-nav {

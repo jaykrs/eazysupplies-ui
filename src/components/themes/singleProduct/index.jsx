@@ -1,4 +1,5 @@
 "use client";
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import ImageLink from "@/components/widgets/imageLink";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
 import BlogIdsContext from "@/context/blogIdsContext";
@@ -83,7 +84,7 @@ const SingleProduct = ({ slug }) => {
               {data?.home_banner?.show_button && <Btn className="gradient-btn">{data?.home_banner?.button_text}</Btn>}
             </div>
             <div className="home-img d-md-flex d-none">
-              <img src={storageURL + data?.home_banner?.banner_image} className="img-fluid" alt="" />
+              <OptimizedImage src={storageURL + data?.home_banner?.banner_image} className="img-fluid" alt="" />
             </div>
           </Container>
         </section>
@@ -107,7 +108,7 @@ const SingleProduct = ({ slug }) => {
                 {filteredServices?.map((service, i) => (
                   <li className="right-box" key={i}>
                     <div className="about-img">
-                      <img src={storageURL + service.image_url} className="img-fluid" alt="" />
+                      <OptimizedImage src={storageURL + service.image_url} className="img-fluid" alt="" />
                     </div>
                     <div className="about-content">
                       <h4>{service.title}</h4>
@@ -144,7 +145,7 @@ const SingleProduct = ({ slug }) => {
           <WrapperComponent classes={{ sectionClass: "video-section", fluidClass: "container" }} colProps={{ md: "12" }}>
             <a href={Href}>
               <div className="video-img custom-border-radius overflow-hidden">
-                <img src={storageURL + data?.product_video?.image} alt="" className="img-fluid" />
+                <OptimizedImage src={storageURL + data?.product_video?.image} alt="" className="img-fluid" />
                 {data?.product_video?.video && (
                   <div className="play-btn" onClick={() => setOpenModal(true)}>
                     <span>
@@ -190,7 +191,7 @@ const SingleProduct = ({ slug }) => {
               <Col xl="4" sm="6" key={i}>
                 <div className="comment-box">
                   <div className="profile-name">
-                    <img src={storageURL + testimonial.image_url} className="img-fluid" alt="" />
+                    <OptimizedImage src={storageURL + testimonial.image_url} className="img-fluid" alt="" />
                     <h4>{testimonial?.name}</h4>
                   </div>
                   <div className="profile-detail">

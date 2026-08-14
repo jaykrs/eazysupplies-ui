@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import Btn from "@/elements/buttons/Btn";
 import { storageURL } from "@/utils/constants";
 import React from "react";
@@ -6,7 +7,7 @@ import { Col, Container, Row } from "reactstrap";
 const HomeParallaxBanner = ({ banners, text_right, classes }) => {
   return (
     <div className={`full-banner parallax text-center bg-size ${text_right ? "p-right" : "p-left"} ${classes ? classes : ""}`} style={{ backgroundImage: `url(${storageURL + banners?.image_url})` }}>
-      <img src={storageURL + banners?.image_url} alt="" className="bg-img" />
+      <OptimizedImage src={storageURL + banners?.image_url} alt="" className="bg-img" />
       <Container>
         <Row>
           <Col>

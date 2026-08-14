@@ -20,6 +20,7 @@
  * 
  */
 
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import Avatar from '@/components/widgets/Avatar';
 import { placeHolderImage } from '@/components/widgets/Placeholder';
 import SettingContext from '@/context/settingContext';
@@ -57,7 +58,7 @@ const TableDetails = ({ data }) => {
                       return (
                         <tr key={i}>
                           <td className='product-image'>
-                            <img loading="lazy" src={placeHolderImage} height={80} width={80} />
+                            <OptimizedImage loading="lazy" src={placeHolderImage} height={80} width={80} />
                           </td>
 
                           <td>

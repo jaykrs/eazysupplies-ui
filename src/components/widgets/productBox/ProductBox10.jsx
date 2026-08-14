@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import SettingContext from "@/context/settingContext";
 import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
@@ -21,7 +22,7 @@ const ProductBox10 = ({ productState }) => {
           {productState?.product?.is_sale_enable ? <div className={`ribbon-outer ${productState?.product?.is_featured ? "level2" : ""}`}>{"on_sale"}</div> : null}
 
           <a onClick={() => router?.push(`/product/${productState?.product?.slug}`)} className="img-fluid lazyload bg-img bg-top">
-            <img src={productState?.product?.product_thumbnail?.original_url} className="img-fluid bg-img" alt="product-image" />
+            <OptimizedImage src={productState?.product?.product_thumbnail?.original_url} className="img-fluid bg-img" alt="product-image" />
           </a>
 
           <div className="cart-info">

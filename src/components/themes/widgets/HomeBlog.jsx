@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import NoDataFound from "@/components/widgets/NoDataFound";
 import { blog3Slider } from "@/data/sliderSetting/SliderSetting";
 import request from "@/utils/axiosUtils";
@@ -36,7 +37,7 @@ const HomeBlog = ({ blogIds, blogEffect, type, sliderClass, slideOptions }) => {
                 <div className="blog-wrap">
                   <Link href={`/blogs/${blog?.slug}`}>
                     <div className="blog-image">
-                      <img src={blog.blog_thumbnail.original_url} className="img-fluid" alt="" />
+                      <OptimizedImage src={blog.blog_thumbnail.original_url} className="img-fluid" alt="" />
                     </div>
                     <div className="blog-details text-start p-0">
                       <h4>{new Date(blog?.created_at).toLocaleString("en-US", { day: "2-digit", month: "short", year: "numeric", hour: "numeric", minute: "numeric", hour12: true })}</h4>
@@ -50,7 +51,7 @@ const HomeBlog = ({ blogIds, blogEffect, type, sliderClass, slideOptions }) => {
                   <Link href={`/blogs/${blog?.slug}`}>
                     <div className={blogEffect ? blogEffect : "classic-effect"}>
                       <div className="bg-size" style={{ backgroundImage: `url(${blog.blog_thumbnail.original_url})` }}>
-                        <img src={blog.blog_thumbnail.original_url} className="img-fluid bg-img d-none" alt="blog-image" />
+                        <OptimizedImage src={blog.blog_thumbnail.original_url} className="img-fluid bg-img d-none" alt="blog-image" />
                       </div>
                       <span></span>
                     </div>

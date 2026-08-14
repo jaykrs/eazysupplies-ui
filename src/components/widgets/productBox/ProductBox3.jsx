@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import SettingContext from "@/context/settingContext";
 import Link from "next/link";
 import React, { useContext } from "react";
@@ -33,7 +34,7 @@ const ProductBox3 = ({ productState, setProductState }) => {
         </div>
         <div className="img-wrapper">
           <Link href={`/product/${productState?.product?.slug}`}>
-            <img src={productState?.selectedVariation?.variation_image ? productState?.selectedVariation.variation_image.original_url : productState?.product?.product_thumbnail?.original_url} className="img-fluid" alt={productState?.product?.name} />
+            <OptimizedImage src={productState?.selectedVariation?.variation_image ? productState?.selectedVariation.variation_image.original_url : productState?.product?.product_thumbnail?.original_url} className="img-fluid" alt={productState?.product?.name} />
           </Link>
           <div className="quick-view-part">
             <QuickViewButton productstate={productState?.product} />

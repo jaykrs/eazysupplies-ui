@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import ImageLink from "@/components/widgets/imageLink";
 import TitleBox from "@/components/widgets/title";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
@@ -113,7 +114,7 @@ const JewelleryTwo = () => {
       {/* Full Banner */}
       {data?.banner?.status && (
         <section>
-          <img src={storageURL + data?.banner?.image_url} alt={data?.banner?.image_url} className="img-fluid w-100" />
+          <OptimizedImage src={storageURL + data?.banner?.image_url} alt={data?.banner?.image_url} className="img-fluid w-100" />
         </section>
       )}
 

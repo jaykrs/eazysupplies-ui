@@ -9,7 +9,7 @@ import { ToastNotification } from "@/utils/customFunctions/ToastNotification";
 import { useContext } from "react";
 import ThemeOptionContext from "@/context/themeOptionsContext";
 
-const MenuList = ({ menu, isOpen, setIsOpen, level }) => {
+const MenuList = ({ menu, isOpen, setIsOpen, closeMenus, level }) => {
   const { t } = useTranslation("common");
   const router = useRouter();
   const redirect = (path) => {
@@ -45,14 +45,14 @@ const MenuList = ({ menu, isOpen, setIsOpen, level }) => {
         )}
 
         {menu.link_type === "link" && menu.is_target_blank === 0 && (
-          <Link onClick={() => protectedRoute(menu.path)} className={`dropdown-item ${isOpen[level] === menu.title ? "show" : ""}`} href={`${menu.path.charAt(0) == "/" ? menu.path : `/${menu.path}`}`}>
+          <Link onClick={() => { protectedRoute(menu.path); closeMenus(); }} className={`dropdown-item ${isOpen[level] === menu.title ? "show" : ""}`} href={`${menu.path.charAt(0) == "/" ? menu.path : `/${menu.path}`}`}>
             {t(menu.title)}
             {menu.badge_text && <label className={`menu-label ${menu?.badge_color ? menu?.badge_color : ""}`}>{menu?.badge_text}</label>}
           </Link>
         )}
 
         {menu?.is_target_blank === 1 && (
-          <a className={`dropdown-item ${isOpen[level] === menu?.title ? "show" : ""}`} href={menu?.path}>
+          <a onClick={closeMenus} className={`dropdown-item ${isOpen[level] === menu?.title ? "show" : ""}`} href={menu?.path}>
             {t(menu?.title)}
             {menu?.badge_text && <label className={`menu-label ${menu?.badge_color ? menu?.badge_color : ""}`}>{menu?.badge_text}</label>}
           </a>
@@ -65,7 +65,7 @@ const MenuList = ({ menu, isOpen, setIsOpen, level }) => {
                   <div className="row g-4">
                     {menu?.child?.map((megaMenu, i) => (
                       <div className="dropdown-column col-xl-4" key={i}>
-                        <LinkBox menu={megaMenu} />
+                        <LinkBox menu={megaMenu} onNavigate={closeMenus} />
                       </div>
                     ))}
                   </div>
@@ -73,7 +73,7 @@ const MenuList = ({ menu, isOpen, setIsOpen, level }) => {
               ) : (
                 menu?.child?.map((megaMenu, i) => (
                   <div className="dropdown-column col-xl-4" key={i}>
-                    <LinkBox menu={megaMenu} />
+                    <LinkBox menu={megaMenu} onNavigate={closeMenus} />
                   </div>
                 ))
               )}
@@ -87,7 +87,7 @@ const MenuList = ({ menu, isOpen, setIsOpen, level }) => {
           <div className={`dropdown-menu dropdown-menu-2 dropdown-image  ${!isOpen.length ? "show" : isOpen[level] === menu?.title ? "show" : ""}`}>
             <div className="dropdown-column">
               {menu?.child.map((imageMenu, i) => (
-                <a key={i} className="dropdown-item text-center" onClick={() => redirect(imageMenu.path)}>
+                <a key={i} className="dropdown-item text-center" onClick={() => { closeMenus(); redirect(imageMenu.path); }}>
                   {imageMenu.item_image && <Image src={imageMenu.item_image ? imageMenu.item_image.original_url : LinkWithImage} className="img-fluid" alt={imageMenu.title} height={500} width={500} />}
                   <span>{t(imageMenu.title)}</span>
                 </a>
@@ -100,7 +100,7 @@ const MenuList = ({ menu, isOpen, setIsOpen, level }) => {
         {menu?.child && !menu.mega_menu && (
           <ul className={`dropdown-menu  ${isOpen[level] === menu.title ? "show" : ""}`}>
             {menu.child.map((childMenu, i) => (
-              <MenuList menu={childMenu} key={i} isOpen={isOpen} setIsOpen={setIsOpen} level={level + 1} />
+              <MenuList menu={childMenu} key={i} isOpen={isOpen} setIsOpen={setIsOpen} closeMenus={closeMenus} level={level + 1} />
             ))}
           </ul>
         )}

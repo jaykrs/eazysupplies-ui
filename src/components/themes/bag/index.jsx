@@ -1,4 +1,5 @@
 "use client";
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import ImageLink from "@/components/widgets/imageLink";
 import TitleBox from "@/components/widgets/title";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
@@ -137,7 +138,7 @@ const Bag = () => {
               <Col sm="4" key={index} className="p-0">
                 {banner?.image_url ? (
                   <a href={Href} className="image-block bg-size" style={{ backgroundImage: `url(${storageURL + banner?.image_url})` }}>
-                    <img src={storageURL + banner?.image_url} alt="banner" />
+                    <OptimizedImage src={storageURL + banner?.image_url} alt="banner" />
                   </a>
                 ) : (
                   <div className="contain-block even">

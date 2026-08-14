@@ -1,0 +1,16 @@
+[Unit]
+Description=EazySupplies storefront stack (Nginx and PM2)
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/eazysupplies-stack start
+ExecStop=/usr/local/sbin/eazysupplies-stack stop
+ExecReload=/usr/local/sbin/eazysupplies-stack restart
+TimeoutStartSec=60
+TimeoutStopSec=60
+
+[Install]
+WantedBy=multi-user.target

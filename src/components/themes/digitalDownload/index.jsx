@@ -1,4 +1,5 @@
 "use client";
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
 import BlogIdsContext from "@/context/blogIdsContext";
 import BrandIdsContext from "@/context/brandIdsContext";
@@ -67,8 +68,8 @@ const DigitalDownload = () => {
               </Col>
               <Col lg="7" xs="6" className=" d-md-inline-block d-none position-relative">
                 <div className="slider-img">
-                  <img src={storageURL + data?.home_banner?.sub_image_1} className="img-fluid sm-img" alt="" />
-                  <img src={storageURL + data?.home_banner?.sub_image_2} className="img-fluid" alt="" />
+                  <OptimizedImage src={storageURL + data?.home_banner?.sub_image_1} className="img-fluid sm-img" alt="" />
+                  <OptimizedImage src={storageURL + data?.home_banner?.sub_image_2} className="img-fluid" alt="" />
                 </div>
               </Col>
             </Row>

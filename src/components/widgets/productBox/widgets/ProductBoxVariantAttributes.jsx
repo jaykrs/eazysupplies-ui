@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import CartContext from "@/context/cartContext";
 import Btn from "@/elements/buttons/Btn";
 import { ImagePath } from "@/utils/constants";
@@ -272,7 +273,7 @@ const ProductBoxVariantAttribute = ({ productState, setProductState, productBox1
                       <li className={`${!productState?.statusIds?.includes(item.id) && productState?.variantIds?.includes(item?.id) && !soldOutAttributesIds.includes(item?.id) ? "active" : ""} ${soldOutAttributesIds?.includes(item.id) || productState?.statusIds?.includes(item.id) ? "disabled" : ""}`} title={item?.value}>
                         {elem?.style == "image" ? (
                           <a>
-                            <img id={item?.value} src={item?.variation_image ? item?.variation_image?.original_url : `${ImagePath}/placeholder/product.png`} onClick={() => setVariant(productState?.product?.variations, item, "click")} onMouseOver={() => setVariant(productState?.product?.variations, item, "hover")} onMouseOut={() => setVariant(productState?.product?.variations, item, "out")} loading="lazy" alt="Product" />{" "}
+                            <OptimizedImage id={item?.value} src={item?.variation_image ? item?.variation_image?.original_url : `${ImagePath}/placeholder/product.png`} onClick={() => setVariant(productState?.product?.variations, item, "click")} onMouseOver={() => setVariant(productState?.product?.variations, item, "hover")} onMouseOut={() => setVariant(productState?.product?.variations, item, "out")} loading="lazy" alt="Product" />{" "}
                           </a>
                         ) : (
                           <Btn color="transparent" id={item?.value} onClick={() => setVariant(productState?.product?.variations, item, "click")} onMouseOver={() => setVariant(productState?.product?.variations, item, "hover")} onMouseOut={() => setVariant(productState?.product?.variations, item, "out")}>

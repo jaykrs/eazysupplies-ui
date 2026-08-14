@@ -5,6 +5,7 @@ import Loader from "@/layout/loader";
 import Breadcrumbs from "@/utils/commonComponents/breadcrumb";
 import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
 import { useContext, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import CollectionBanner from "./collectionBanner";
 import CollectionInfiniteScroll from "./collectionInfiniteScroll";
 import CollectionLeftSidebar from "./collectionLeftSidebar";
@@ -20,8 +21,11 @@ import axios from "axios";
 const CollectionContain = () => {
   const [filter, setFilter] = useState({ category: [], brand: [], price: [], attribute: [], rating: [], sortBy: "asc", field: "created_at" });
   const { themeOption } = useContext(ThemeOptionContext);
-  const [category, brand, attribute, price, rating, sortBy, field, layout, paginate] = useCustomSearchParams(["category", "brand", "attribute", "price", "rating", "sortBy", "field", "layout", "paginate"]);
+  const [category, brand, attribute, price, rating, sortBy, field, layout, paginate, title] = useCustomSearchParams(["category", "brand", "attribute", "price", "rating", "sortBy", "field", "layout", "paginate", "title"]);
   const collectionLayout = layout?.layout ? layout?.layout : themeOption?.collection?.collection_layout;
+  const collectionTitle = title?.title?.trim() || "Collections";
+  const searchParams = useSearchParams();
+  const currentCollectionLink = `/collections${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
   const { categoryIsLoading } = useContext(CategoryContext);
 
   useEffect(() => {
@@ -63,11 +67,11 @@ const CollectionContain = () => {
     collection_no_sidebar: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
     collection_left_sidebar: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
     collection_right_sidebar: <CollectionRightSidebar filter={filter} setFilter={setFilter} />,
-    collection_2_grid: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
-    collection_3_grid: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
-    collection_4_grid: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
-    collection_5_grid: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
-    collection_list_view: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
+    collection_2_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
+    collection_3_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
+    collection_4_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
+    collection_5_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
+    collection_list_view: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
     collection_sidebar_popup: <CollectionSidebarPopUp filter={filter} setFilter={setFilter} />,
     collection_product_infinite_scroll: <CollectionInfiniteScroll filter={filter} setFilter={setFilter} />,
   };
@@ -78,7 +82,10 @@ const CollectionContain = () => {
         <Loader />
       ) : (
         <>
-          <Breadcrumbs title={"Collections"} subNavigation={[{ name: "Collections" }]} />
+          <Breadcrumbs
+            title={collectionTitle}
+            subNavigation={collectionTitle === "Collections" ? [{ name: "Collections", link: "/collections", categoryPopover: true }] : [{ name: "Collections", link: "/collections", categoryPopover: true }, { name: collectionTitle, link: currentCollectionLink }]}
+          />
           {isCollectionMatch[collectionLayout]}
         </>
       )}

@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import SettingContext from "@/context/settingContext";
 import { ImagePath } from "@/utils/constants";
 import Link from "next/link";
@@ -34,7 +35,7 @@ const ProductBoxHorizontal = ({ productState, style }) => {
         <div className="media">
           {productState?.product?.product_thumbnail && (
             <Link href={`/product/${productState?.product?.slug}`}>
-              <img className="img-fluid" src={productState?.product?.product_thumbnail?.original_url ? productState?.product?.product_thumbnail?.original_url : `${ImagePath}/placeholder.png`} alt="" />
+              <OptimizedImage className="img-fluid" src={productState?.product?.product_thumbnail?.original_url ? productState?.product?.product_thumbnail?.original_url : `${ImagePath}/placeholder.png`} alt="" />
             </Link>
           )}
           <div className="media-body align-self-center">

@@ -10,4 +10,4 @@ export const PaymentMethod = [
     {name:"Offline", id:"OFF"}
 ]
 export const tsurl = '/pages?name=website-policy';
-export const prodapiurl = process.env.API_PROD_URL; 
+export const prodapiurl = `${process.env.NEXT_PUBLIC_API_URL || "https://api.eazysupplies.com"}/api`;

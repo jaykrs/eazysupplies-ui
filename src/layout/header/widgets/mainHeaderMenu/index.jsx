@@ -7,6 +7,12 @@ import Link from "next/link";
 
 const MainHeaderMenu = () => {
   const [isOpen, setIsOpen] = useState([]);
+  const [isClosing, setIsClosing] = useState(false);
+
+  const closeMenus = () => {
+    setIsOpen([]);
+    setIsClosing(true);
+  };
   const {
     data: headerMenu,
     refetch,
@@ -43,14 +49,14 @@ const MainHeaderMenu = () => {
           <li></li>
         </ul>
       ) : (
-        <ul className="navbar-nav">
+        <ul className={`navbar-nav ${isClosing ? "menu-closing" : ""}`} onMouseEnter={() => isClosing && setIsClosing(false)}>
           <li className="nav-item">
-            <Link className="dropdown-item" href="/collections?layout=collection_3_grid">
+            <Link onClick={closeMenus} className="dropdown-item" href="/collections?layout=collection_3_grid">
               All Products
             </Link>
           </li>
           {headerMenu?.map((menu, i) => (
-            <MenuList menu={menu} key={i} customClass={`${!menu?.path ? "dropdown" : ""} nav-item `} level={0} isOpen={isOpen} setIsOpen={setIsOpen} />
+            <MenuList menu={menu} key={i} customClass={`${!menu?.path ? "dropdown" : ""} nav-item `} level={0} isOpen={isOpen} setIsOpen={setIsOpen} closeMenus={closeMenus} />
           ))}
         </ul>
       )}

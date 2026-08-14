@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import SettingContext from "@/context/settingContext";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -18,7 +19,7 @@ const ProductBox9 = ({ productState, setProductState }) => {
       <div className={`basic-product theme-product-8 ${productState?.product?.stock_status === "out-of-stock" ? "sold-out" : ""}`}>
         <div className="img-wrapper">
           <Link href={`/product/${productState?.product?.slug}`} className="img-fluid lazyload bg-img bg-top">
-            <img  src={productState?.selectedVariation?.variation_image ? productState?.selectedVariation.variation_image.original_url : productState?.product?.product_thumbnail?.original_url} className="img-fluid bg-img" alt="product-image" />
+            <OptimizedImage  src={productState?.selectedVariation?.variation_image ? productState?.selectedVariation.variation_image.original_url : productState?.product?.product_thumbnail?.original_url} className="img-fluid bg-img" alt="product-image" />
           </Link>
           <div className="cart-info">
             <WishlistButton productstate={productState?.product} />

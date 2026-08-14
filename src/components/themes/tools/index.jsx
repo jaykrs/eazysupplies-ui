@@ -1,4 +1,5 @@
 "use client";
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import TitleBox from "@/components/widgets/title";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
 import BlogIdsContext from "@/context/blogIdsContext";
@@ -119,7 +120,7 @@ const ToolsHomePage = ({ slug }) => {
             <Col md="12" className={`${data?.category_product?.left_panel?.status ? "col-xl-9 col-lg-8" : "col-12"}`}>
               <HomeProductTab categoryIds={data?.category_product?.right_panel?.product_category?.category_ids} style="vertical" slider="true" sliderOptions={productSlider4} />
               <div className="banner-tools">
-                <img src={storageURL + data?.category_product?.right_panel?.product_banner?.image_url} alt="banner" className="img-fluid" />
+                <OptimizedImage src={storageURL + data?.category_product?.right_panel?.product_banner?.image_url} alt="banner" className="img-fluid" />
               </div>
             </Col>
           )}

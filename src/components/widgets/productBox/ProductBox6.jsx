@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import SettingContext from "@/context/settingContext";
 import Link from "next/link";
 import React, { useContext } from "react";
@@ -16,7 +17,7 @@ const ProductBox6 = ({ productState }) => {
         <div className="img-wrapper">
           {productState?.product?.sale_starts_at && productState?.product?.sale_expired_at && <div className="d-none d-sm-flex"><OfferTimer productState={productState} noHeading /></div>}
           <Link href={`/product/${productState?.product?.slug}`}>
-            <img src={productState?.selectedVariation ? productState?.selectedVariation.variation_image.original_url : productState?.product?.product_thumbnail?.original_url} className="img-fluid bg-img" alt={productState?.product?.name} />
+            <OptimizedImage src={productState?.selectedVariation ? productState?.selectedVariation.variation_image.original_url : productState?.product?.product_thumbnail?.original_url} className="img-fluid bg-img" alt={productState?.product?.name} />
           </Link>
           <div className="cart-info">
             <CartButton productState={productState} selectedVariation={productState.selectedVariation} />

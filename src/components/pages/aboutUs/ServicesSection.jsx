@@ -1,3 +1,4 @@
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import ThemeOptionContext from "@/context/themeOptionsContext";
 import { storageURL } from "@/utils/constants";
 import { useContext } from "react";
@@ -14,7 +15,7 @@ const ServicesSection = () => {
           {themeOption?.about_us?.about?.futures?.map((service, i) => (
             <div className="service-block col-md-4" key={i}>
               <Media>
-                <img src={storageURL + service?.icon} alt="Free Shipping" />
+                <OptimizedImage src={storageURL + service?.icon} alt="Free Shipping" />
                 <div className="skeleton-img-box"></div>
                 <Media body>
                   <h4>{t(service?.title)}</h4>

@@ -1,4 +1,5 @@
 "use client";
+import OptimizedImage from "@/components/widgets/OptimizedImage";
 import NoDataFound from "@/components/widgets/NoDataFound";
 import WrapperComponent from "@/components/widgets/WrapperComponent";
 import CartContext from "@/context/cartContext";
@@ -53,7 +54,7 @@ const WishlistContent = () => {
                   <tr key={i}>
                     <td>
                       <Link href={`/product/${product?.slug}`}>
-                        <img height={90} width={90} src={product?.product_galleries[0]?.original_url || product?.product_galleries[1]?.original_url} alt={product?.slug} />
+                        <OptimizedImage height={90} width={90} src={product?.product_galleries[0]?.original_url || product?.product_galleries[1]?.original_url} alt={product?.slug} />
                       </Link>
                     </td>
                     <td>
