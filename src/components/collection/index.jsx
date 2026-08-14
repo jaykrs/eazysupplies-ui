@@ -5,6 +5,7 @@ import Loader from "@/layout/loader";
 import Breadcrumbs from "@/utils/commonComponents/breadcrumb";
 import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
 import { useContext, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import CollectionBanner from "./collectionBanner";
 import CollectionInfiniteScroll from "./collectionInfiniteScroll";
 import CollectionLeftSidebar from "./collectionLeftSidebar";
@@ -23,6 +24,8 @@ const CollectionContain = () => {
   const [category, brand, attribute, price, rating, sortBy, field, layout, paginate, title] = useCustomSearchParams(["category", "brand", "attribute", "price", "rating", "sortBy", "field", "layout", "paginate", "title"]);
   const collectionLayout = layout?.layout ? layout?.layout : themeOption?.collection?.collection_layout;
   const collectionTitle = title?.title?.trim() || "Collections";
+  const searchParams = useSearchParams();
+  const currentCollectionLink = `/collections${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
   const { categoryIsLoading } = useContext(CategoryContext);
 
   useEffect(() => {
@@ -81,7 +84,7 @@ const CollectionContain = () => {
         <>
           <Breadcrumbs
             title={collectionTitle}
-            subNavigation={collectionTitle === "Collections" ? [{ name: "Collections" }] : [{ name: "Collections", link: "/collections" }, { name: collectionTitle }]}
+            subNavigation={collectionTitle === "Collections" ? [{ name: "Collections", link: "/collections" }] : [{ name: "Collections", link: "/collections" }, { name: collectionTitle, link: currentCollectionLink }]}
           />
           {isCollectionMatch[collectionLayout]}
         </>
