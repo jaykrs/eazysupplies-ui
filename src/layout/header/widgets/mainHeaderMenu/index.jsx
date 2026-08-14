@@ -1,6 +1,6 @@
 import request from "@/utils/axiosUtils";
 import useFetchQuery from "@/utils/hooks/useFetchQuery";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import MenuList from "./MenuList";
 import { BASE_URL } from "@/utils/axiosUtils/API";
 import Link from "next/link";
@@ -8,13 +8,10 @@ import Link from "next/link";
 const MainHeaderMenu = () => {
   const [isOpen, setIsOpen] = useState([]);
   const [isClosing, setIsClosing] = useState(false);
-  const closeTimer = useRef();
 
   const closeMenus = () => {
     setIsOpen([]);
     setIsClosing(true);
-    window.clearTimeout(closeTimer.current);
-    closeTimer.current = window.setTimeout(() => setIsClosing(false), 350);
   };
   const {
     data: headerMenu,
@@ -39,8 +36,6 @@ const MainHeaderMenu = () => {
     isLoading && refetch();
   }, [isLoading]);
 
-  useEffect(() => () => window.clearTimeout(closeTimer.current), []);
-
   return (
     <>
       {isLoading ? (
@@ -54,7 +49,7 @@ const MainHeaderMenu = () => {
           <li></li>
         </ul>
       ) : (
-        <ul className={`navbar-nav ${isClosing ? "menu-closing" : ""}`}>
+        <ul className={`navbar-nav ${isClosing ? "menu-closing" : ""}`} onMouseEnter={() => isClosing && setIsClosing(false)}>
           <li className="nav-item">
             <Link onClick={closeMenus} className="dropdown-item" href="/collections?layout=collection_3_grid">
               All Products
