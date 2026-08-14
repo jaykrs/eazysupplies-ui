@@ -84,7 +84,7 @@ const CollectionContain = () => {
         <>
           <Breadcrumbs
             title={collectionTitle}
-            subNavigation={collectionTitle === "Collections" ? [{ name: "Collections", link: "/collections" }] : [{ name: "Collections", link: "/collections" }, { name: collectionTitle, link: currentCollectionLink }]}
+            subNavigation={collectionTitle === "Collections" ? [{ name: "Collections", link: "/collections", categoryPopover: true }] : [{ name: "Collections", link: "/collections", categoryPopover: true }, { name: collectionTitle, link: currentCollectionLink }]}
           />
           {isCollectionMatch[collectionLayout]}
         </>
