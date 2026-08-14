@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
+  staticPageGenerationTimeout: 180,
   images: {
     domains: ["api.eazysupplies.com"],
     remotePatterns: [
