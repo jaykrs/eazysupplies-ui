@@ -1,22 +1,27 @@
 import { FilterPaginateData } from "@/data/CustomData";
-import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from "reactstrap";
 
 const FilterPaginate = ({ filter, setFilter }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
-  const [attribute, price, category, layout] = useCustomSearchParams(["attribute", "price", "category", "layout"]);
   const { t } = useTranslation("common");
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [state, setState] = useState(filter?.paginate);
+
+  useEffect(() => {
+    setState(filter?.paginate);
+  }, [filter?.paginate]);
 
   const handleSort = (data) => {
     setState(data?.value);
-    let queryParams = new URLSearchParams({ ...attribute, ...price, ...category, ...layout, paginate: data.value }).toString();
+    const queryParams = new URLSearchParams(searchParams.toString());
+    queryParams.set("paginate", data.value);
+    queryParams.delete("page");
     setFilter((prev) => {
       return {
         ...prev,
@@ -24,7 +29,7 @@ const FilterPaginate = ({ filter, setFilter }) => {
       };
     });
     window.scroll(0, 0);
-    router.push(`${pathname}?${queryParams}`);
+    router.replace(`${pathname}?${queryParams.toString()}`);
   };
   return (
     <div className="product-page-filter">

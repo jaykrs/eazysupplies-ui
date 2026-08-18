@@ -6,10 +6,10 @@ import { RiShoppingCartLine } from "react-icons/ri";
 
 const AddToCartDigital = ({ productState }) => {
   const { t } = useTranslation("common");
-  const { handleIncDec, isLoading } = useContext(CartContext);
+  const { setProductQuantity, isLoading } = useContext(CartContext);
 
   const addToCart = () => {
-    handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
+    setProductQuantity(productState?.productQty, productState?.product, productState);
   };
 
   const externalProductLink = (link) => {

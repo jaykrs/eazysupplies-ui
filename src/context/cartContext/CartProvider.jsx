@@ -109,6 +109,51 @@ const CartProvider = (props) => {
     isOpenFun && isOpenFun(true);
   };
 
+  // Set the selected product/variation to an exact quantity.
+  // Product pages use this so changing 5 to 10 results in 10, not 15.
+  const setProductQuantity = (qty, productObj, cloneVariation, isOpenFun) => {
+    const desiredQuantity = Math.max(1, Math.floor(Number(qty) || 1));
+    const selectedVariation = cloneVariation?.selectedVariation || null;
+    const variationId = selectedVariation?.id || null;
+    const cart = [...cartProducts];
+    const index = cart.findIndex(
+      (item) => item.product_id === productObj?.id && item.variation_id === variationId
+    );
+    const availableStock = Number(
+      selectedVariation?.quantity ?? productObj?.stock ?? productObj?.quantity
+    );
+
+    if (Number.isFinite(availableStock) && availableStock > 0 && desiredQuantity > availableStock) {
+      ToastNotification("error", `Only ${availableStock} items in stock.`);
+      return false;
+    }
+
+    const unitPrice = Number(selectedVariation?.price ?? productObj?.price ?? 0);
+    if (index === -1) {
+      cart.push({
+        id: Date.now(),
+        product: productObj,
+        product_id: productObj?.id,
+        variation: selectedVariation,
+        variation_id: variationId,
+        quantity: desiredQuantity,
+        sub_total: desiredQuantity * unitPrice,
+      });
+    } else {
+      cart[index] = {
+        ...cart[index],
+        product: productObj,
+        variation: selectedVariation,
+        quantity: desiredQuantity,
+        sub_total: desiredQuantity * unitPrice,
+      };
+    }
+
+    setCartProducts(cart);
+    isOpenFun && isOpenFun(true);
+    return true;
+  };
+
   // ✅ Toggle Cart Drawer
   const cartToggleValue = (value) => {
     setCartToggle(value);
@@ -126,6 +171,7 @@ const CartProvider = (props) => {
         clearCart,
         getTotal,
         handleIncDec,
+        setProductQuantity,
         cartToggle,
         cartToggleValue,
         variationModal,

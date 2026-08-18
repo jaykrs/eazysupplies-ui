@@ -14,29 +14,23 @@ import SizeModal from "./allModal/SizeModal";
 import ProductAttribute from "./productAttribute/ProductAttribute";
 import ProductDetailAction from "./ProductDetailAction";
 import Btn from "@/elements/buttons/Btn";
-import AccountContext from "@/context/accountContext";
 
 const ProductContent = ({ productState, setProductState, productAccordion, noDetails, noQuantityButtons, noModals }) => {
   const { t } = useTranslation("common");
-  const { handleIncDec, isLoading } = useContext(CartContext);
+  const { setProductQuantity, isLoading } = useContext(CartContext);
   const { convertCurrency } = useContext(SettingContext);
   const { setCartCanvas, themeOption } = useContext(ThemeOptionContext);
   const [cartData1, setCartData] = useState(JSON.parse(localStorage.getItem("cartData")))
   const router = useRouter();
-  const { accountData } = useContext(AccountContext)
-  const { setOpenAuthModal } = useContext(ThemeOptionContext);
 
   const addToCart = () => {
-    if (!!accountData?.data?.id) {
-      handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
-    } else {
-      setOpenAuthModal(true)
-    }
+    const updated = setProductQuantity(productState?.productQty, productState?.product, productState);
+    if (updated !== false) setCartCanvas(true);
   };
 
   const buyNow = () => {
-    handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
-    router.push(`/checkout`);
+    const updated = setProductQuantity(productState?.productQty, productState?.product, productState);
+    if (updated !== false) router.push(`/checkout`);
   };
   const [modal, setModal] = useState("");
   const activeModal = {

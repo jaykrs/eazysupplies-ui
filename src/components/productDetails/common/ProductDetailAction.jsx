@@ -1,80 +1,85 @@
 import CartContext from "@/context/cartContext";
 import SettingContext from "@/context/settingContext";
 import Btn from "@/elements/buttons/Btn";
-import { useRouter } from "next/navigation";
-import React, { useContext, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useContext, useEffect } from "react";
 import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import { Input, InputGroup } from "reactstrap";
 import ProductWholesale from "./ProductWholesale";
 
 const ProductDetailAction = ({ productState, setProductState, extraOption, isDisplay = true }) => {
-  const { t } = useTranslation("common");
-  const { handleIncDec, isLoading } = useContext(CartContext);
+  const { cartProducts } = useContext(CartContext);
   const { convertCurrency } = useContext(SettingContext);
-  const [totalPrice, settotalPrice] = useState(0);
-  const router = useRouter();
-  const addToCart = () => {
-    handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
+  const productId = productState?.product?.id;
+  const variationId = productState?.selectedVariation?.id || null;
+  const cartItem = cartProducts?.find(
+    (item) => item.product_id === productId && item.variation_id === variationId
+  );
+  const stockQuantity = Number(
+    productState?.selectedVariation?.quantity ?? productState?.product?.quantity
+  );
+
+  const calculateTotal = (state, quantity) => {
+    const basePrice = Number(
+      state?.selectedVariation?.sale_price ??
+        state?.selectedVariation?.price ??
+        state?.product?.sale_price ??
+        state?.product?.price ??
+        0
+    );
+    const wholesale = state?.product?.wholesales?.find(
+      (value) => Number(value?.min_qty) <= quantity && Number(value?.max_qty) >= quantity
+    );
+
+    if (wholesale && state?.product?.wholesale_price_type === "fixed") {
+      return quantity * Number(wholesale.value || 0);
+    }
+    if (wholesale && state?.product?.wholesale_price_type === "percentage") {
+      return quantity * basePrice * (1 - Number(wholesale.value || 0) / 100);
+    }
+    return quantity * basePrice;
   };
-  const buyNow = () => {
-    handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
-    router.push(`/checkout`);
-  };
-  const updateQty = (qty) => {
-    if (1 > productState?.productQty + qty) return;
+
+  const setQuantity = (value) => {
+    let nextQuantity = Math.max(1, Math.floor(Number(value) || 1));
+    if (Number.isFinite(stockQuantity) && stockQuantity > 0) {
+      nextQuantity = Math.min(nextQuantity, stockQuantity);
+    }
+
     setProductState((prev) => {
-      return { ...prev, productQty: productState?.productQty + qty };
+      const nextState = {
+        ...prev,
+        productQty: nextQuantity,
+        totalPrice: calculateTotal(prev, nextQuantity),
+      };
+      if (prev?.selectedVariation) {
+        nextState.selectedVariation = {
+          ...prev.selectedVariation,
+          stock_status: Number(prev.selectedVariation.quantity) < nextQuantity ? "out_of_stock" : "in_stock",
+        };
+      } else if (prev?.product) {
+        nextState.product = {
+          ...prev.product,
+          stock_status: Number(prev.product.quantity) < nextQuantity ? "out_of_stock" : "in_stock",
+        };
+      }
+      return nextState;
     });
-    checkStockAvailable();
-    wholesalePriceCal();
-  };
-  const checkStockAvailable = () => {
-    if (productState?.selectedVariation) {
-      setProductState((prevState) => {
-        const tempSelectedVariation = { ...prevState.selectedVariation };
-        tempSelectedVariation.stock_status = tempSelectedVariation.quantity < prevState.productQty ? "out_of_stock" : "in_stock";
-        return {
-          ...prevState,
-          selectedVariation: tempSelectedVariation,
-        };
-      });
-    } else {
-      setProductState((prevState) => {
-        const tempProduct = { ...prevState.product };
-        tempProduct.stock_status = tempProduct.quantity < prevState.productQty ? "out_of_stock" : "in_stock";
-        return {
-          ...prevState,
-          product: tempProduct,
-        };
-      });
-    }
-  };
-
-  const wholesalePriceCal = () => {
-    let wholesale = productState?.product?.wholesales?.find((value) => value?.min_qty <= productState?.productQty && value?.max_qty >= productState?.productQty) || null;
-
-    if (wholesale && productState?.product.wholesale_price_type == "fixed") {
-      setProductState((prev) => {
-        return { ...prev, totalPrice: prev?.productQty * wholesale.value };
-      });
-    } else if (wholesale && productState?.product.wholesale_price_type == "percentage") {
-      setProductState((prev) => {
-        return { ...prev, totalPrice: prev?.productQty * (prev?.selectedVariation ? prev?.selectedVariation.sale_price : prev?.product.sale_price) };
-      });
-      setProductState((prev) => {
-        return { ...prev, totalPrice: prev?.totalPrice - prev?.totalPrice * (wholesale.value / 100) };
-      });
-    } else {
-      setProductState((prev) => {
-        return { ...prev, totalPrice: prev?.productQty * (prev?.selectedVariation ? prev?.selectedVariation.sale_price : prev?.product.sale_price) };
-      });
-    }
   };
 
   useEffect(() => {
-    wholesalePriceCal();
-  }, [totalPrice]);
+    if (cartItem?.quantity) {
+      setQuantity(cartItem.quantity);
+    }
+  }, [productId, variationId, cartItem?.quantity]);
+
+  useEffect(() => {
+    if (productId) {
+      setProductState((prev) => ({
+        ...prev,
+        totalPrice: calculateTotal(prev, prev.productQty || 1),
+      }));
+    }
+  }, [productId, variationId]);
   return (
     <>
       {productState?.product?.wholesales?.length ? (
@@ -92,13 +97,20 @@ const ProductDetailAction = ({ productState, setProductState, extraOption, isDis
             <div className="cart_qty qty-box product-qty">
               <InputGroup>
                 <span className="input-group-prepend">
-                  <Btn className=" quantity-left-minus" id="quantity-left-minus18" type="submit" onClick={() => updateQty(-1)}>
+                  <Btn className=" quantity-left-minus" id="quantity-left-minus18" type="button" onClick={() => setQuantity(productState?.productQty - 1)}>
                     <RiArrowLeftSLine />
                   </Btn>
                 </span>
-                <Input className="input-number" type="number" value={productState?.productQty} readOnly />
+                <Input
+                  className="input-number"
+                  type="number"
+                  min="1"
+                  max={Number.isFinite(stockQuantity) && stockQuantity > 0 ? stockQuantity : undefined}
+                  value={productState?.productQty || 1}
+                  onChange={(event) => setQuantity(event.target.value)}
+                />
                 <span className="input-group-prepend">
-                  <Btn type="submit" className=" quantity-left-plus" id="quantity-left-plus18" onClick={() => updateQty(1)}>
+                  <Btn type="button" className=" quantity-left-plus" id="quantity-left-plus18" onClick={() => setQuantity(productState?.productQty + 1)}>
                     <RiArrowRightSLine />
                   </Btn>
                 </span>

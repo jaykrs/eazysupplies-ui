@@ -9,18 +9,18 @@ import ProductWholesale from "./ProductWholesale";
 
 const StickyCheckoutButtons = ({ productState, setProductState, extraOption, isDisplay = true }) => {
   const { t } = useTranslation("common");
-  const { handleIncDec, isLoading } = useContext(CartContext);
+  const { setProductQuantity, isLoading } = useContext(CartContext);
   const { setCartCanvas } = useContext(ThemeOptionContext);
   const { convertCurrency } = useContext(SettingContext);
 
   const router = useRouter();
   const addToCart = () => {
-    setCartCanvas(true);
-    handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
+    const updated = setProductQuantity(productState?.productQty, productState?.product, productState);
+    if (updated !== false) setCartCanvas(true);
   };
   const buyNow = () => {
-    handleIncDec(productState?.productQty, productState?.product, false, false, false, productState);
-    router.push(`/checkout`);
+    const updated = setProductQuantity(productState?.productQty, productState?.product, productState);
+    if (updated !== false) router.push(`/checkout`);
   };
 
   return (

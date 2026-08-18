@@ -19,14 +19,37 @@ import { BrandAPI, CategoryAPI } from "@/utils/axiosUtils/API";
 import axios from "axios";
 
 const CollectionContain = () => {
-  const [filter, setFilter] = useState({ category: [], brand: [], price: [], attribute: [], rating: [], sortBy: "asc", field: "created_at" });
+  const [filter, setFilter] = useState({ category: [], brand: [], price: [], attribute: [], rating: [], sortBy: "asc", field: "created_at", paginate: 25 });
   const { themeOption } = useContext(ThemeOptionContext);
   const [category, brand, attribute, price, rating, sortBy, field, layout, paginate, title] = useCustomSearchParams(["category", "brand", "attribute", "price", "rating", "sortBy", "field", "layout", "paginate", "title"]);
   const collectionLayout = layout?.layout ? layout?.layout : themeOption?.collection?.collection_layout;
-  const collectionTitle = title?.title?.trim() || "Collections";
   const searchParams = useSearchParams();
   const currentCollectionLink = `/collections${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
   const { categoryIsLoading } = useContext(CategoryContext);
+  const categoryId = category?.category?.split(",")?.[0];
+  const brandId = brand?.brand?.split(",")?.[0];
+  const activeName = title?.title?.trim();
+
+  const breadcrumbDetails = categoryId
+    ? {
+        title: activeName || `Category ${categoryId}`,
+        items: [
+          { name: "Category", categoryPopover: true, icon: "category" },
+          { name: activeName || `Category ${categoryId}`, link: currentCollectionLink, icon: "category", current: true },
+        ],
+      }
+    : brandId
+      ? {
+          title: activeName || `Brand ${brandId}`,
+          items: [
+            { name: "Brand", icon: "brand" },
+            { name: activeName || `Brand ${brandId}`, link: currentCollectionLink, icon: "brand", current: true },
+          ],
+        }
+      : {
+          title: "All Products",
+          items: [{ name: "All Products", link: "/collections", icon: "products", current: true }],
+        };
 
   useEffect(() => {
     axios.get(CategoryAPI).then((res) => {
@@ -47,7 +70,7 @@ const CollectionContain = () => {
     setFilter((prev) => {
       return {
         ...prev,
-        paginate: paginate?.paginate ? paginate?.paginate : 12,
+        paginate: paginate?.paginate ? Number(paginate.paginate) : 25,
         category: category ? category?.category?.split(",") : [],
         brand: brand ? brand?.brand?.split(",") : [],
         attribute: attribute ? attribute?.attribute?.split(",") : [],
@@ -68,7 +91,7 @@ const CollectionContain = () => {
     collection_left_sidebar: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
     collection_right_sidebar: <CollectionRightSidebar filter={filter} setFilter={setFilter} />,
     collection_2_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
-    collection_3_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
+    collection_3_grid: <CollectionOffCanvas filter={filter} setFilter={setFilter} />,
     collection_4_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
     collection_5_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
     collection_list_view: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
@@ -83,8 +106,8 @@ const CollectionContain = () => {
       ) : (
         <>
           <Breadcrumbs
-            title={collectionTitle}
-            subNavigation={collectionTitle === "Collections" ? [{ name: "Collections", link: "/collections", categoryPopover: true }] : [{ name: "Collections", link: "/collections", categoryPopover: true }, { name: collectionTitle, link: currentCollectionLink }]}
+            title={breadcrumbDetails.title}
+            subNavigation={breadcrumbDetails.items}
           />
           {isCollectionMatch[collectionLayout]}
         </>
