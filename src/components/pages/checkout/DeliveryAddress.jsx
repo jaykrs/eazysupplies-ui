@@ -51,7 +51,7 @@ const DeliveryAddress = ({
         {address?.length > 0 ? (
           <Row className="g-4">
             {address.map((addr, i) => (
-              <ShowAddress item={addr.full || addr} key={i} type={type} index={i} />
+              <ShowAddress item={addr.full || addr} key={i} type={type} index={i} setFieldValue={setFieldValue} />
             ))}
           </Row>
         ) : (

@@ -107,9 +107,9 @@ const AddAddressForm = ({ isLoading, mutate, editAddress, setModal, isFooterDisp
           console.log("EDIT REQUEST →", editData);
 
           mutate({
-            url: `/address/${editAddress.id}`,
+            url: "/address",
             method: "PUT",
-            data: editData,
+            data: { id: editAddress.id, ...editData },
           });
 
         } else {
@@ -133,7 +133,7 @@ const AddAddressForm = ({ isLoading, mutate, editAddress, setModal, isFooterDisp
           });
         }
 
-        setModal(false);
+        // The mutation success callback closes the modal after persistence.
       }}
     >
       {({ values, setFieldValue }) => (

@@ -22,8 +22,8 @@ const OrderDetailsTracking = () => {
   const [orderData, setOrderData] = useState([])
   const [taxData, setTaxData] = useState([]);
   const router = useRouter();
-  const { data, isLoading } = useFetchQuery([GetOrderById], () => request({ url: GetOrderById + orderId, method: "GET", withCredentials: true }, router), {
-    enabled: true,
+  const { data, isLoading } = useFetchQuery([GetOrderById, orderId], () => request({ url: GetOrderById + orderId, method: "GET", withCredentials: true }, router), {
+    enabled: Boolean(orderId),
     refetchOnWindowFocus: false,
     select: (res) => res?.data,
   });

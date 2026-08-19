@@ -50,7 +50,15 @@ const WishlistProvider = (props) => {
   // Common Handler for Add to wishlist
   const addToWishlist = (productObj) => {
     if (Cookies.get("uat")) {
-      router.push("/wishlist");
+      mutate(
+        { productId: productObj?.id },
+        {
+          onSuccess: async () => {
+            await refetch();
+            router.push("/wishlist");
+          },
+        }
+      );
     } else {
       setOpenAuthModal(true);
     }

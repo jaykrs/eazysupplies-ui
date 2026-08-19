@@ -61,16 +61,25 @@ export async function GET(request) {
     try {
         const { searchParams } = new URL(request.url);
         const paymentResponse = searchParams.get("response");
+        if (!paymentResponse || !SECRET_KEY) {
+            return NextResponse.json({ error: "Invalid payment response" }, { status: 400 });
+        }
         const resp = decrypt(paymentResponse, SECRET_KEY);
         const jsonObject = JSON.parse(resp);
         let transectionids = '';
         let orderid = '';
         if (paymentResponse) {
             transectionids = jsonObject.requestorTransactionId+"__"+jsonObject.transactionId;
-            orderid = jsonObject.reasonForCollection.replace(' Order Id #', '');
+            orderid = Number(
+                jsonObject.collectionReferenceNumber ||
+                String(jsonObject.reasonForCollection || "").match(/\d+/)?.[0]
+            );
+            if (!Number.isInteger(orderid)) {
+                return NextResponse.json({ error: "Payment response is missing the order reference" }, { status: 400 });
+            }
                 let data = JSON.stringify({
                 "transectionid": transectionids,
-                 "orderId": Number(orderid),
+                 "orderId": orderid,
                 "status": jsonObject.transactionStatus === 'PAID' ? "SUCCESS" : "FAILED"
                 });
                 let config = {
@@ -83,15 +92,9 @@ export async function GET(request) {
                     },
                 data : data
                 };
-                axios.request(config)
-                .then((response) => {
-                console.log(JSON.stringify(response.data));
-                })
-                .catch((error) => {
-                console.log(error);
-                });
-            return NextResponse.json({ transactionId: transectionids, orderid : orderid , payerName: jsonObject.payerName, transactionStatus: jsonObject.transactionStatus, transactionAmt: jsonObject.amountPaid }, { status: 200 });
+            await axios.request(config);
+            return NextResponse.json({ transactionId: transectionids, orderid, payerName: jsonObject.payerName, transactionStatus: jsonObject.transactionStatus, transactionAmt: jsonObject.amountPaid }, { status: 200 });
         }
-    } catch (e) { console.log(e); }
+    } catch (e) { console.error("Payment callback failed", e); }
     return NextResponse.json({ error: MESSAGES.SERVER_ERROR }, { status: 500 });
 }

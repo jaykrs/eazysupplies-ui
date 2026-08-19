@@ -100,7 +100,8 @@ const CheckoutContent = () => {
     false,
     "Address Added successfully",
     (resDta) => {
-      setAddress((prev) => [...prev, resDta?.data]);
+      const saved = resDta?.data?.data || resDta?.data;
+      saved?.id && setAddress((prev) => [...prev, saved]);
 
       refetch();
       refetchUserAddresses();

@@ -3,7 +3,7 @@ import { Field } from "formik";
 import { useTranslation } from "react-i18next";
 import { Col, Label } from "reactstrap";
 
-const ShowAddress = ({ item, type, index }) => {
+const ShowAddress = ({ item, type, index, setFieldValue }) => {
   const { t } = useTranslation("common");
 
   /** Split "address | Phone: XXXXX" */
@@ -21,7 +21,14 @@ const ShowAddress = ({ item, type, index }) => {
 
   return (
     <Col xxl={6} lg={12} md={6}>
-      <Label className="m-0 h-100" htmlFor={`address-${type}-${index}`}>
+      <Label
+        className="m-0 h-100"
+        htmlFor={`address-${type}-${index}`}
+        onClick={() => {
+          setFieldValue(`${type}_address_id`, item.id);
+          setFieldValue(`${type}_address`, item);
+        }}
+      >
         <div className="delivery-address-box">
           <div>
             <div className="form-check">

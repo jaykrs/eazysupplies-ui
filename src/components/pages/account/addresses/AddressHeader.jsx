@@ -47,7 +47,8 @@ const AddressHeader = () => {
     false,
     "Address Added successfully",
     (res) => {
-      setAddressState((prev) => [...prev, res?.data]);
+      const saved = res?.data?.data || res?.data;
+      saved?.id && setAddressState((prev) => [...prev, saved]);
       refetch();
       setModal("");
     }
@@ -62,8 +63,9 @@ const AddressHeader = () => {
     false,
     "Address Updated successfully",
     (res) => {
+      const saved = res?.data?.data || res?.data;
       setAddressState((prev) =>
-        prev.map((elem) => (elem.id === res?.data?.id ? res.data : elem))
+        prev.map((elem) => (elem.id === saved?.id ? saved : elem))
       );
 
       refetch();

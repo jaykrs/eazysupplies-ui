@@ -128,7 +128,7 @@ const PaymentTable = ({ payments, isLoading, orderNumber }) => {
    */
   const handleClick = (orderId) => {
     if (orderId) {
-      router.push("/order/details?orderId=" + orderId);
+      router.push("/account/order/details?orderId=" + orderId);
     }
   }
 
@@ -258,11 +258,11 @@ const PaymentTable = ({ payments, isLoading, orderNumber }) => {
                           {/* Transaction ID */}
                           <td 
                             className="fw-medium text-dark"
-                            title={payment?.transactionId} // Show full ID on hover
+                            title={payment?.transectionid} // Show full ID on hover
                           >
                             <span className="text-truncate d-inline-block" style={{ maxWidth: '200px' }}>
-                              {payment?.transactionId ? 
-                                payment.transactionId.toUpperCase() : 
+                              {payment?.transectionid ?
+                                payment.transectionid.toUpperCase() :
                                 "PENDING"
                               }
                             </span>
@@ -298,7 +298,7 @@ const PaymentTable = ({ payments, isLoading, orderNumber }) => {
                           {/* View Details Link */}
                           <td>
                             <Link 
-                              href={`/order/details?orderId=${payment?.orderId || payment?.id}`}
+                              href={`/account/order/details?orderId=${payment?.orderId || payment?.id}`}
                               onClick={(e) => e.stopPropagation()} // Prevent row click when clicking link
                               className="text-decoration-none"
                               title="View Order Details"

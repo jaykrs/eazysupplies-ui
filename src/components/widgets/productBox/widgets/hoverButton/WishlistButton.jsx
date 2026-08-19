@@ -5,6 +5,7 @@ import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
 import { RiHeartFill, RiHeartLine } from "react-icons/ri";
+import WishlistContext from "@/context/wishlistContext";
 
 const WishlistButton = ({ productstate, customClass, hideAction, customAnchor }) => {
   const [isLoginModalOpen, setLoginModalOpen] = useState(false);
@@ -12,12 +13,12 @@ const WishlistButton = ({ productstate, customClass, hideAction, customAnchor })
   //const [addToWishlistAudio, setAddToWishlistAudio] = useState(new Audio(audioFile));
   const router = useRouter();
   const { setOpenAuthModal } = useContext(ThemeOptionContext);
+  const { addToWishlist } = useContext(WishlistContext);
 
   const handelWishlist = (productstate) => {
     if (Cookies.get("uat")) {
       // no use addToWishlistAudio.play();
-      router.push("/wishlist");
-      // Put your logic here
+      addToWishlist(productstate);
     } else {
       setOpenAuthModal(true);
     }

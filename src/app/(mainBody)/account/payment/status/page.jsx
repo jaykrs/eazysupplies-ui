@@ -10,19 +10,24 @@ export default function TransactionConfirmationPage() {
   const [transactionId , setTransactionId] = useState('');
   const [transactionAmt, setTransactionAmt] = useState(0);
   const [transactionStatus, setTransactionStatus] = useState("WAIT..."); // SUCCESS | FAILED | PENDING
+  const [orderId, setOrderId] = useState("");
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     async function fetchData () {
       if(paymentResponse){
   const res =  await fetch("/api/paymentstatus?response="+paymentResponse);
   const result = await res.json();
+  if (!res.ok) throw new Error(result?.error || "Payment confirmation failed");
   console.log(result);
   setTransactionId(result?.transactionId);
   setTransactionStatus(result?.transactionStatus);
   setTransactionAmt(result?.transactionAmt);
+  setOrderId(result?.orderid);
   }
+  setLoading(false);
     }
- fetchData();
-  },[]);
+ fetchData().catch(() => { setTransactionStatus("FAILED"); setLoading(false); });
+  },[paymentResponse]);
   
  
  
@@ -34,6 +39,8 @@ export default function TransactionConfirmationPage() {
 
 
   const isSuccess = transactionStatus === "PAID";
+
+  if (loading) return <div className="page-wrapper"><div className="card"><h1 className="title">Confirming payment…</h1><p className="subtitle">Please do not close this page.</p></div></div>;
 
   return (
     <div className="page-wrapper">
@@ -74,8 +81,8 @@ export default function TransactionConfirmationPage() {
           </div>
         </div>
 
-        <Link href="/account/dashboard" className="home-btn">
-          Return to Home
+        <Link href={orderId ? `/account/order/details?orderId=${orderId}` : "/account/order"} className="home-btn">
+          View Order
         </Link>
       </div>
 

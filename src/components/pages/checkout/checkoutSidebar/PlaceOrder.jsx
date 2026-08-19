@@ -73,7 +73,7 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
           method: "CREDIT_CARD",
           status: "PENDING",
           userId: accountData?.data?.id,
-          amount: tempProduct.reduce((sum, item) => sum + Number(item?.price || 0), 0)
+          amount: tempProduct.reduce((sum, item) => sum + Number(item?.price || 0) * Number(item?.quantity || 0), 0)
         },
         jsonData: {
           note: "First test order"

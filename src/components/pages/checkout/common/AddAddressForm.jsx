@@ -89,12 +89,12 @@ const AddAddressForm = ({
 
           // ---- IF EDIT ----
           if (editAddress?.id) {
-            url = `${AddressAPI}/${editAddress.id}`;
             methodToUse = "PUT";
           }
 
           // ---- PAYLOAD ----
           const payload = {
+            ...(editAddress?.id ? { id: editAddress.id } : {}),
             name: values.name,
             address: finalAddress,       // merged format (required by backend)
             city: values.city,
@@ -106,7 +106,7 @@ const AddAddressForm = ({
             payload.userId = userId;
           }
 
-          await request(
+          const response = await request(
             {
               url,
               method: methodToUse,
@@ -114,6 +114,10 @@ const AddAddressForm = ({
             },
             router
           );
+
+          if (!response?.data?.data?.id) {
+            throw new Error("Address was not saved");
+          }
 
           setModal(false);
 

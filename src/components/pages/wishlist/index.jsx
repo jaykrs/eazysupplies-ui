@@ -17,14 +17,21 @@ import { Table } from "reactstrap";
 import emptyImage from "/public/assets/svg/empty-items.svg";
 
 const WishlistContent = () => {
-  const { wishlistProducts, WishlistAPILoading } = useContext(WishlistContext);
+  const { wishlistProducts, WishlistAPILoading, removeWishlist } = useContext(WishlistContext);
   const { t } = useTranslation("common");
   const { setCartCanvas } = useContext(ThemeOptionContext);
   const { handleIncDec, openCartSidebar } = useContext(CartContext);
   const removeFromWishlist = (product) => {
-    //  Put your logic here
+    removeWishlist(product?.id, product?.id);
   };
   const { convertCurrency } = useContext(SettingContext);
+  const getProductImage = (product) => {
+    const [firstImage] = product?.productImage?.split(",") || [];
+    if (!firstImage?.trim()) return "/assets/images/placeholder/product.png";
+    const fileUrl = new URL(process.env.NEXT_PUBLIC_FILE_API_URL || "https://api.eazysupplies.com/api/file");
+    fileUrl.searchParams.set("file", firstImage.trim());
+    return fileUrl.toString();
+  };
 
   const addToCart = (product) => {
     setCartCanvas(true);
@@ -53,19 +60,19 @@ const WishlistContent = () => {
                 {wishlistProducts?.map((product, i) => (
                   <tr key={i}>
                     <td>
-                      <Link href={`/product/${product?.slug}`}>
-                        <OptimizedImage height={90} width={90} src={product?.product_galleries[0]?.original_url || product?.product_galleries[1]?.original_url} alt={product?.slug} />
+                      <Link href={`/product/${product?.id}`}>
+                        <OptimizedImage height={90} width={90} src={getProductImage(product)} alt={product?.name} />
                       </Link>
                     </td>
                     <td>
-                      <Link href={`/product/${product?.slug}`}>{product?.name}</Link>
+                      <Link href={`/product/${product?.id}`}>{product?.name}</Link>
                       <div className="mobile-cart-content row">
                         <div className="col">
-                          <p>{product?.stock_status?.replaceAll("_", " ")}</p>
+                          <p>{product?.stock > 0 ? t("InStock") : t("OutOfStock")}</p>
                         </div>
                         <div className="col">
                           <h2>
-                            {convertCurrency(product?.sale_price)} {product?.sale_price >= product?.price ? null : <del>{convertCurrency(product?.price)}</del>}
+                            {convertCurrency(product?.price)}
                           </h2>
                         </div>
                         <div className="col">
@@ -82,11 +89,11 @@ const WishlistContent = () => {
                     </td>
                     <td>
                       <h2>
-                        {convertCurrency(product?.sale_price)} {product?.sale_price >= product?.price ? null : <del>{convertCurrency(product?.price)}</del>}
+                        {convertCurrency(product?.price)}
                       </h2>
                     </td>
                     <td>
-                      <p>{product?.stock_status?.replaceAll("_", " ")}</p>
+                      <p>{product?.stock > 0 ? t("InStock") : t("OutOfStock")}</p>
                     </td>
 
                     <td>

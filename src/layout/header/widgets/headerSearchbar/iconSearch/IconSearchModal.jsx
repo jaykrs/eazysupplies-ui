@@ -18,12 +18,18 @@ const IconSearchModal = ({ setIsOpen, isOpen }) => {
   const [searchArr, setSearchArray] = useState([]);
   const [paginate, setPaginate] = useState(4);
   const [categoryCustomSearch, setCategoryCustomSearch] = useState("");
-  const [categoryTc, setCategoryTc] = useState(null);
   const [productCustomSearch, setProductCustomSearch] = useState("");
-  const [productTc, setProductTc] = useState(null);
   const { ref, isComponentVisible, setIsComponentVisible } = useOutsideDropdown();
-  const { data, isLoading: productLoading, refetch: productRefetch, fetchStatus } = useFetchQuery([ProductAPI, "Search"], () => request({ url: ProductAPI, params: { status: 1, search: productCustomSearch ? productCustomSearch : null, paginate: searchValue === "" ? 4 : paginate } }), { enabled: true, refetchOnWindowFocus: false, select: (data) => data.data.data });
-  const { data: categoryData, refetch, isLoading: categoryIsLoading, fetchStatus: categoryFetchStatus } = useFetchQuery(["CategoryAPIMinimalSearch"], () => request({ url: CategoryAPI, params: { status: 1, paginate: searchValue === "" ? 4 : paginate, search: categoryCustomSearch ? categoryCustomSearch : null } }), { enabled: isOpen, refetchOnWindowFocus: false, select: (data) => data.data.data });
+  const { data, isLoading: productLoading, fetchStatus } = useFetchQuery(
+    [ProductAPI, "Search", productCustomSearch],
+    () => request({ url: ProductAPI, params: { status: 1, search: productCustomSearch || null, paginate: productCustomSearch ? paginate : 4 } }),
+    { enabled: isOpen, refetchOnWindowFocus: false, select: (response) => response?.data?.data || [] }
+  );
+  const { data: categoryData, fetchStatus: categoryFetchStatus } = useFetchQuery(
+    ["CategoryAPIMinimalSearch", categoryCustomSearch],
+    () => request({ url: CategoryAPI, params: { status: 1, paginate: categoryCustomSearch ? paginate : 4, search: categoryCustomSearch || null } }),
+    { enabled: isOpen, refetchOnWindowFocus: false, select: (response) => response?.data?.data || [] }
+  );
 
   const [text] = useTypewriter({
     words: ["Search with brand and category..."],
@@ -31,37 +37,21 @@ const IconSearchModal = ({ setIsOpen, isOpen }) => {
     loop: 0,
   });
 
-  useEffect(() => {
-    if (data) {
-      setSearchArray(data?.slice(0, 5));
-    }
-  }, [productLoading, data]);
+  useEffect(() => setSearchArray(data?.slice(0, 5) || []), [data]);
 
   // Added debouncing
   useEffect(() => {
-    if (categoryTc) clearTimeout(categoryTc);
-    setCategoryTc(setTimeout(() => setCategoryCustomSearch(searchValue), 500));
-
-    if (productTc) clearTimeout(productTc);
-    setProductTc(setTimeout(() => setProductCustomSearch(searchValue), 500));
+    const timer = setTimeout(() => {
+      const term = searchValue.trim();
+      setCategoryCustomSearch(term);
+      setProductCustomSearch(term);
+    }, 350);
+    return () => clearTimeout(timer);
   }, [searchValue]);
-
-  // Getting users data on searching users
-  useEffect(() => {
-    !categoryIsLoading && categoryCustomSearch !== undefined && refetch();
-    !productLoading && productCustomSearch !== undefined && productRefetch();
-  }, [categoryCustomSearch, productCustomSearch]);
 
   const onChangeHandle = (text) => {
     setSearchValue(text);
-    if (text !== "") {
-      const search = data?.filter((item) => item?.name?.toLowerCase().includes(text.toLowerCase()));
-      setSearchArray(search);
-      setIsComponentVisible(true);
-    } else {
-      setSearchArray(data?.slice(0, 5));
-      setIsComponentVisible(false);
-    }
+    setIsComponentVisible(Boolean(text));
   };
 
   return (

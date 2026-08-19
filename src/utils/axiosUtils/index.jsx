@@ -45,12 +45,9 @@ const request = async ({ ...options }, router) => {
   const onSuccess = (response) => response;
 
   const onError = (error) => {
-    if (error?.response?.status === 401) {
-      // Optional: clear cookies or redirect
-      return error;
-    }
-
-    return error;
+    // Failed requests must reject so forms and React Query mutations do not
+    // report an unsuccessful save/order as a successful operation.
+    throw error;
   };
 
   try {

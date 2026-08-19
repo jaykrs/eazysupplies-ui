@@ -19,8 +19,8 @@ const PaymentList = () => {
   const search = useSearchParams();
   let orderNumber = search.get("order_number");
   let emailPhone = search.get("email_or_phone");
-  const [paymentData, setPaymentData] = useState([ ])
-const {accountData} = useContext(AccountContext)
+  const [paymentData, setPaymentData] = useState([]);
+  const { accountData } = useContext(AccountContext);
   const router = useRouter();
   // const { data, isLoading } = useFetchQuery([TrackingAPI], () => request({ url: TrackingAPI, params: { order_number: orderNumber, email_or_phone: emailPhone } }, router), {
   //   enabled: true,
@@ -28,9 +28,18 @@ const {accountData} = useContext(AccountContext)
   //   select: (res) => res?.data,
   // });
 
-  useEffect(() => {
-    accountData?.data?.payments?.length >0 && setPaymentData(accountData?.data?.payments?.reverse())
-  }, [accountData])
+  const userId = accountData?.data?.id;
+  const { data: payments, isLoading } = useFetchQuery(
+    ["payments", userId],
+    () => request({ url: "/payments", params: { withCookies: 1 } }, router),
+    {
+      enabled: Boolean(userId),
+      refetchOnWindowFocus: false,
+      select: (response) => response?.data?.data || [],
+    }
+  );
+
+  useEffect(() => setPaymentData(payments || []), [payments]);
 
   // if (isLoading) return <Loader />;
   return (
@@ -43,8 +52,8 @@ const {accountData} = useContext(AccountContext)
             <div className="tab-pane">
               <ResponsiveMenuOpen />
               <Col xxl={12} lg={8}>
-                {paymentData && paymentData?.length > 0 ? (
-                  <PaymentTable payments={paymentData} />
+                {isLoading ? <Loader /> : paymentData?.length > 0 ? (
+                  <PaymentTable payments={paymentData} isLoading={isLoading} />
                 ) : (
                   <NoDataFound customClass="no-data-added" imageUrl={`/assets/svg/empty-items.svg`} title="NoOrderFound" height="300" width="300" />
                 )}

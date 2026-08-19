@@ -92,7 +92,7 @@ const ConsumerDetails = ({ data, taxData }) => {
         _dd = [{ discountPercentage: 0, discountAmount: 0, taxId: 0, taxAmount: 0, taxpercent: 0, totalPrice: 0 }];
         let _taxId = Number(el.product?.tax);
         let _taxpercent = taxData.filter((elm) => Number(elm.id) == _taxId);
-        _taxpercent = _taxpercent[0]?.value;
+        _taxpercent = Number(_taxpercent[0]?.value || 0);
         let _taxAmt = Number(el.product?.price) * Number(_taxpercent) / 100;
 
         totalTax = Number(el.quantity) > 0 ? totalTax + _taxAmt * Number(el.quantity) : totalTax;
@@ -103,7 +103,7 @@ const ConsumerDetails = ({ data, taxData }) => {
         if (_dd.length > 0) {
           let _taxId = Number(el.product?.tax);
           let _taxpercent = taxData.filter((elm) => Number(elm.id) == _taxId);
-          _taxpercent = _taxpercent[0]?.value;
+          _taxpercent = Number(_taxpercent[0]?.value || 0);
           let _taxAmt = Number(_dd[0].sellingPrice) * Number(_taxpercent) / 100;
 
           totalTax = Number(el.quantity) > 0 ? totalTax + _taxAmt * Number(el.quantity) : totalTax;
@@ -123,6 +123,11 @@ const ConsumerDetails = ({ data, taxData }) => {
     
     if (paymentMethod == "") {
       alert("Please Select Payment Method");
+      setLoading(false);
+      return;
+    }
+    if (!Number.isFinite(amount) || amount <= 0) {
+      alert("The order total is invalid. Please refresh and try again.");
       setLoading(false);
       return;
     }
@@ -148,7 +153,7 @@ const ConsumerDetails = ({ data, taxData }) => {
       .then(function (response) {
         const payurl = response.data?.realTimePaymentData?.message;
         if(payurl !== "" && payurl?.startsWith("https")) {
-          router.push(payurl);
+          window.location.assign(payurl);
         } else {
           alert("Thanks for Offline payment , please contact Support Staff for further order processing");
           router.push('/account/order');
@@ -474,7 +479,7 @@ const ConsumerDetails = ({ data, taxData }) => {
                             <Row>
                               <Col xs={6}>
                                 <p className="text-muted small mb-1">Transaction ID</p>
-                                <p className="font-monospace fw-bold mb-0">
+                                <p className="font-monospace fw-bold mb-0" style={{ overflowWrap: "anywhere" }}>
                                   {data?.payment?.transectionid || "N/A"}
                                 </p>
                               </Col></Row>
