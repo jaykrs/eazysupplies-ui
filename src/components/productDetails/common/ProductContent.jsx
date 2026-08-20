@@ -22,9 +22,21 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
   const { setCartCanvas, themeOption } = useContext(ThemeOptionContext);
   const router = useRouter();
 
+  const openCartWithoutScrolling = () => {
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const restoreScroll = () => window.scrollTo({ left: scrollX, top: scrollY, behavior: "auto" });
+
+    setCartCanvas(true);
+    window.requestAnimationFrame(() => {
+      restoreScroll();
+      window.requestAnimationFrame(restoreScroll);
+    });
+  };
+
   const addToCart = () => {
     const updated = setProductQuantity(productState?.productQty, productState?.product, productState);
-    if (updated !== false) setCartCanvas(true);
+    if (updated !== false) openCartWithoutScrolling();
   };
 
   const buyNow = () => {

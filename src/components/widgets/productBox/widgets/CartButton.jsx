@@ -14,6 +14,17 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
   const { t } = useTranslation("common");
   const [productQty, setProductQty] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const openCartWithoutScrolling = () => {
+    const scrollX = window.scrollX;
+    const scrollY = window.scrollY;
+    const restoreScroll = () => window.scrollTo({ left: scrollX, top: scrollY, behavior: "auto" });
+
+    setCartCanvas(true);
+    window.requestAnimationFrame(() => {
+      restoreScroll();
+      window.requestAnimationFrame(restoreScroll);
+    });
+  };
   const getSelectedVariant = useMemo(() => {
     return cartProducts.find((elem) => (elem?.variation_id ? elem?.variation_id == productState?.selectedVariation?.id : elem.product_id === productState?.product?.id));
   }, [cartProducts, productState]);
@@ -52,7 +63,7 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                   className="add-button add_cart"
                   onClick={() => {
                     const updated = handleIncDec(1, productState?.product, productQty, setProductQty, setIsOpen, getSelectedVariant ? getSelectedVariant : null);
-                    if (updated !== false) setCartCanvas(true);
+                    if (updated !== false) openCartWithoutScrolling();
                   }}
                 >
                   {text}
@@ -106,7 +117,7 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                   return;
                 }
                 const updated = handleIncDec(1, productState?.product, productQty, setProductQty, setIsOpen, productState);
-                if (updated !== false) setCartCanvas(true);
+                if (updated !== false) openCartWithoutScrolling();
                 if (productState?.product?.type === "classified") setVariationModal(productState?.product?.id);
               }}
             >
