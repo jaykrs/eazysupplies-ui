@@ -61,7 +61,10 @@ export const discountSchema = Yup.number().min(0).max(100);
 export const requiredSchema = Yup.mixed().required();
 export const StatusSchema = Yup.boolean().required();
 
-export const phoneSchema = Yup.string().required()
+export const phoneSchema = Yup.string()
+  .trim()
+  .matches(/^[6-9]\d{9}$/, "Enter a valid 10-digit Indian mobile number")
+  .required("Phone number is required")
 
 export const ifIsApplyAll = Yup.array().when("is_apply_all", {
   is: (val) => !val,

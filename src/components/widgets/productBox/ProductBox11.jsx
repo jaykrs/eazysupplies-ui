@@ -18,7 +18,7 @@ const getProductThumbnail = (product) => {
   return { original_url: fileUrl.toString() };
 };
 
-const ProductBox11 = ({ productState, setProductState }) => {
+const ProductBox11 = ({ productState, setProductState, listView = false }) => {
   const { convertCurrency } = useContext(SettingContext);
   const { t } = useTranslation("common");
   const product = productState?.product;
@@ -47,12 +47,20 @@ const ProductBox11 = ({ productState, setProductState }) => {
             <Link href={`/brand/${productState.product.brand.slug || productState.product.brand.name}`} className="product-title">{productState.product.brand.name}</Link>
           )}
 
-          <Link href={`/product/${productPath}`} className="product-title">
+          <Link href={`/product/${productPath}`} className="product-title product-title-highlight">
             <h6>{productState?.selectedVariation ? productState?.selectedVariation.name : productState?.product?.name}</h6>
           </Link>
 
+          {listView && product?.description && (
+            <p className="list-product-description">
+              {product.description.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim().slice(0, 220)}
+              {product.description.replace(/<[^>]*>/g, " ").trim().length > 220 ? "…" : ""}
+            </p>
+          )}
+
           <h4 className="price">
             {displayPrice != null ? convertCurrency(displayPrice) : null}
+            {Number(product?.mrp) > Number(displayPrice) && <del className="ms-2">{convertCurrency(product.mrp)}</del>}
             {productState?.selectedVariation ? (
               productState?.selectedVariation.discount ? (
                 <>

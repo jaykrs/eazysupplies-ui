@@ -2336,6 +2336,22 @@
   opacity: 1;
 }
 
+.custom-checkbox.error .checkbox-icon {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12);
+}
+
+.terms-checkbox-error .checkbox-label {
+  color: #991b1b;
+}
+
+.terms-inline-error {
+  margin: 8px 0 0 30px;
+  color: #dc2626;
+  font-size: 13px;
+  font-weight: 600;
+}
+
 .checkbox-text {
   flex: 1;
 }
@@ -4042,6 +4058,64 @@
   }
 }
 
+/* Narrated UAT refinements */
+.product-title-highlight {
+  color: #243126 !important;
+  font-weight: 650 !important;
+  text-decoration: none;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.product-title-highlight:hover,
+.product-title-highlight:focus-visible {
+  color: var(--theme-color, #78b800) !important;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.list-product-description {
+  color: #667267;
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 10px 0 12px;
+  max-width: 62ch;
+}
+
+.custome-pagination .pagination {
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.custome-pagination .page-link {
+  align-items: center;
+  background: #fff;
+  border: 1px solid #d8e3d5;
+  border-radius: 10px !important;
+  color: #38533e;
+  display: inline-flex;
+  font-size: 16px;
+  font-weight: 600;
+  height: 44px;
+  justify-content: center;
+  min-width: 44px;
+  padding: 0 12px;
+}
+
+.custome-pagination .page-item.active .page-link,
+.custome-pagination .page-link.active,
+.custome-pagination .page-link:hover {
+  background: var(--theme-color, #78b800);
+  border-color: var(--theme-color, #78b800);
+  color: #fff;
+}
+
+.custome-pagination .page-item.disabled .page-link {
+  background: #f4f6f3;
+  border-color: #e3e8e1;
+  color: #98a097;
+}
+
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   .products-section,
@@ -5433,7 +5507,5 @@
     gap: 8px;
   }
 }
-
-
 
 

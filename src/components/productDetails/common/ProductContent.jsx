@@ -19,13 +19,11 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
   const { t } = useTranslation("common");
   const { setProductQuantity, isLoading } = useContext(CartContext);
   const { convertCurrency } = useContext(SettingContext);
-  const { setCartCanvas, themeOption } = useContext(ThemeOptionContext);
-  const [cartData1, setCartData] = useState(JSON.parse(localStorage.getItem("cartData")))
+  const { themeOption } = useContext(ThemeOptionContext);
   const router = useRouter();
 
   const addToCart = () => {
-    const updated = setProductQuantity(productState?.productQty, productState?.product, productState);
-    if (updated !== false) setCartCanvas(true);
+    setProductQuantity(productState?.productQty, productState?.product, productState);
   };
 
   const buyNow = () => {
@@ -57,8 +55,11 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
           <div className="price-text">
             <h3>
               <span className="text-dark fw-normal">Price : </span>
-              {productState?.product?.price ? convertCurrency(productState?.product?.price) : convertCurrency(productState?.product?.price)}
+              {convertCurrency(productState?.product?.price)}
                / {productState?.product?.skuType} 
+              {Number(productState?.product?.mrp) > Number(productState?.product?.price) && (
+                <del className="ms-2">{convertCurrency(productState.product.mrp)}</del>
+              )}
               {productState?.selectedVariation?.discount || productState?.product?.discount ? <del>{productState?.selectedVariation ? convertCurrency(productState?.selectedVariation?.price) : convertCurrency(productState?.product?.price)}</del> : null}
 
               {productState?.selectedVariation?.discount || productState?.product?.discount ? (

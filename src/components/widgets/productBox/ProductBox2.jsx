@@ -10,7 +10,7 @@ import WishlistButton from "./widgets/hoverButton/WishlistButton";
 import ProductBoxVariantAttribute from "./widgets/ProductBoxVariantAttributes";
 import ProductHoverButton from "./widgets/ProductHoverButton";
 
-const ProductBox2 = ({ productState, setProductState }) => {
+const ProductBox2 = ({ productState, setProductState, onNavigate }) => {
   const { t } = useTranslation("common");
 const getFirstOriginalUrl = (filesString) => {
   if (!filesString) return null;
@@ -38,7 +38,7 @@ const originalUrl = getFirstOriginalUrl(productState?.product?.productImage);
             </div>
           ) : null}
 
-          <Link href={`/product/${productState?.product?.id}`}>
+          <Link href={`/product/${productState?.product?.id}`} onClick={onNavigate}>
             <OptimizedImage src={originalUrl ? originalUrl : placeHolderImage} className="img-fluid bg-img" alt={productState?.product?.name} />
           </Link>
           <div className="rating-label">
@@ -54,19 +54,22 @@ const originalUrl = getFirstOriginalUrl(productState?.product?.productImage);
         <div className="product-detail">
           <div>
             <div className="brand-w-color">
-              <a className="product-title" href={`/product/${productState?.product?.id}`}>
+              <Link className="product-title product-title-highlight" href={`/product/${productState?.product?.id}`} onClick={onNavigate}>
                 {productState?.product?.name}
-              </a>
+              </Link>
               <div className="color-panel">
                 <ProductBoxVariantAttribute showVariableType={["color", "image"]} productState={productState} setProductState={setProductState} />
               </div>
             </div>
-            <a href={`/product/${productState?.product?.id}`}>
+            <Link href={`/product/${productState?.product?.id}`} onClick={onNavigate}>
               <h6>{ productState?.product?.brand?.name}</h6>
-            </a>
+            </Link>
             <h4 className="price">
               {convertCurrency(productState?.product?.price)}
               {productState?.product?.skuType ? ` / ${lowercase(productState.product.skuType)}` : ""}
+              {Number(productState?.product?.mrp) > Number(productState?.product?.price) && (
+                <del className="ms-2">{convertCurrency(productState.product.mrp)}</del>
+              )}
               {/* {productState?.selectedVariation ? convertCurrency(productState?.selectedVariation.sale_price) : convertCurrency(productState?.product?.sale_price)} Adjust currencySymbol based on your implementation
               {(productState?.selectedVariation ? productState?.selectedVariation.discount : productState?.product?.discount) ? (
                 <>

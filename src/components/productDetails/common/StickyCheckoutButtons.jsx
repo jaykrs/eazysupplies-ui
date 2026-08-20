@@ -10,13 +10,11 @@ import ProductWholesale from "./ProductWholesale";
 const StickyCheckoutButtons = ({ productState, setProductState, extraOption, isDisplay = true }) => {
   const { t } = useTranslation("common");
   const { setProductQuantity, isLoading } = useContext(CartContext);
-  const { setCartCanvas } = useContext(ThemeOptionContext);
   const { convertCurrency } = useContext(SettingContext);
 
   const router = useRouter();
   const addToCart = () => {
-    const updated = setProductQuantity(productState?.productQty, productState?.product, productState);
-    if (updated !== false) setCartCanvas(true);
+    setProductQuantity(productState?.productQty, productState?.product, productState);
   };
   const buyNow = () => {
     const updated = setProductQuantity(productState?.productQty, productState?.product, productState);

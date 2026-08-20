@@ -39,6 +39,7 @@ const RegisterForm = () => {
   const [successMessage, setSuccessMessage] = useState(null);
   const { t } = useTranslation("common");
   const [checkboxChecked, setCheckboxChecked] = useState(false);
+  const [termsError, setTermsError] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
   const { setOpenAuthModal } = useContext(ThemeOptionContext);
   const router = useRouter();
@@ -111,6 +112,7 @@ const RegisterForm = () => {
   // Handle Formik submit
   const handleSubmit = (values, { resetForm }) => {
     if (!checkboxChecked) {
+      setTermsError(true);
       setShowBoxMessage({
         type: 'error',
         message: t("AgreeToTerms") || "Please agree to the terms and conditions"
@@ -457,13 +459,18 @@ const RegisterForm = () => {
 
             {/* Terms and Conditions */}
             <div className="form-group mb-4">
-              <div className="terms-checkbox-wrapper">
-                <div className={`custom-checkbox ${checkboxChecked ? 'checked' : ''} ${successMessage ? 'disabled' : ''}`}>
+              <div className={`terms-checkbox-wrapper ${termsError ? 'terms-checkbox-error' : ''}`}>
+                <div className={`custom-checkbox ${checkboxChecked ? 'checked' : ''} ${termsError ? 'error' : ''} ${successMessage ? 'disabled' : ''}`}>
                   <input
                     type="checkbox"
                     id="termsCheckbox"
                     className="checkbox-input"
-                    onChange={(e) => setCheckboxChecked(e.target.checked)}
+                    aria-invalid={termsError}
+                    aria-describedby={termsError ? "termsCheckboxError" : undefined}
+                    onChange={(e) => {
+                      setCheckboxChecked(e.target.checked);
+                      if (e.target.checked) setTermsError(false);
+                    }}
                     disabled={successMessage || isLoading}
                   />
                   <label htmlFor="termsCheckbox" className="checkbox-label">
@@ -480,6 +487,11 @@ const RegisterForm = () => {
                     </span>
                   </label>
                 </div>
+                {termsError && (
+                  <div id="termsCheckboxError" className="terms-inline-error" role="alert">
+                    Please accept the Terms &amp; Policy before creating your account.
+                  </div>
+                )}
               </div>
             </div>
 
@@ -488,7 +500,7 @@ const RegisterForm = () => {
               type="submit"
               loading={isLoading}
               className="w-100 verify-btn"
-              disabled={!checkboxChecked || isLoading || successMessage}
+              disabled={isLoading || successMessage}
             >
               {successMessage ? (
                 <>

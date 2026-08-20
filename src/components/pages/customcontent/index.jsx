@@ -13,9 +13,9 @@ const CustomContent = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const searchParams = useSearchParams();
+  const pageid = searchParams.get('name');
   useEffect(() => {
     const fetchPolicy = async () => {
-      const pageid = searchParams.get('name'); 
       try {
         const response = await fetch(prodapiurl+'/template?name='+pageid, { cache: "no-store" });
         
@@ -36,7 +36,7 @@ const CustomContent = () => {
     };
 
     fetchPolicy();
-  }, []);
+  }, [pageid]);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;

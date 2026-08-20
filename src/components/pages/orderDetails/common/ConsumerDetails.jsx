@@ -83,35 +83,33 @@ const ConsumerDetails = ({ data, taxData }) => {
   };
 
   function getItemsTotalPrice() {
-    let totalTax = 0, total = 0;
+    const approvedItems = Array.isArray(data?.jsonOrderData) ? data.jsonOrderData : [];
+    let totalTax = 0;
+    let total = 0;
 
-    data.items.forEach(el => {
-      let jsonData = el.product.jsonData;
-      let _dd = [];
-      if (!jsonData) {
-        _dd = [{ discountPercentage: 0, discountAmount: 0, taxId: 0, taxAmount: 0, taxpercent: 0, totalPrice: 0 }];
-        let _taxId = Number(el.product?.tax);
-        let _taxpercent = taxData.filter((elm) => Number(elm.id) == _taxId);
-        _taxpercent = Number(_taxpercent[0]?.value || 0);
-        let _taxAmt = Number(el.product?.price) * Number(_taxpercent) / 100;
-
-        totalTax = Number(el.quantity) > 0 ? totalTax + _taxAmt * Number(el.quantity) : totalTax;
-        total = Number(el.quantity) > 0 ? total + (Number(el.product?.price - _dd[0].discountAmount) + _taxAmt) * Number(el.quantity) : total;
+    (data?.items || []).forEach((item) => {
+      const quantity = Math.max(Number(item?.quantity) || 0, 0);
+      const approved = approvedItems.find((row) => Number(row?.productId) === Number(item?.productId));
+      if (approved) {
+        const approvedLineTotal = Number(approved.totalPrice);
+        const approvedTax = Number(approved.taxAmount) * quantity;
+        total += Number.isFinite(approvedLineTotal) ? approvedLineTotal : 0;
+        totalTax += Number.isFinite(approvedTax) ? approvedTax : 0;
+        return;
       }
-      else {
-        _dd = jsonData.filter(el => el.orderId == data.id);
-        if (_dd.length > 0) {
-          let _taxId = Number(el.product?.tax);
-          let _taxpercent = taxData.filter((elm) => Number(elm.id) == _taxId);
-          _taxpercent = Number(_taxpercent[0]?.value || 0);
-          let _taxAmt = Number(_dd[0].sellingPrice) * Number(_taxpercent) / 100;
 
-          totalTax = Number(el.quantity) > 0 ? totalTax + _taxAmt * Number(el.quantity) : totalTax;
-          total = Number(el.quantity) > 0 ? total + (Number(el.product?.price - _dd[0].discountAmount) + _taxAmt) * Number(el.quantity) : total;
-        }
-      }
+      const unitPrice = Number(item?.price ?? item?.product?.price ?? 0);
+      const taxId = Number(item?.product?.tax);
+      const taxPercent = Number((taxData || []).find((tax) => Number(tax.id) === taxId)?.value || 0);
+      const unitTax = unitPrice * taxPercent / 100;
+      totalTax += unitTax * quantity;
+      total += (unitPrice + unitTax) * quantity;
     });
-    return { totalTax, total }
+
+    return {
+      totalTax: Number.isFinite(totalTax) ? totalTax : 0,
+      total: Number.isFinite(total) ? total : 0,
+    };
   }
 
   async function proceedPayment() {
@@ -135,7 +133,7 @@ const ConsumerDetails = ({ data, taxData }) => {
     var _data = JSON.stringify({
       "orderId": data.id,
       "amount": amount,
-      "method": [paymentMethod],
+      "method": paymentMethod,
       "reasonForCollection": reasonForCollection
     });
     
@@ -222,7 +220,7 @@ const ConsumerDetails = ({ data, taxData }) => {
                   {data?.billing_address && (
                     <div className="info-card-modern mb-3">
                       <div className="d-flex align-items-center gap-3 mb-3">
-                        <div className="icon-container-modern icon-container-blue">
+                        <div className="icon-container-modern icon-container-green">
                           <i className="ri-map-pin-line"></i>
                         </div>
                         <div>
@@ -349,7 +347,7 @@ const ConsumerDetails = ({ data, taxData }) => {
                   </div>
                   <div className="order-id-badge-modern">
                      <span>Order # {data.id}</span>
-                     <span><a className="link-primary small mb-0" href={`${process.env.API_PROD_URL}/invoice/${data.id}`} target="_blank">Invoice</a></span>
+                     <span><a className="link-primary small mb-0" href={`${BASE_URL}/api/file?file=performa-invoice${data.id}.pdf`} target="_blank" rel="noreferrer">Invoice</a></span>
                   </div>
                 </div>
 
@@ -494,11 +492,11 @@ const ConsumerDetails = ({ data, taxData }) => {
                           </div>
                           
                           <div className="d-flex gap-3 justify-content-center">
-                            <a target="_blank" href={"https://api.eazysupplies.com/api/file?userId="+data?.userId+"&file=performa-invoice"+data?.id+".pdf"} ><button className="btn btn-outline-primary px-4 py-2 rounded-pill">
+                            <a target="_blank" rel="noreferrer" href={`${BASE_URL}/api/file?file=performa-invoice${data?.id}.pdf`} ><button className="btn btn-outline-primary px-4 py-2 rounded-pill">
                               <i className="ri-download-line me-2"></i>
                               Invoice
                             </button></a>
-                            <a target="_blank" href={"https://api.eazysupplies.com/api/file?userId="+data?.userId+"&file=performa-transportReport"+data?.id+".pdf"} >
+                            <a target="_blank" rel="noreferrer" href={`${BASE_URL}/api/file?file=performa-transportReport${data?.id}.pdf`} >
                             <button className="btn-modern-primary px-4 py-2">
                               <i className="ri-chat-3-line me-2"></i>
                               Track Order

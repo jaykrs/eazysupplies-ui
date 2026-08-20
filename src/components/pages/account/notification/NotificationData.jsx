@@ -42,6 +42,15 @@ import { Card, CardBody } from "reactstrap";
 import AccountHeading from "../common/AccountHeading";
 import { useState, useEffect, useCallback, useMemo, memo } from "react";
 
+const formatNotificationHtml = (value) => {
+  const source = String(value || "");
+  return source
+    .replace(/<\s*(script|style|iframe|object|embed)[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/gi, "")
+    .replace(/\son\w+\s*=\s*(["']).*?\1/gi, "")
+    .replace(/javascript\s*:/gi, "")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+};
+
 // Utility function to get user data from storage
 const getUserDataFromStorage = () => {
   // Try multiple storage locations and keys
@@ -140,6 +149,7 @@ const NotificationItem = memo(({
   }, [notification]);
   
   const remarks = getNotificationMessage();
+  const formattedRemarks = formatNotificationHtml(remarks);
   // Strip HTML tags for the short text preview to prevent broken rendering
   const plainTextRemarks = remarks ? remarks.replace(/<[^>]+>/g, '').trim() : "";
   const truncatedRemarks = plainTextRemarks.length > 180 ? plainTextRemarks.substring(0, 180) + "..." : plainTextRemarks;
@@ -245,7 +255,7 @@ const NotificationItem = memo(({
      <div className="notification-body-modern">
         <div className={`notification-message-modern ${isExpanded ? 'expanded' : 'collapsed'}`}>
           {isExpanded ? (
-            <div dangerouslySetInnerHTML={{ __html: remarks }} />
+            <div dangerouslySetInnerHTML={{ __html: formattedRemarks }} />
           ) : (
             <div className="notification-short-text">{truncatedRemarks}</div>
           )}

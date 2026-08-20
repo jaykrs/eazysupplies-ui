@@ -36,6 +36,10 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
       return;
     }
     if (submissionLock.current) return;
+    if (!values?.shipping_address?.address || !values?.shipping_address?.city || !values?.shipping_address?.zipcode) {
+      ToastNotification("error", "Please add and select a complete shipping address before placing the order.");
+      return;
+    }
     // alert("llll")
     const tempProduct = []
     cartProducts?.map((data, index) => {
@@ -134,7 +138,7 @@ const PlaceOrder = ({ values, addToCartData, errors }) => {
   };
   return (
     <div className="text-end">
-      <Btn className="order-btn" onClick={handleClick} disabled={isSubmitting || cartProducts?.length === 0}>
+      <Btn className="order-btn" onClick={handleClick} disabled={disable || isSubmitting || cartProducts?.length === 0}>
         {isSubmitting ? "Placing order..." : t("PlaceRequest")}
       </Btn>
       {/* {addToCartData?.is_digital_only ? (

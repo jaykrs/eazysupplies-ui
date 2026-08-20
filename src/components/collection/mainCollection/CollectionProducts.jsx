@@ -44,7 +44,15 @@ const CollectionProducts = ({ filter, grid, infiniteScroll, categorySlug }) => {
       })
       .then((response) => {
         const responseData = response.data || {};
-        setProducts(responseData.data || []);
+        const seen = new Set();
+        const uniqueProducts = (responseData.data || []).filter((product) => {
+          const key = product?.sku?.trim()?.toLowerCase();
+          if (!key) return true;
+          if (seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        });
+        setProducts(uniqueProducts);
         setPagination({
           current_page: Number(responseData.current_page) || page,
           total: Number(responseData.total) || 0,

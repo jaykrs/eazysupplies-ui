@@ -1,5 +1,4 @@
 import CartContext from "@/context/cartContext";
-import ThemeOptionContext from "@/context/themeOptionsContext";
 import Btn from "@/elements/buttons/Btn";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,7 +8,6 @@ import Cookies from "js-cookie";
 import Link from 'next/link';
 const CartButton = ({ productState, text, classes, iconClass = true, quantity = false, selectedVariation }) => {
   const { cartProducts, handleIncDec } = useContext(CartContext);
-  const { cartCanvas, setCartCanvas } = useContext(ThemeOptionContext);
   const [variationModal, setVariationModal] = useState("");
   const { t } = useTranslation("common");
   const [productQty, setProductQty] = useState(0);
@@ -51,7 +49,6 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                   id={`add-to-cart${productState?.product?.id}`}
                   className="add-button add_cart"
                   onClick={() => {
-                    setCartCanvas(true);
                     handleIncDec(1, productState?.product, productQty, setProductQty, setIsOpen, getSelectedVariant ? getSelectedVariant : null);
                   }}
                 >
@@ -70,7 +67,6 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                       type="button"
                       className="btn quantity-left-minus"
                       onClick={() => {
-                        setCartCanvas(true);
                         handleIncDec(-1, productState?.product, productQty, setProductQty, setIsOpen, getSelectedVariant ? getSelectedVariant : null);
                       }}
                     >
@@ -86,7 +82,6 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                       type="button"
                       className="btn quantity-right-plus"
                       onClick={() => {
-                        setCartCanvas(true);
                         handleIncDec(1, productState?.product, productQty, setProductQty, setIsOpen, getSelectedVariant ? getSelectedVariant : null);
                       }}
                     >
@@ -103,9 +98,12 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
               className={`${classes ? classes : "btn"}  ${productQty > 0 ? "active" : ""} font-bold text-xl px-8 py-4`}
               iconClass={iconClass ? iconClass : <RiAddLine />}
               onClick={() => {
-                productState?.product?.external_url ? window.open(productState?.product?.external_url, "_blank") : setCartCanvas(true);
+                if (productState?.product?.external_url) {
+                  window.open(productState.product.external_url, "_blank");
+                  return;
+                }
                 handleIncDec(1, productState?.product, productQty, setProductQty, setIsOpen, productState);
-                productState?.product?.type === "classified" ? setVariationModal(productState?.product?.id) : setCartCanvas(!cartCanvas);
+                if (productState?.product?.type === "classified") setVariationModal(productState?.product?.id);
               }}
             >
               <i className="ri-shopping-cart-line" style={{ fontSize: '20px' }}></i>

@@ -39,6 +39,19 @@ const IconSearchModal = ({ setIsOpen, isOpen }) => {
 
   useEffect(() => setSearchArray(data?.slice(0, 5) || []), [data]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      document.body.classList.remove("modal-open");
+      document.body.style.removeProperty("overflow");
+      document.body.style.removeProperty("padding-right");
+    }
+    return () => {
+      document.body.classList.remove("modal-open");
+      document.body.style.removeProperty("overflow");
+      document.body.style.removeProperty("padding-right");
+    };
+  }, [isOpen]);
+
   // Added debouncing
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -88,7 +101,7 @@ const IconSearchModal = ({ setIsOpen, isOpen }) => {
             <Row className="row row-cols-xl-4 row-cols-md-3 row-cols-2 g-sm-4 g-3 row-empty-cls">
               {searchArr?.slice(0, 4)?.map((item, i) => (
                 <Col key={i}>
-                  <ListProductBox product={item} productBox={2} isOpen={isOpen} />
+                  <ListProductBox product={item} productBox={2} isOpen={isOpen} onNavigate={() => setIsOpen(false)} />
                 </Col>
               ))}
             </Row>
