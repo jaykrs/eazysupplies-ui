@@ -101,7 +101,10 @@ const useCreate = (
      * ON ERROR
      */
     onError: (err) => {
-      errFunction && errFunction(err);
+      if (errFunction) {
+        errFunction(err);
+        return;
+      }
 
       const msg = extractErrorMessage(err);
       setShowBoxMessage && setShowBoxMessage(msg);
