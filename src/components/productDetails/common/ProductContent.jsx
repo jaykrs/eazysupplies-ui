@@ -19,11 +19,12 @@ const ProductContent = ({ productState, setProductState, productAccordion, noDet
   const { t } = useTranslation("common");
   const { setProductQuantity, isLoading } = useContext(CartContext);
   const { convertCurrency } = useContext(SettingContext);
-  const { themeOption } = useContext(ThemeOptionContext);
+  const { setCartCanvas, themeOption } = useContext(ThemeOptionContext);
   const router = useRouter();
 
   const addToCart = () => {
-    setProductQuantity(productState?.productQty, productState?.product, productState);
+    const updated = setProductQuantity(productState?.productQty, productState?.product, productState);
+    if (updated !== false) setCartCanvas(true);
   };
 
   const buyNow = () => {

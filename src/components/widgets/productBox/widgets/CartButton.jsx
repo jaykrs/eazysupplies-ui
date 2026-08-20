@@ -1,4 +1,5 @@
 import CartContext from "@/context/cartContext";
+import ThemeOptionContext from "@/context/themeOptionsContext";
 import Btn from "@/elements/buttons/Btn";
 import React, { useContext, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,6 +9,7 @@ import Cookies from "js-cookie";
 import Link from 'next/link';
 const CartButton = ({ productState, text, classes, iconClass = true, quantity = false, selectedVariation }) => {
   const { cartProducts, handleIncDec } = useContext(CartContext);
+  const { setCartCanvas } = useContext(ThemeOptionContext);
   const [variationModal, setVariationModal] = useState("");
   const { t } = useTranslation("common");
   const [productQty, setProductQty] = useState(0);
@@ -49,7 +51,8 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                   id={`add-to-cart${productState?.product?.id}`}
                   className="add-button add_cart"
                   onClick={() => {
-                    handleIncDec(1, productState?.product, productQty, setProductQty, setIsOpen, getSelectedVariant ? getSelectedVariant : null);
+                    const updated = handleIncDec(1, productState?.product, productQty, setProductQty, setIsOpen, getSelectedVariant ? getSelectedVariant : null);
+                    if (updated !== false) setCartCanvas(true);
                   }}
                 >
                   {text}
@@ -102,7 +105,8 @@ const CartButton = ({ productState, text, classes, iconClass = true, quantity = 
                   window.open(productState.product.external_url, "_blank");
                   return;
                 }
-                handleIncDec(1, productState?.product, productQty, setProductQty, setIsOpen, productState);
+                const updated = handleIncDec(1, productState?.product, productQty, setProductQty, setIsOpen, productState);
+                if (updated !== false) setCartCanvas(true);
                 if (productState?.product?.type === "classified") setVariationModal(productState?.product?.id);
               }}
             >
