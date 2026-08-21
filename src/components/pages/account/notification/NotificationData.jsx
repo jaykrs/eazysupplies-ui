@@ -151,7 +151,12 @@ const NotificationItem = memo(({
   const remarks = getNotificationMessage();
   const formattedRemarks = formatNotificationHtml(remarks);
   // Strip HTML tags for the short text preview to prevent broken rendering
-  const plainTextRemarks = remarks ? remarks.replace(/<[^>]+>/g, '').trim() : "";
+  const plainTextRemarks = remarks
+    ? remarks
+        .replace(/<[^>]+>/g, '')
+        .replace(/\*\*([^*]+)\*\*/g, '$1')
+        .trim()
+    : "";
   const truncatedRemarks = plainTextRemarks.length > 180 ? plainTextRemarks.substring(0, 180) + "..." : plainTextRemarks;
   const email = remarks?.match(/[\w\.-]+@[\w\.-]+\.\w+/)?.[0] || "";
   const activationLink = remarks?.match(/https?:\/\/[^\s]+/g)?.[0] || "";
