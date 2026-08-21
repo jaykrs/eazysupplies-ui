@@ -235,6 +235,8 @@
         height: calc(27px + (30 - 27) * ((100vw - 320px) / (1920 - 320)));
         background-color: $top-header;
         border: 1px solid $white-dark;
+        padding: 0;
+        cursor: pointer;
         @include flex_common;
 
         svg {
@@ -402,6 +404,9 @@
     left: 0;
     width: 100%;
     height: 100%;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
     transition: all 0.5s ease;
   }
 
