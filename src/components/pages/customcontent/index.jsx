@@ -23,9 +23,11 @@ const CustomContent = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        const data =  await response.json();
-        console.log(data.htmlData);
-        // Extract only the htmlData string
+        const data = await response.json();
+        if (!data || typeof data.htmlData !== "string" || !data.htmlData.trim()) {
+          throw new Error("This page is not available yet. Please contact support for assistance.");
+        }
+
         setHtmlContent(data.htmlData);
         
       } catch (err) {

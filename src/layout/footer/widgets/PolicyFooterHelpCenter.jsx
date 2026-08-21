@@ -14,10 +14,11 @@ const policyRoutes = {
 };
 
 const resolvePolicyRoute = (item, translatedName) => {
-  const mapped = policyRoutes[String(translatedName || item?.name || "").trim().toLowerCase()];
-  if (mapped) return mapped;
   const value = String(item?.value || "").trim();
-  return value.startsWith("/") ? value : `/${value}`;
+  if (value) return value.startsWith("/") ? value : `/${value}`;
+
+  const mapped = policyRoutes[String(translatedName || item?.name || "").trim().toLowerCase()];
+  return mapped || "/pages?name=website-policy";
 };
 
 const PolicyFooterHelpCenter = () => {

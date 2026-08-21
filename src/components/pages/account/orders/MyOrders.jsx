@@ -151,7 +151,14 @@ const MyOrders = ({ userId }) => {
    * @param {Object} order - The order object
    * @returns {number} Total order price
    */
-  const calculatePrice = (order) => {
+const calculatePrice = (order) => {
+  if (Array.isArray(order?.jsonOrderData) && order.jsonOrderData.length > 0) {
+    return order.jsonOrderData.reduce(
+      (sum, item) => sum + (Number(item?.totalPrice) || 0),
+      0
+    );
+  }
+
   // If backend already provides final total, use it directly
   if (order?.totalAmount) return order.totalAmount;
   if (order?.totalPrice) return order.totalPrice;
@@ -161,8 +168,9 @@ const MyOrders = ({ userId }) => {
   // If items exist, sum their line totals
   if (order?.items && Array.isArray(order.items)) {
     return order.items.reduce((sum, item) => {
-      // item.price is ALREADY subtotal (unit * qty)
-      const lineTotal = Number(item?.price) || 0;
+      const unitPrice = Number(item?.price) || 0;
+      const quantity = Math.max(Number(item?.quantity) || 0, 0);
+      const lineTotal = unitPrice * quantity;
       return sum + lineTotal;
     }, 0);
   }
