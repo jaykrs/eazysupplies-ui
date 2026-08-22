@@ -44,7 +44,7 @@ const ProductColumn = ({ productState, setProductState, direction }) => {
         <WrapperComponent classes={{ sectionClass: "tab-product product-details-contain section-b-space m-0", fluidClass: "container" }} customCol={true}>
           <ProductDetailsTab productState={productState} setProductState={setProductState} />
         </WrapperComponent>
-        {productState?.product?.related_products?.length > 0 && <RelatedProduct productState={productState} setProductState={setProductState} />}
+        <RelatedProduct productState={productState} />
       </Container>
     </section>
   );
