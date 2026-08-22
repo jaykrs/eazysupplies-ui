@@ -110,8 +110,48 @@ const ProductDetailsTab = ({ productState }) => {
       <TabContent className="nav-material" activeTab={activeTab}>
         <TabPane className={activeTab == 1 ? "show active" : ""}>
           <style>{`
-            .product-description { 
-              white-space: pre-line !important; 
+            .product-description-content {
+              white-space: normal;
+              overflow-wrap: anywhere;
+              line-height: 1.65;
+              font-family: inherit;
+              font-size: 1rem;
+              font-weight: 400;
+            }
+            .product-description-content p {
+              margin: 0 0 1rem;
+            }
+            .product-description-content h1,
+            .product-description-content h2,
+            .product-description-content h3,
+            .product-description-content h4,
+            .product-description-content h5,
+            .product-description-content h6 {
+              margin: 1.5rem 0 0.65rem;
+              line-height: 1.3;
+              font-family: inherit;
+              font-weight: 700;
+            }
+            .product-description-content h5,
+            .product-description-content h6 {
+              font-size: 1.25rem;
+            }
+            .product-description-content ul,
+            .product-description-content ol {
+              margin: 0 0 1rem;
+              padding-left: 1.75rem;
+            }
+            .product-description-content ul {
+              list-style: disc outside;
+            }
+            .product-description-content ol {
+              list-style: disc outside;
+            }
+            .product-description-content li {
+              display: list-item;
+              margin: 0.2rem 0;
+              padding-left: 0.15rem;
+              font-weight: 400;
             }
             .product-description-content:not(.is-expanded) {
               max-height: 24rem;
