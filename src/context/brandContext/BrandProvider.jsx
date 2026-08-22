@@ -1,5 +1,5 @@
 import request from "@/utils/axiosUtils";
-import { BrandLogo } from "@/utils/axiosUtils/API";
+import { BrandAPI } from "@/utils/axiosUtils/API";
 import useFetchQuery from "@/utils/hooks/useFetchQuery";;
 import { useEffect, useState } from "react";
 import BrandContext from ".";
@@ -7,7 +7,7 @@ import BrandContext from ".";
 const BrandProvider = (props) => {
   const [brandState, setBrandState] = useState([]);
   const [brandParams, setBrandParams] = useState("");
-  const { data: BrandData, isLoading, refetch } = useFetchQuery([BrandLogo], () => request({ url: BrandLogo }), { enabled: false, refetchOnWindowFocus: false, select: (res) => res?.data?.data });
+  const { data: BrandData, isLoading, refetch } = useFetchQuery([BrandAPI], () => request({ url: BrandAPI }), { enabled: false, refetchOnWindowFocus: false, select: (res) => res?.data?.data });
 
   useEffect(() => {
     BrandData && setBrandState(BrandData);
