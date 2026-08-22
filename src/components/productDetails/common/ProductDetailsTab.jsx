@@ -105,17 +105,29 @@ const ProductDetailsTab = ({ productState }) => {
   }, [description]);
 
   return (
-    <Col sm={12} lg={12}>
+    <Col sm={12} lg={12} className="pdp-description-panel">
       <NavTabTitles classes={{ navClass: "nav nav-tabs nav-material" }} titleList={ProductDetailsTabTitle} activeTab={activeTab} setActiveTab={setActiveTab} />
       <TabContent className="nav-material" activeTab={activeTab}>
         <TabPane className={activeTab == 1 ? "show active" : ""}>
           <style>{`
-            .product-description-content {
+            .pdp-description-panel .nav-tabs .nav-link {
+              font-family: Montserrat, "Segoe UI", Arial, sans-serif;
+              font-size: 18px;
+              font-weight: 600;
+              line-height: 1.4;
+            }
+            .pdp-description-panel .tab-content.nav-material .product-description-content,
+            .pdp-description-panel .tab-content.nav-material .product-description-content p,
+            .pdp-description-panel .tab-content.nav-material .product-description-content div,
+            .pdp-description-panel .tab-content.nav-material .product-description-content span,
+            .pdp-description-panel .tab-content.nav-material .product-description-content a,
+            .pdp-description-panel .tab-content.nav-material .product-description-content li {
               white-space: normal;
               overflow-wrap: anywhere;
               line-height: 1.65;
-              font-family: inherit;
-              font-size: 1rem;
+              color: #26352b;
+              font-family: Montserrat, "Segoe UI", Arial, sans-serif;
+              font-size: 16px;
               font-weight: 400;
             }
             .product-description-content p {
@@ -128,13 +140,28 @@ const ProductDetailsTab = ({ productState }) => {
             .product-description-content h5,
             .product-description-content h6 {
               margin: 1.5rem 0 0.65rem;
+              color: #26352b;
               line-height: 1.3;
-              font-family: inherit;
+              font-family: Montserrat, "Segoe UI", Arial, sans-serif;
               font-weight: 700;
             }
             .product-description-content h5,
             .product-description-content h6 {
-              font-size: 1.25rem;
+              display: table;
+              width: fit-content;
+              padding: 12px 20px;
+              border: 1px solid #f3a26e;
+              background: #faf5ef;
+              color: #81ba00;
+              font-size: 18px;
+              font-weight: 600;
+            }
+            .product-description-content h5 *,
+            .product-description-content h6 * {
+              color: inherit;
+              font-family: inherit;
+              font-size: inherit;
+              font-weight: inherit;
             }
             .product-description-content ul,
             .product-description-content ol {
