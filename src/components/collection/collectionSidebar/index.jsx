@@ -3,13 +3,12 @@ import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { Accordion, AccordionHeader, AccordionItem } from "reactstrap";
-import CollectionBrand from "./CollectionBrand";
 import CollectionCategory from "./CollectionCategory";
 
 const CollectionSidebar = ({ filter, setFilter, isOffcanvas, basicStoreCard, rightSideClass, sellerClass, isAttributes = true, hideCategory, categorySlug }) => {
   const { collectionMobile, setCollectionMobile, openOffCanvas, setOpenOffCanvas } = useContext(ThemeOptionContext);
   const { t } = useTranslation("common");
-  const [open, setOpen] = useState(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"]);
+  const [open, setOpen] = useState(["1"]);
   const toggle = (id) => {
     if (open.includes(id)) {
       setOpen(open.filter(item => item !== id)); // Close section
@@ -59,12 +58,6 @@ const CollectionSidebar = ({ filter, setFilter, isOffcanvas, basicStoreCard, rig
                       <CollectionCategory filter={filter} setFilter={setFilter} />
                     </AccordionItem>
                   )}
-                  <AccordionItem className={`collection-collapse-block open ${isOffcanvas ? "col-lg-3" : ""}`}>
-                    <AccordionHeader targetId="2" className="collapse-block-title">
-                      <span>{t("Brand")}</span>
-                    </AccordionHeader>
-                    <CollectionBrand filter={filter} setFilter={setFilter} />
-                  </AccordionItem>
             </Accordion>
           </div>
         </div>
