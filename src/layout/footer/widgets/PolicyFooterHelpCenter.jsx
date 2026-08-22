@@ -5,20 +5,22 @@ import React, { useContext } from "react";
 import { useTranslation } from "react-i18next";
 
 const policyRoutes = {
-  "website policy": "/pages?name=website-policy",
-  "return policy": "/pages?name=return-policy",
-  "replacement policy": "/pages?name=replacement-policy",
-  "refund policy": "/pages?name=refund-policy",
-  "shipping policy": "/pages?name=shipping-policy",
+  "website policy": "/pages?name=website-policy#website-policy",
+  "return policy": "/pages?name=website-policy#return-policy",
+  "replacement policy": "/pages?name=website-policy#replacement-policy",
+  "refund policy": "/pages?name=website-policy#refund-policy",
+  "shipping policy": "/pages?name=website-policy#shipping-policy",
   career: "/pages?name=career",
 };
 
 const resolvePolicyRoute = (item, translatedName) => {
+  const mapped = policyRoutes[String(translatedName || item?.name || "").trim().toLowerCase()];
+  if (mapped) return mapped;
+
   const value = String(item?.value || "").trim();
   if (value) return value.startsWith("/") ? value : `/${value}`;
 
-  const mapped = policyRoutes[String(translatedName || item?.name || "").trim().toLowerCase()];
-  return mapped || "/pages?name=website-policy";
+  return "/pages?name=website-policy#website-policy";
 };
 
 const PolicyFooterHelpCenter = () => {

@@ -8,6 +8,25 @@ import CustomText from "./customText";
 import { useState, useEffect } from 'react';
 import { prodapiurl } from "@/utils/constants";
 import { useSearchParams } from 'next/navigation';
+
+const policyAnchors = {
+  "website policies": "website-policy",
+  "return policy": "return-policy",
+  "replacement policy": "replacement-policy",
+  "refund policy": "refund-policy",
+  "shipping policy": "shipping-policy",
+};
+
+const addPolicyAnchors = (html) =>
+  html.replace(/<(h[1-3])([^>]*)>([\s\S]*?)<\/\1>/gi, (heading, tag, attributes, content) => {
+    const headingText = content.replace(/<[^>]*>/g, " ").replace(/&amp;/gi, "&").replace(/\s+/g, " ").trim().toLowerCase();
+    const anchor = policyAnchors[headingText];
+    if (!anchor) return heading;
+
+    const cleanAttributes = attributes.replace(/\s+id=(?:"[^"]*"|'[^']*'|[^\s>]*)/i, "");
+    return `<${tag}${cleanAttributes} id="${anchor}">${content}</${tag}>`;
+  });
+
 const CustomContent = () => {
   const [htmlContent, setHtmlContent] = useState('');
   const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +47,7 @@ const CustomContent = () => {
           throw new Error("This page is not available yet. Please contact support for assistance.");
         }
 
-        setHtmlContent(data.htmlData);
+        setHtmlContent(pageid === "website-policy" ? addPolicyAnchors(data.htmlData) : data.htmlData);
         
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load policy');
@@ -39,6 +58,18 @@ const CustomContent = () => {
 
     fetchPolicy();
   }, [pageid]);
+
+  useEffect(() => {
+    if (!htmlContent || typeof window === "undefined" || !window.location.hash) return;
+
+    const anchor = decodeURIComponent(window.location.hash.slice(1));
+    const scrollToSection = () => {
+      document.getElementById(anchor)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+
+    const frame = window.requestAnimationFrame(scrollToSection);
+    return () => window.cancelAnimationFrame(frame);
+  }, [htmlContent]);
 
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p style={{ color: 'red' }}>Error: {error}</p>;
