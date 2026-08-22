@@ -5939,6 +5939,504 @@ body h6 {
   background: linear-gradient(135deg, #94a3b8, #64748b) !important;
 }
 
+/* Optional Earthling editorial storefront variant.
+   Activate with ?theme=earthling; the existing storefront remains the default. */
+.storefront-theme-switch {
+  align-items: center;
+  background: #243126;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  bottom: 22px;
+  box-shadow: 0 12px 30px rgba(20, 33, 24, 0.22);
+  color: #fff;
+  display: inline-flex;
+  font-size: 12px;
+  font-weight: 700;
+  gap: 8px;
+  letter-spacing: 0.02em;
+  min-height: 44px;
+  padding: 0 16px;
+  position: fixed;
+  right: 22px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  z-index: 1025;
+}
+
+.storefront-theme-switch:hover,
+.storefront-theme-switch:focus-visible {
+  box-shadow: 0 15px 36px rgba(20, 33, 24, 0.3);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.storefront-theme-switch svg {
+  font-size: 18px;
+}
+
+body.earthling-reference-theme {
+  --es-font: "Montserrat", "Segoe UI", Arial, sans-serif;
+  --es-green: #7a4b2a;
+  --es-ink: #191713;
+  --es-muted: #6b665f;
+  --es-border: #e7e0d7;
+  --es-surface: #ffffff;
+  --es-soft: #f8f5f0;
+  --es-radius: 4px;
+  --es-shadow: 0 12px 34px rgba(71, 51, 34, 0.09);
+  background: #fdfcf9;
+  color: var(--es-ink);
+}
+
+body.earthling-reference-theme .storefront-theme-switch {
+  background: #7a4b2a;
+}
+
+body.earthling-reference-theme h1,
+body.earthling-reference-theme h2,
+body.earthling-reference-theme h3,
+body.earthling-reference-theme h4,
+body.earthling-reference-theme h5,
+body.earthling-reference-theme h6 {
+  color: #171510;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+body.earthling-reference-theme .top-header {
+  display: none;
+}
+
+body.earthling-reference-theme header {
+  background: transparent;
+  padding: 10px 0 0;
+}
+
+body.earthling-reference-theme header .metro {
+  background: #fff;
+  border: 1px solid #eee8e0;
+  border-radius: 8px;
+  box-shadow: 0 3px 12px rgba(55, 41, 29, 0.12);
+  margin: 0 auto;
+  max-width: min(1400px, calc(100% - 40px));
+}
+
+body.earthling-reference-theme header .main-menu {
+  min-height: 90px;
+  padding: 8px 16px;
+}
+
+body.earthling-reference-theme header .brand-logo img {
+  max-height: 64px;
+  object-fit: contain;
+}
+
+body.earthling-reference-theme header .navbar-nav {
+  align-items: center;
+  gap: clamp(18px, 2vw, 34px);
+}
+
+body.earthling-reference-theme header .navbar-nav .nav-item,
+body.earthling-reference-theme header .navbar-nav .nav-item > a,
+body.earthling-reference-theme header .navbar-nav .dropdown-item {
+  color: #181510 !important;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+body.earthling-reference-theme header .navbar-nav .nav-item > a::after {
+  background: #7a4b2a;
+}
+
+body.earthling-reference-theme header .icon-nav > ul {
+  gap: 6px;
+}
+
+body.earthling-reference-theme header .icon-nav .onhover-div > a,
+body.earthling-reference-theme header .icon-nav .onhover-div > div > a {
+  align-items: center;
+  border: 1px solid #ebe4dc;
+  border-radius: 50%;
+  display: inline-flex;
+  height: 42px;
+  justify-content: center;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  width: 42px;
+}
+
+body.earthling-reference-theme header .icon-nav .onhover-div > a:hover,
+body.earthling-reference-theme header .icon-nav .onhover-div > div > a:hover {
+  background: #f8f3ed;
+  border-color: #7a4b2a;
+}
+
+body.earthling-reference-theme .breadcrumb-section {
+  background: transparent;
+  padding: 52px 0 8px;
+  text-align: left;
+}
+
+body.earthling-reference-theme .breadcrumb-section h2 {
+  display: none;
+}
+
+body.earthling-reference-theme .breadcrumb-section .theme-breadcrumb,
+body.earthling-reference-theme .breadcrumb-section .breadcrumb {
+  justify-content: flex-start;
+  margin: 0;
+}
+
+body.earthling-reference-theme .breadcrumb-section .breadcrumb-item,
+body.earthling-reference-theme .breadcrumb-section .breadcrumb-item a,
+body.earthling-reference-theme .breadcrumb-section .breadcrumb-item span,
+body.earthling-reference-theme .breadcrumb-section .breadcrumb-category-toggle {
+  color: #777068 !important;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: none !important;
+}
+
+body.earthling-reference-theme .breadcrumb-section .breadcrumb-item:last-child span,
+body.earthling-reference-theme .breadcrumb-section .breadcrumb-item:last-child a {
+  color: #211d18 !important;
+  font-weight: 600;
+}
+
+body.earthling-reference-theme .home-section,
+body.earthling-reference-theme .home-section-2,
+body.earthling-reference-theme .banner-padding,
+body.earthling-reference-theme .full-banner {
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+body.earthling-reference-theme section,
+body.earthling-reference-theme .section-t-space,
+body.earthling-reference-theme .section-b-space {
+  scroll-margin-top: 110px;
+}
+
+body.earthling-reference-theme .title-1 h2,
+body.earthling-reference-theme .title-2 h2,
+body.earthling-reference-theme .title-3 h2,
+body.earthling-reference-theme .title-4 h2 {
+  font-size: clamp(28px, 3vw, 44px);
+  font-weight: 700;
+  text-transform: none;
+}
+
+body.earthling-reference-theme .btn,
+body.earthling-reference-theme button:not(.storefront-theme-switch):not(.btn-close),
+body.earthling-reference-theme .product-buttons .btn {
+  border-radius: 999px;
+  font-weight: 650;
+}
+
+body.earthling-reference-theme .btn-solid,
+body.earthling-reference-theme .btn-theme,
+body.earthling-reference-theme .product-buttons .btn-solid,
+body.earthling-reference-theme .product-buttons .btn-theme {
+  background: #7a4b2a !important;
+  border-color: #7a4b2a !important;
+  color: #fff !important;
+}
+
+body.earthling-reference-theme .btn-outline,
+body.earthling-reference-theme .btn-outline-theme {
+  background: transparent !important;
+  border-color: #7a4b2a !important;
+  color: #7a4b2a !important;
+}
+
+body.earthling-reference-theme input,
+body.earthling-reference-theme select,
+body.earthling-reference-theme textarea,
+body.earthling-reference-theme .form-control,
+body.earthling-reference-theme .form-select,
+body.earthling-reference-theme .dropdown-toggle {
+  border-color: #dfd7ce;
+  border-radius: 4px;
+}
+
+body.earthling-reference-theme input:focus,
+body.earthling-reference-theme select:focus,
+body.earthling-reference-theme textarea:focus,
+body.earthling-reference-theme .form-control:focus,
+body.earthling-reference-theme .form-select:focus {
+  border-color: #7a4b2a;
+  box-shadow: 0 0 0 3px rgba(122, 75, 42, 0.12);
+}
+
+body.earthling-reference-theme .collection-wrapper.section-b-space,
+body.earthling-reference-theme .collection-wrapper.section-t-space {
+  padding-bottom: clamp(56px, 7vw, 96px);
+  padding-top: clamp(34px, 4vw, 64px);
+}
+
+body.earthling-reference-theme .collection-filter,
+body.earthling-reference-theme .product-top-filter {
+  border: 1px solid #e8e1d8;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+body.earthling-reference-theme .collection-filter .accordion-button {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+}
+
+body.earthling-reference-theme .collection-filter-checkbox:has(input:checked) {
+  background: #f5eee7;
+  border-color: #d6bdab;
+  color: #704225;
+}
+
+body.earthling-reference-theme .product-top-filter {
+  background: #faf8f4;
+}
+
+body.earthling-reference-theme .collection-grid-view ul li,
+body.earthling-reference-theme .product-page-per-view .dropdown-toggle,
+body.earthling-reference-theme .product-page-filter .dropdown-toggle {
+  border-color: #e3dcd3;
+  border-radius: 4px;
+}
+
+body.earthling-reference-theme .collection-grid-view ul li.active {
+  background: #7a4b2a;
+  border-color: #7a4b2a;
+  box-shadow: none;
+}
+
+body.earthling-reference-theme .product-wrapper-grid .basic-product.theme-product-1 {
+  border-color: #e8e2da;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+body.earthling-reference-theme .product-wrapper-grid .basic-product.theme-product-1:hover {
+  border-color: #cdb9a9;
+  box-shadow: 0 14px 34px rgba(79, 54, 35, 0.11);
+  transform: translateY(-4px);
+}
+
+body.earthling-reference-theme .product-wrapper-grid .basic-product.theme-product-1 .img-wrapper {
+  background: #fbfaf7;
+  padding: clamp(20px, 2.5vw, 36px);
+}
+
+body.earthling-reference-theme .product-wrapper-grid .basic-product.theme-product-1 .product-detail {
+  border-top-color: #eee8e0;
+  padding: 20px;
+}
+
+body.earthling-reference-theme .product-wrapper-grid .product-title-highlight {
+  color: #1a1713 !important;
+  font-size: 14px;
+  font-weight: 650 !important;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+body.earthling-reference-theme .product-wrapper-grid .product-title-highlight:hover {
+  color: #7a4b2a !important;
+}
+
+body.earthling-reference-theme .product-wrapper-grid .product-detail h6 {
+  color: #857b72;
+  letter-spacing: 0.07em;
+}
+
+body.earthling-reference-theme .product-wrapper-grid .product-detail .price {
+  color: #7a4b2a;
+}
+
+body.earthling-reference-theme .product-experience > .container > .row {
+  background: #fff;
+  border: 1px solid #ebe4dc;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(65, 46, 31, 0.06);
+  padding: clamp(20px, 3vw, 44px);
+}
+
+body.earthling-reference-theme .product-experience .main-product-box {
+  background: #fcfbf8;
+  border-color: #e7dfd6;
+  border-radius: 4px;
+  box-shadow: none;
+  min-height: 570px;
+}
+
+body.earthling-reference-theme .product-experience .product-description-box,
+body.earthling-reference-theme .product-experience .product-form-box {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 18px 10px;
+}
+
+body.earthling-reference-theme .product-experience .product-description-box .main-title {
+  align-items: center;
+  display: flex;
+  font-size: clamp(25px, 2.2vw, 34px);
+  gap: 16px;
+}
+
+body.earthling-reference-theme .product-experience .product-description-box .main-title::after {
+  background: #a79a8e;
+  content: "";
+  flex: 1;
+  height: 1px;
+  min-width: 40px;
+}
+
+body.earthling-reference-theme .product-experience .description-text {
+  color: #3d3833;
+  font-size: 15px;
+  line-height: 1.75;
+  margin-top: 26px;
+}
+
+body.earthling-reference-theme .product-experience .price-text h3 {
+  color: #7a4b2a;
+  font-size: 23px;
+}
+
+body.earthling-reference-theme .product-experience .product-form-box {
+  background: #f8f4ef;
+  border: 1px solid #e6ddd3;
+  padding: 22px;
+}
+
+body.earthling-reference-theme .tab-product,
+body.earthling-reference-theme .product-details-contain {
+  background: #fff;
+  border: 1px solid #ebe4dc;
+  border-radius: 4px;
+  margin-top: 28px !important;
+  padding: clamp(22px, 3vw, 42px) !important;
+}
+
+body.earthling-reference-theme .tab-product .nav-tabs .nav-link.active,
+body.earthling-reference-theme .tab-product .nav-tabs .nav-link:hover {
+  color: #7a4b2a;
+}
+
+body.earthling-reference-theme .cart-section,
+body.earthling-reference-theme .checkout-section,
+body.earthling-reference-theme .dashboard-section,
+body.earthling-reference-theme .account-dashboard {
+  background: #fdfcf9;
+}
+
+body.earthling-reference-theme .cart-table,
+body.earthling-reference-theme .checkout-details,
+body.earthling-reference-theme .dashboard-left-sidebar,
+body.earthling-reference-theme .dashboard-right-sidebar,
+body.earthling-reference-theme .address-box,
+body.earthling-reference-theme .order-box,
+body.earthling-reference-theme .payment-box {
+  border-color: #e8e0d8 !important;
+  border-radius: 4px !important;
+  box-shadow: 0 8px 24px rgba(65, 46, 31, 0.05) !important;
+}
+
+body.earthling-reference-theme footer.footer-light {
+  background: #1e1a16;
+  color: #e8e0d7;
+  margin-top: 72px;
+}
+
+body.earthling-reference-theme footer.footer-light .light-layout,
+body.earthling-reference-theme footer.footer-light .sub-footer {
+  background: #1e1a16;
+}
+
+body.earthling-reference-theme footer.footer-light h4,
+body.earthling-reference-theme footer.footer-light p,
+body.earthling-reference-theme footer.footer-light li,
+body.earthling-reference-theme footer.footer-light a,
+body.earthling-reference-theme footer.footer-light span {
+  color: #ddd3c9 !important;
+}
+
+body.earthling-reference-theme footer.footer-light h4 {
+  color: #fff !important;
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+body.earthling-reference-theme footer.footer-light a:hover {
+  color: #d7ad8f !important;
+}
+
+body.earthling-reference-theme footer.footer-light .sub-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.11);
+}
+
+@media (min-width: 1200px) {
+  body.earthling-reference-theme .product-experience > .container > .row > .col-xl-5 {
+    width: 52%;
+  }
+
+  body.earthling-reference-theme .product-experience > .container > .row > .col-xl-4 {
+    width: 48%;
+  }
+
+  body.earthling-reference-theme .product-experience > .container > .row > .col-xl-3 {
+    margin-left: 52%;
+    width: 48%;
+  }
+}
+
+@media (max-width: 991px) {
+  body.earthling-reference-theme header {
+    padding-top: 0;
+  }
+
+  body.earthling-reference-theme header .metro {
+    border-radius: 0;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  body.earthling-reference-theme header .main-menu {
+    min-height: 76px;
+  }
+
+  body.earthling-reference-theme .breadcrumb-section {
+    padding-top: 30px;
+  }
+
+  body.earthling-reference-theme .product-experience .main-product-box {
+    min-height: 420px;
+  }
+}
+
+@media (max-width: 575px) {
+  .storefront-theme-switch {
+    bottom: 14px;
+    min-height: 42px;
+    right: 14px;
+  }
+
+  .storefront-theme-switch span {
+    display: none;
+  }
+
+  body.earthling-reference-theme .product-experience > .container > .row {
+    border-left: 0;
+    border-right: 0;
+    padding: 14px 2px;
+  }
+
+  body.earthling-reference-theme .product-experience .product-description-box .main-title {
+    font-size: 23px;
+  }
+}
+
 /* Resend Section */
 .resend-section {
   padding: 8px 0;

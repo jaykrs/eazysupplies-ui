@@ -18,6 +18,7 @@ import RecentPurchase from "./recentPurchase";
 import StickyCompare from "./stickyCompare";
 import TapTop from "./tapTop";
 import ThemeCustomizer from "./themeCustomizer";
+import ThemeVariantSwitch from "./themeVariantSwitch";
 
 const SubLayout = ({ children }) => {
   const isTabActive = TabFocusChecker();
@@ -25,6 +26,7 @@ const SubLayout = ({ children }) => {
   const [makeExitActive, setMakeExitActive] = useState(false);
   const path = useSearchParams();
   const theme = path.get("theme");
+  const [activeStorefrontTheme, setActiveStorefrontTheme] = useState("classic");
   const pathName = usePathname  ();
   const disableMetaTitle = ["product", "blogs", "brand"];
   const accountVerified = Cookies.get("uat");
@@ -41,15 +43,27 @@ const SubLayout = ({ children }) => {
   }, [pathName]);
 
   useEffect(() => {
+    const selectedTheme = ["classic", "earthling"].includes(theme)
+      ? theme
+      : Cookies.get("storefront-theme") || "classic";
+
+    Cookies.set("storefront-theme", selectedTheme, { expires: 30, sameSite: "Lax" });
+    document.body.classList.toggle("earthling-reference-theme", selectedTheme === "earthling");
+    setActiveStorefrontTheme(selectedTheme);
+
+    return () => document.body.classList.remove("earthling-reference-theme");
+  }, [theme]);
+
+  useEffect(() => {
     const setThemeColors = () => {
-      let newThemeColor = "#81ba00";
+      let newThemeColor = activeStorefrontTheme === "earthling" ? "#7a4b2a" : "#81ba00";
       let newThemeColor2 = "";
       setThemeColor(newThemeColor);
       setThemeColor2(newThemeColor2);
     };
 
     setThemeColors();
-  }, [theme, pathName, themeOption]);
+  }, [theme, pathName, themeOption, activeStorefrontTheme]);
 
   //  Setting the current url in cookies for redirection of protected routes
   useEffect(() => {
@@ -129,6 +143,7 @@ const SubLayout = ({ children }) => {
       {children}
       <AuthModal />
       {theme != "full_page" && <Footers />}
+      <ThemeVariantSwitch activeTheme={activeStorefrontTheme} />
       
       <NextTopLoader showSpinner={false} />
       <RecentPurchase />
