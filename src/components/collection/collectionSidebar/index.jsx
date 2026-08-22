@@ -1,18 +1,10 @@
-import SKBlogSidebar from "@/components/widgets/skeletonLoader/blogSkeleton/SKBlogSidebar";
 import ThemeOptionContext from "@/context/themeOptionsContext";
-import request from "@/utils/axiosUtils";
-import { AttributesAPI } from "@/utils/axiosUtils/API";
-import useFetchQuery from "@/utils/hooks/useFetchQuery";;
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RiArrowLeftSLine } from "react-icons/ri";
 import { Accordion, AccordionHeader, AccordionItem } from "reactstrap";
-import CollectionAttributes from "./CollectionAttributes";
 import CollectionBrand from "./CollectionBrand";
 import CollectionCategory from "./CollectionCategory";
-import CollectionFilter from "./CollectionFilter";
-import CollectionPrice from "./CollectionPrice";
-import CollectionRating from "./CollectionRating";
 
 const CollectionSidebar = ({ filter, setFilter, isOffcanvas, basicStoreCard, rightSideClass, sellerClass, isAttributes = true, hideCategory, categorySlug }) => {
   const { collectionMobile, setCollectionMobile, openOffCanvas, setOpenOffCanvas } = useContext(ThemeOptionContext);
@@ -25,13 +17,6 @@ const CollectionSidebar = ({ filter, setFilter, isOffcanvas, basicStoreCard, rig
       setOpen([...open, id]); // Open section
     }
   };
-  const { data: attributeAPIData, isLoading } = useFetchQuery([AttributesAPI], () => request({ url: AttributesAPI, params: { status: 1 } }), {
-    enabled: true,
-    refetchOnWindowFocus: false,
-    select: (res) => res?.data?.data,
-  });
-  const defaultOpenList = Array.from({ length: attributeAPIData?.length + 3 }, (_, index) => (index + 1).toString());
-
   return (
     <>
       {collectionMobile && <div className="bg-overlay collection-overlay show" onClick={() => setCollectionMobile(false)} />}
@@ -65,12 +50,7 @@ const CollectionSidebar = ({ filter, setFilter, isOffcanvas, basicStoreCard, rig
               </div>
             )}
             {basicStoreCard && basicStoreCard}
-            {!isOffcanvas && <CollectionFilter filter={filter} setFilter={setFilter} categorySlug={categorySlug} />}
-            {isLoading ? (
-              <SKBlogSidebar />
-            ) : (
-              attributeAPIData && (
-                <Accordion className={`collection-collapse-block open  ${isOffcanvas ? "row" : ""}`} open={open} toggle={toggle}>
+            <Accordion className={`collection-collapse-block open ${isOffcanvas ? "row" : ""}`} open={open} toggle={toggle}>
                   {!hideCategory && (
                     <AccordionItem className={`collection-collapse-block open ${isOffcanvas ? "col-lg-3" : ""}`}>
                       <AccordionHeader targetId="1" className="collapse-block-title">
@@ -85,12 +65,7 @@ const CollectionSidebar = ({ filter, setFilter, isOffcanvas, basicStoreCard, rig
                     </AccordionHeader>
                     <CollectionBrand filter={filter} setFilter={setFilter} />
                   </AccordionItem>
-                  {/* {isAttributes ? <CollectionAttributes isOffCanvas={isOffcanvas} attributeAPIData={attributeAPIData} filter={filter} setFilter={setFilter} /> : null}
-                  <CollectionPrice isOffCanvas={isOffcanvas} filter={filter} setFilter={setFilter} attributeAPIData={attributeAPIData} />
-                  <CollectionRating isOffCanvas={isOffcanvas} filter={filter} setFilter={setFilter} attributeAPIData={attributeAPIData} /> */}
-                </Accordion>
-              )
-            )}
+            </Accordion>
           </div>
         </div>
       </div>

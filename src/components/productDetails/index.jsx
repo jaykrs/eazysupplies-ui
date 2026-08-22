@@ -43,11 +43,10 @@ const ProductDetailContent = ({ params }) => {
   // Setting Product API Data on state Variable and getting ids from cross_sell_products,related_products;
   useEffect(() => {
     if (ProductData) {
-      console.log("Product Data:", ProductData);
       (ProductData?.cross_sell_products?.length > 0 || ProductData?.related_products?.length > 0) && setGetProductIds({ ids: Array.from(new Set([...ProductData?.cross_sell_products, ...ProductData?.related_products])).join(",") });
-      setProductState({ ...productState, product: ProductData });
+      setProductState((previous) => ({ ...previous, product: ProductData }));
     }
-  }, [isLoading]);
+  }, [ProductData, setGetProductIds]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -88,10 +87,11 @@ const ProductDetailContent = ({ params }) => {
     // product_sidebar_right: <ProductSidebarLayout productState={productState} setProductState={setProductState} direction="right" />,
     product_column_thumbnail: <ProductColumn productState={productState} setProductState={setProductState} direction="bottom" />,
   };
+  const selectedProductLayout = showProductLayout[isProductLayout] || showProductLayout.product_column_thumbnail;
   return (
     <>
       {<Breadcrumbs title={ProductData?.name} subNavigation={[{ name: "Product" }, { name: ProductData?.name }]} />}
-      {showProductLayout[isProductLayout]}
+      {selectedProductLayout}
       {ProductData && <StickyCheckout ProductData={ProductData} isLoading={isLoading} />}
     </>
   );

@@ -16,13 +16,13 @@ import ThumbnailProductImage from "../productThumbnail/ThumbnailImage";
 
 const ProductColumn = ({ productState, setProductState, direction }) => {
   return (
-    <section className="collection-wrapper section-t-space">
+    <section className="collection-wrapper section-t-space product-experience">
       <Container>
-        <Row className="g-sm-4 g-3">
-          <Col xl="4">
+        <Row className="g-4 align-items-start">
+          <Col xl="5" lg="6">
             <ThumbnailProductImage productState={productState} slideToShow={3} />
           </Col>
-          <Col xl="4" lg="7">
+          <Col xl="4" lg="6">
             <div className="product-right product-description-box product-page-details">
               <CustomerOrderCount productState={productState} />
               <ProductContent productState={productState} setProductState={setProductState} noQuantityButtons={true} productAccordion={true} />
@@ -31,7 +31,7 @@ const ProductColumn = ({ productState, setProductState, direction }) => {
               <PaymentOptions productState={productState} />
             </div>
           </Col>
-          <Col xl="4" lg="5">
+          <Col xl="3" lg="12">
             <div className="product-right product-form-box product-page-details">
               <ProductContent productState={productState} setProductState={setProductState} noDetails={true} noModals={true} />
               <ProductStatus productState={productState} />

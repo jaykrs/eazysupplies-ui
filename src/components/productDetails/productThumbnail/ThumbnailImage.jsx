@@ -24,23 +24,27 @@ const ThumbnailProductImage = ({ productState, slideToShow }) => {
   const { nav1, nav2 } = state;
   const buildCurrentVariation = (filesString) => {
     if (!filesString) return [];
-  const baseUrl = process.env.NEXT_PUBLIC_FILE_API_URL;
-  if (!baseUrl) {
-    console.error("NEXT_PUBLIC_FILE_API_URL is not defined");
-    return [];
-  }
-   return filesString.split(",").map((file) => {
-    const trimmedFile = file.trim();
-    const name = trimmedFile.replace(/\.[^/.]+$/, "");
+    const baseUrl = process.env.NEXT_PUBLIC_FILE_API_URL;
+    if (!baseUrl) return [];
+    return filesString.split(",").map((file) => {
+      const trimmedFile = file.trim();
+      const name = trimmedFile.replace(/\.[^/.]+$/, "");
+      const fileUrl = new URL(baseUrl);
+      fileUrl.searchParams.set("file", trimmedFile);
       return {
-        original_url: `${baseUrl}${encodeURIComponent(trimmedFile)}`,
+        original_url: fileUrl.toString(),
         name,
-        mime_type: 'image/jpeg'
+        mime_type: "image/jpeg",
       };
     });
-};
-  const currentVariation = buildCurrentVariation(productState?.product?.productImage);
-  const currentVariation1 = productState?.selectedVariation?.variation_galleries?.length ? productState?.selectedVariation?.variation_galleries : productState?.product?.product_galleries;
+  };
+  const uploadedImages = buildCurrentVariation(productState?.product?.productImage);
+  const galleryImages = productState?.selectedVariation?.variation_galleries?.length ? productState?.selectedVariation?.variation_galleries : productState?.product?.product_galleries || [];
+  const currentVariation = uploadedImages.length
+    ? uploadedImages
+    : galleryImages.length
+      ? galleryImages
+      : [{ original_url: placeHolderImage, name: productState?.product?.name || "Product image", mime_type: "image/jpeg" }];
 
   useEffect(() => {
     setState({
@@ -93,7 +97,7 @@ const ThumbnailProductImage = ({ productState, slideToShow }) => {
       <div className="thumbnail-image-slider">
         <Row className="g-sm-4 g-3">
           <Col xs={12}>
-            <div className={`product-slick position-relative main-product-box  ${!currentVariation?.length ? "no-arrow" : ""}`}>
+            <div className={`product-slick position-relative main-product-box ${currentVariation.length <= 1 ? "no-arrow" : ""}`}>
               {productState?.product?.is_sale_enable || productState?.product?.is_trending || productState?.product?.is_featured ? (
                 <ul className="product-detail-label">
                   {productState?.product.is_sale_enable ? <li className="soldout">{t("Sale")}</li> : ""}
@@ -101,7 +105,7 @@ const ThumbnailProductImage = ({ productState, slideToShow }) => {
                   {productState?.product.is_featured ? <li className="featured">{t("Featured")}</li> : ""}
                 </ul>
               ) : null}
-              <Slider adaptiveHeight={true} asNavFor={nav2} ref={slider1} prevArrow={<SlickArrowLeft />} nextArrow={<SlickArrowRight />}>
+              <Slider adaptiveHeight={false} asNavFor={nav2} ref={slider1} prevArrow={<SlickArrowLeft />} nextArrow={<SlickArrowRight />}>
                 {currentVariation?.map((image, i) => (
                   <div key={i}>
                     <div className="slider-image">
@@ -130,7 +134,7 @@ const ThumbnailProductImage = ({ productState, slideToShow }) => {
           </Col>
           <Col xs={12}>
             {
-              <Slider {...thumbnailSlider} className="slider-nav no-arrow thumbnail-slider-box" asNavFor={nav1} ref={slider2} slidesToShow={productState.product?.product_galleries?.length <= 3 ? productState.product?.product_galleries?.length : slideToShow}>
+              <Slider {...thumbnailSlider} className="slider-nav no-arrow thumbnail-slider-box" asNavFor={nav1} ref={slider2} slidesToShow={Math.max(1, Math.min(currentVariation.length, slideToShow))}>
                 {currentVariation?.map((image, i) => (
                   <div key={i} className="slider-image">
                     {videoType.includes(image.mime_type) ? (

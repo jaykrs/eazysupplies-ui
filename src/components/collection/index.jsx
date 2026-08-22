@@ -1,5 +1,6 @@
 "use client";
 import CategoryContext from "@/context/categoryContext";
+import BrandContext from "@/context/brandContext";
 import ThemeOptionContext from "@/context/themeOptionsContext";
 import Loader from "@/layout/loader";
 import Breadcrumbs from "@/utils/commonComponents/breadcrumb";
@@ -15,8 +16,6 @@ import CollectionRightSidebar from "./collectionRightSidebar";
 import CollectionSidebarPopUp from "./collectionSidebarPopUp";
 import MainCollectionSlider from "./collectionSlider";
 import LayoutSidebar from "./layoutSidebar";
-import { BrandAPI, CategoryAPI } from "@/utils/axiosUtils/API";
-import axios from "axios";
 
 const CollectionContain = () => {
   const [filter, setFilter] = useState({ category: [], brand: [], price: [], attribute: [], rating: [], sortBy: "asc", field: "created_at", paginate: 25 });
@@ -26,45 +25,35 @@ const CollectionContain = () => {
   const searchParams = useSearchParams();
   const currentCollectionLink = `/collections${searchParams.toString() ? `?${searchParams.toString()}` : ""}`;
   const { categoryIsLoading } = useContext(CategoryContext);
+  const { categoryData = [] } = useContext(CategoryContext);
+  const { brandState = [] } = useContext(BrandContext);
   const categoryId = category?.category?.split(",")?.[0];
   const brandId = brand?.brand?.split(",")?.[0];
+  const flattenCategories = (items = []) => items.flatMap((item) => [item, ...flattenCategories(item?.subcategories || [])]);
   const activeName = title?.title?.trim();
+  const activeCategoryName = flattenCategories(categoryData).find((item) => String(item?.id) === String(categoryId))?.name || activeName;
+  const activeBrandName = brandState.find((item) => String(item?.id) === String(brandId) || String(item?.slug) === String(brandId))?.name || activeName;
 
   const breadcrumbDetails = categoryId
     ? {
-        title: activeName || `Category ${categoryId}`,
+        title: activeCategoryName || `Category ${categoryId}`,
         items: [
           { name: "Category", categoryPopover: true, icon: "category" },
-          { name: activeName || `Category ${categoryId}`, link: currentCollectionLink, icon: "category", current: true },
+          { name: activeCategoryName || `Category ${categoryId}`, link: currentCollectionLink, icon: "category", current: true },
         ],
       }
     : brandId
       ? {
-          title: activeName || `Brand ${brandId}`,
+          title: activeBrandName || `Brand ${brandId}`,
           items: [
             { name: "Brand", icon: "brand" },
-            { name: activeName || `Brand ${brandId}`, link: currentCollectionLink, icon: "brand", current: true },
+            { name: activeBrandName || `Brand ${brandId}`, link: currentCollectionLink, icon: "brand", current: true },
           ],
         }
       : {
           title: "All Products",
           items: [{ name: "All Products", link: "/collections", icon: "products", current: true }],
         };
-
-  useEffect(() => {
-    axios.get(CategoryAPI).then((res) => {
-      localStorage.setItem("categoryList", JSON.stringify(res.data?.data))
-    }, (err) => {
-      console.log(err)
-    })
-
-    axios.get(BrandAPI).then((res) => {
-      localStorage.setItem("brandList", JSON.stringify(res.data?.data))
-    }, (err) => {
-      console.log(err)
-    })
-  }, [])
-
 
   useEffect(() => {
     setFilter((prev) => {
@@ -90,11 +79,11 @@ const CollectionContain = () => {
     collection_no_sidebar: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
     collection_left_sidebar: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
     collection_right_sidebar: <CollectionRightSidebar filter={filter} setFilter={setFilter} />,
-    collection_2_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
-    collection_3_grid: <CollectionOffCanvas filter={filter} setFilter={setFilter} />,
-    collection_4_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
-    collection_5_grid: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
-    collection_list_view: <CollectionNoSidebar filter={filter} setFilter={setFilter} />,
+    collection_2_grid: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
+    collection_3_grid: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
+    collection_4_grid: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
+    collection_5_grid: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
+    collection_list_view: <CollectionLeftSidebar filter={filter} setFilter={setFilter} />,
     collection_sidebar_popup: <CollectionSidebarPopUp filter={filter} setFilter={setFilter} />,
     collection_product_infinite_scroll: <CollectionInfiniteScroll filter={filter} setFilter={setFilter} />,
   };
@@ -109,7 +98,7 @@ const CollectionContain = () => {
             title={breadcrumbDetails.title}
             subNavigation={breadcrumbDetails.items}
           />
-          {isCollectionMatch[collectionLayout]}
+          {isCollectionMatch[collectionLayout] || <CollectionLeftSidebar filter={filter} setFilter={setFilter} />}
         </>
       )}
     </>

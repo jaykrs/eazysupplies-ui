@@ -1,16 +1,13 @@
 import NoDataFound from "@/components/widgets/NoDataFound";
 import BrandContext from "@/context/brandContext";
-import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AccordionBody, Input, Label } from "reactstrap";
 
 const CollectionBrand = ({ filter, setFilter }) => {
-  const [category, attribute, price, rating, sortBy, field, layout,brand] = useCustomSearchParams(["category", "attribute", "price", "rating", "sortBy", "field", "layout","brand"]);
-  const { brandState,isLoading,refetch } = useContext(BrandContext);
-  const showList1 = JSON.parse( localStorage.getItem("brandList"))
-  const [showList, setShowList] = useState(showList1);
+  const { brandState = [],isLoading,refetch } = useContext(BrandContext);
+  const [showList, setShowList] = useState([]);
   const { t } = useTranslation("common");
   
   useEffect(() => {
@@ -23,6 +20,7 @@ const CollectionBrand = ({ filter, setFilter }) => {
 
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const hasValue = (item, term) => {
     let valueToReturn = false;
     if (item && item["name"] && item["name"].toLowerCase().includes(term?.toLowerCase())) {
@@ -42,7 +40,7 @@ const CollectionBrand = ({ filter, setFilter }) => {
       setShowList(brandState);
     }
   };
-  const redirectToCollection = (event, slug) => {
+  const redirectToCollection = (event, slug, name) => {
     event.preventDefault();
     let temp = [...filter?.brand];
 
@@ -57,30 +55,33 @@ const CollectionBrand = ({ filter, setFilter }) => {
         brand: temp,
       };
     });
-    if (temp.length > 0) {
-      const queryParams = new URLSearchParams({ ...category, ...attribute, ...price, ...sortBy, ...field, ...rating, ...layout, brand:brand ?brand:temp }).toString();
-      router.push(`${pathname}?${queryParams}`);
-    } else {
-      const queryParams = new URLSearchParams({ ...category, ...attribute, ...price, ...sortBy, ...field, ...rating, ...layout }).toString();
-      router.push(`${pathname}?${queryParams}`);
-    }
+    const queryParams = new URLSearchParams(searchParams.toString());
+    if (temp.length > 0) queryParams.set("brand", temp.join(","));
+    else queryParams.delete("brand");
+    queryParams.delete("page");
+    if (temp.length === 1) {
+      const selected = brandState.find((item) => String(item?.slug) === String(temp[0]) || String(item?.id) === String(temp[0]));
+      queryParams.set("title", selected?.name || name);
+    } else if (temp.length > 1) queryParams.set("title", "Selected Brands");
+    else queryParams.delete("title");
+    router.push(`${pathname}?${queryParams.toString()}`, { scroll: false });
   };  
   return (
     <div className="collapse show accordion-collapse collapsed ">
       <AccordionBody accordionId="2" className=" collection-brand-filter ">
-        {/* {brandState.length > 5 && (
+        {brandState.length > 5 && (
           <div className="theme-form search-box">
             <Input type="search" placeholder={t("Search")} onChange={handleChange} />
           </div>
-        )} */}
+        )}
         <div className="custom-sidebar-height">
-          {showList1?.length > 0 ? (
+          {showList?.length > 0 ? (
             <ul className="shop-category-list ">
-              {showList1?.map((elem, i) => (
+              {showList?.map((elem, i) => (
                 <li key={i}>
                   <div className="form-check collection-filter-checkbox">
-                    <Input className="checkbox_animated" type="checkbox" id={elem?.slug} checked={filter?.brand?.includes(elem?.slug)} onChange={(e) => redirectToCollection(e, elem?.slug)} />
-                    <Label className="form-check-label" htmlFor={elem?.name}>
+                    <Input className="checkbox_animated" type="checkbox" id={`brand-${elem?.slug}`} checked={filter?.brand?.includes(String(elem?.slug)) || filter?.brand?.includes(String(elem?.id))} onChange={(e) => redirectToCollection(e, String(elem?.slug || elem?.id), elem?.name)} />
+                    <Label className="form-check-label" htmlFor={`brand-${elem?.slug}`}>
                       <span className="name">{elem?.name}</span>
                     </Label>
                   </div>

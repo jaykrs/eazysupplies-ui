@@ -1,22 +1,18 @@
 import NoDataFound from "@/components/widgets/NoDataFound";
 import CategoryContext from "@/context/categoryContext";
-import { CategoryAPI } from "@/utils/axiosUtils/API";
-import { useCustomSearchParams } from "@/utils/hooks/useCustomSearchParams";
-import axios from "axios";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { AccordionBody, Input, Label } from "reactstrap";
 
 const CollectionCategory = ({ filter, setFilter }) => {
-  const [brand, attribute, price, rating, sortBy, field, layout] = useCustomSearchParams(["brand", "attribute", "price", "rating", "sortBy", "field", "layout"]);
   const { categoryData = [] } = useContext(CategoryContext);
   const [showList, setShowList] = useState([]);
-  const [state, setState] = useState(false);
   const { t } = useTranslation("common");
 
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const hasValue = (item, term) => {
     let valueToReturn = false;
     if (item && item["name"] && item["name"].toLowerCase().includes(term?.toLowerCase())) {
@@ -44,7 +40,6 @@ const CollectionCategory = ({ filter, setFilter }) => {
   };
 
   const handleChange = (event) => {
-    setState(!state);
     const keyword = event.target.value.toLowerCase();
     if (keyword !== "") {
       const updatedData = categoryData
@@ -52,10 +47,10 @@ const CollectionCategory = ({ filter, setFilter }) => {
         .filter((item) => item);
       setShowList(updatedData);
     } else {
-      setShowList(categoryData);
+      setShowList(visibleCategories(categoryData));
     }
   };
-  const redirectToCollection = (event, slug) => {
+  const redirectToCollection = (event, slug, name) => {
     let temp = [...filter?.category];
 
     if (!temp.includes(slug)) {
@@ -69,23 +64,24 @@ const CollectionCategory = ({ filter, setFilter }) => {
         category: temp,
       };
     });
-    if (temp.length > 0) {
-      const queryParams = new URLSearchParams({ ...brand, ...attribute, ...price, ...sortBy, ...field, ...rating, ...layout, category: temp }).toString();
-      router.push(`${pathname}?${queryParams}`);
-    } else {
-      const queryParams = new URLSearchParams({ ...brand, ...attribute, ...price, ...sortBy, ...field, ...rating, ...layout }).toString();
-      router.push(`${pathname}?${queryParams}`);
-    }
+    const queryParams = new URLSearchParams(searchParams.toString());
+    if (temp.length > 0) queryParams.set("category", temp.join(","));
+    else queryParams.delete("category");
+    queryParams.delete("page");
+    if (temp.length === 1) queryParams.set("title", temp[0] === slug ? name : findCategoryName(categoryData, temp[0]) || name);
+    else if (temp.length > 1) queryParams.set("title", "Selected Categories");
+    else queryParams.delete("title");
+    router.push(`${pathname}?${queryParams.toString()}`, { scroll: false });
   };
 
   useEffect(() => {
-    setShowList(categoryData);
+    setShowList(visibleCategories(categoryData));
   }, [categoryData]);
 
   return (
     <div className="accordion-collapse collapse show">
       <AccordionBody accordionId="1">
-        {categoryData.length > 5 && (
+        {visibleCategories(categoryData).length > 5 && (
           <div className="theme-form search-box">
             <Input placeholder={t("Search")} onChange={handleChange} />
           </div>
@@ -99,12 +95,24 @@ const CollectionCategory = ({ filter, setFilter }) => {
 
 export default CollectionCategory;
 
+const findCategoryName = (categories = [], id) => {
+  for (const category of categories) {
+    if (String(category?.id) === String(id)) return category?.name;
+    const nestedName = findCategoryName(category?.subcategories || [], id);
+    if (nestedName) return nestedName;
+  }
+  return "";
+};
+
+const visibleCategories = (categories = []) =>
+  categories.filter((category) => category?.name?.trim()?.toUpperCase() !== "DEFAULT");
+
 const RecursiveCategory = ({ redirectToCollection, categories, filter }) => (
   <ul className="shop-category-list custom-sidebar-height">
     {categories.map((elem, i) => (
       <li key={i}>
         <div className="form-check collection-filter-checkbox">
-          <Input className="form-check-input" type="checkbox" id={`category-${elem?.id}`} checked={filter?.category?.includes(String(elem?.id))} onChange={(e) => redirectToCollection(e, String(elem?.id))} />
+          <Input className="form-check-input" type="checkbox" id={`category-${elem?.id}`} checked={filter?.category?.includes(String(elem?.id))} onChange={(e) => redirectToCollection(e, String(elem?.id), elem?.name)} />
           <Label className="form-check-label" htmlFor={`category-${elem?.id}`}>
             <span className="name">{elem?.name}</span>
           </Label>

@@ -19,10 +19,14 @@ const MainCollection = ({ filter, setFilter, isBanner, isOffcanvas, classicStore
   const [grid, setGrid] = useState(initialGrid);
   const { themeOption, setCollectionMobile } = useContext(ThemeOptionContext);
   const { t } = useTranslation("common");
-  const [layout] = useCustomSearchParams(["layout"]);
+  const [layout, view] = useCustomSearchParams(["layout", "view"]);
 
   useEffect(() => {
-    if (layout?.layout == "collection_2_grid") {
+    const persistedView = typeof window !== "undefined" ? window.localStorage.getItem("eazyCollectionView") : null;
+    const requestedView = view?.view || persistedView;
+    if (["2", "3", "4", "list"].includes(String(requestedView))) {
+      setGrid(requestedView === "list" ? "list" : Number(requestedView));
+    } else if (layout?.layout == "collection_2_grid") {
       setGrid(2);
     } else if (layout?.layout == "collection_3_grid") {
       setGrid(3);
@@ -33,7 +37,7 @@ const MainCollection = ({ filter, setFilter, isBanner, isOffcanvas, classicStore
     } else if (layout?.layout == "collection_list_view") {
       setGrid("list");
     }
-  }, [layout]);
+  }, [layout, view]);
   return (
     <div className={`collection-content ${noSidebar ? "col-12" : "col-xl-9 col-lg-8"}`}>
       <div className="page-main-content">
