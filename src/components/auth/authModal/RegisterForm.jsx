@@ -47,11 +47,8 @@ const RegisterForm = () => {
 
   // Custom success handler
   const handleSuccess = (resData) => {
-    // Show success message
-    console.log("handleSuccess", resData.status);
     if (resData.status === 409)
       {
-        alert("An account already exists with this email or gstn or phone number");
         setSuccessMessage({
         type: 'error',
         message: "An account already exists with this email or phone number. Please login."
@@ -59,10 +56,9 @@ const RegisterForm = () => {
     }
     else if (resData.status === 201)
     {
-      alert("Registration successful! You can now login after activation via email.");
       setSuccessMessage({
         type: 'success',
-        message: t("Registration Success") || "Registration successful! You can now login."
+        message: "Registration successful! Please activate your account using the verification email before logging in."
       });
     }
     // Clear any error messages
