@@ -26,7 +26,7 @@ const HomeSlider = ({ bannerData, height, width, sliderClass }) => {
               } else {
                 return (
                   <div key={index}>{}
-                    <ImageLink imgUrl={banner} placeholder={`${ImagePath}/banner.png`} link={banner} height={height} width={width} homeBanner={true} />
+                    <ImageLink imgUrl={banner} placeholder={`${ImagePath}/placeholder/banner.png`} link={banner} height={height} width={width} homeBanner={true} />
                   </div>
                 );
               }
@@ -41,7 +41,7 @@ const HomeSlider = ({ bannerData, height, width, sliderClass }) => {
             </div>
           </div>
         ) : (
-          <ImageLink imgUrl={bannerData?.banners?.[0] || bannerData} placeholder={`${ImagePath}/banner.png`} height={height} width={width} />
+          <ImageLink imgUrl={bannerData?.banners?.[0] || bannerData} placeholder={`${ImagePath}/placeholder/banner.png`} height={height} width={width} />
         )}
         <div className="home-skeleton">
           <div className="skeleton-content">
