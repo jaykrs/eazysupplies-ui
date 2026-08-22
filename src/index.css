@@ -5708,14 +5708,28 @@ body h6 {
 
 .product-wrapper-grid .product-title-highlight {
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: unset;
   color: var(--es-ink) !important;
-  display: -webkit-box;
+  display: block;
+  flex: 1 1 auto;
   font-size: 14px;
   font-weight: 700 !important;
   line-height: 1.45;
   min-height: 41px;
-  overflow: hidden;
+  overflow: visible;
+  overflow-wrap: anywhere;
+  white-space: normal !important;
+  width: 100%;
+  word-break: normal;
+}
+
+.product-wrapper-grid .brand-w-color {
+  align-items: flex-start;
+  width: 100%;
+}
+
+.product-wrapper-grid .brand-w-color .color-panel {
+  flex: 0 0 auto;
 }
 
 .product-wrapper-grid .product-detail h6 {
@@ -5971,4 +5985,3 @@ body h6 {
     gap: 8px;
   }
 }
-
