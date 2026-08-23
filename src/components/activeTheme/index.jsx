@@ -57,6 +57,9 @@ import YogaHomePage from "../themes/yoga";
 import { useContext } from "react";
 import ThemeOptionContext from "@/context/themeOptionsContext";
 import Loader from "@/layout/loader";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import EarthlingHome from "../themes/earthlingHome";
 
 const ActiveTheme = () => {
 //  const { data, isLoading } = useFetchQuery([ThemeAPI], () => request({ url: ThemeAPI }), { enabled: true, refetchOnWindowFocus: false, select: (res) => res?.data.data });
@@ -70,6 +73,10 @@ const {data , isLoading} = [{
             "updated_at": "2024-07-09T07:54:27.000000Z"
         }];
 const search = useSearchParams();
+ const [storefrontVariant, setStorefrontVariant] = useState(search.get("theme") || "");
+ useEffect(() => {
+   setStorefrontVariant(search.get("theme") || Cookies.get("storefront-theme") || "classic");
+ }, [search]);
  // const themeBySlug = search.get("theme");
   const themeBySlug = "vegetables_three";
  const activeTheme = data?.find((elem) => elem.status === 1);
@@ -131,6 +138,7 @@ const search = useSearchParams();
   };
 
   if (themeLoading) return <Loader />;
+  if (storefrontVariant === "earthling") return <EarthlingHome />;
   return themeBySlug ? checkActive[themeBySlug] : checkActive[activeTheme?.slug];
 };
 

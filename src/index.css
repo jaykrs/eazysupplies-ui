@@ -5991,6 +5991,150 @@ body.earthling-reference-theme .storefront-theme-switch {
   background: #7a4b2a;
 }
 
+.earthling-homepage {
+  background: #fff;
+  color: #191713;
+  padding: 68px 0 96px;
+}
+
+.earthling-homepage h1,
+.earthling-homepage h2 {
+  color: #171510;
+  font-family: Montserrat, "Segoe UI", Arial, sans-serif;
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  text-transform: none;
+}
+
+.earthling-home-hero {
+  aspect-ratio: 16 / 8.55;
+  border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(61, 45, 30, 0.12);
+  overflow: hidden;
+  position: relative;
+}
+
+.earthling-home-hero > img {
+  height: 100%;
+  inset: 0;
+  object-fit: cover;
+  opacity: 0;
+  position: absolute;
+  transition: opacity 0.8s ease;
+  width: 100%;
+}
+
+.earthling-home-hero > img.is-active { opacity: 1; }
+
+.earthling-home-hero__dots {
+  bottom: 18px;
+  display: flex;
+  gap: 8px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.earthling-home-hero__dots button {
+  background: rgba(255,255,255,.7) !important;
+  border: 0;
+  border-radius: 99px;
+  height: 9px;
+  padding: 0 !important;
+  transition: width .2s ease, background .2s ease;
+  width: 9px;
+}
+
+.earthling-home-hero__dots button.is-active { background: #7a4b2a !important; width: 28px; }
+
+.earthling-story {
+  align-items: center;
+  display: grid;
+  gap: clamp(38px, 6vw, 88px);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  padding: clamp(80px, 10vw, 140px) 0 72px;
+}
+
+.earthling-story__media { aspect-ratio: 1 / 1; border-radius: 14px; overflow: hidden; }
+.earthling-story__media img { height: 100%; object-fit: cover; width: 100%; }
+.earthling-story__content > span { color: #7a4b2a; display: block; font-size: 13px; font-weight: 700; letter-spacing: .14em; margin-bottom: 12px; text-transform: uppercase; }
+.earthling-story h1 { font-size: clamp(36px, 4.3vw, 64px); line-height: 1.06; margin: 0 0 28px; }
+.earthling-story p { color: #403b35; font-size: 17px; line-height: 1.75; margin-bottom: 16px; }
+
+.earthling-home-btn {
+  background: #7a4b2a;
+  border-radius: 999px;
+  color: #fff !important;
+  display: inline-flex;
+  font-size: 14px;
+  font-weight: 700;
+  margin-top: 14px;
+  padding: 15px 26px;
+}
+
+.earthling-stats {
+  border-bottom: 1px solid #e9e2da;
+  border-top: 1px solid #e9e2da;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin-bottom: clamp(80px, 10vw, 140px);
+  padding: 42px 0;
+}
+
+.earthling-stats > div { border-right: 1px solid #e9e2da; text-align: center; }
+.earthling-stats > div:last-child { border-right: 0; }
+.earthling-stats strong { color: #7a4b2a; display: block; font-size: clamp(28px, 3vw, 44px); line-height: 1; }
+.earthling-stats span { color: #27231f; display: block; font-size: 15px; font-weight: 650; margin-top: 12px; }
+
+.earthling-media { background: #795638; color: #fff; padding: clamp(72px, 9vw, 120px) 0; }
+.earthling-media header, .earthling-expert > header, .earthling-categories > header { margin-bottom: 42px; text-align: center; }
+.earthling-media h2 { color: #fff; font-size: clamp(32px, 4vw, 54px); margin-bottom: 12px; }
+.earthling-media header p { color: rgba(255,255,255,.78); font-size: 16px; }
+.earthling-media__grid { display: grid; gap: 22px; grid-template-columns: repeat(4, 1fr); }
+.earthling-media__grid a { color: #fff; display: block; font-weight: 650; }
+.earthling-media__grid img { aspect-ratio: 9/13; border-radius: 12px; height: auto; margin-bottom: 14px; object-fit: cover; width: 100%; }
+
+.earthling-expert { padding: clamp(80px, 10vw, 140px) 0; }
+.earthling-expert h2, .earthling-featured h2, .earthling-categories h2 { font-size: clamp(32px, 4vw, 52px); margin: 0; }
+.earthling-expert__grid { align-items: center; display: grid; gap: clamp(34px, 6vw, 88px); grid-template-columns: 1.05fr .95fr; }
+.earthling-expert__grid > img { border-radius: 28px; height: auto; width: 100%; }
+.earthling-expert blockquote { background: #dff1b7; border-radius: 26px; margin: 0; padding: clamp(32px, 5vw, 64px); text-align: center; }
+.earthling-expert blockquote p { color: #211e1a; font-size: clamp(18px, 2vw, 26px); font-style: italic; line-height: 1.6; }
+.earthling-expert blockquote strong, .earthling-expert blockquote span { display: block; }
+.earthling-expert blockquote strong { font-size: 20px; margin-top: 22px; }
+.earthling-expert blockquote span { color: #655f58; margin-top: 4px; }
+
+.earthling-featured { padding-bottom: clamp(80px, 10vw, 140px); }
+.earthling-featured > header { align-items: flex-end; display: flex; justify-content: space-between; margin-bottom: 42px; }
+.earthling-featured > header a { color: #7a4b2a; font-weight: 700; }
+.earthling-featured__grid { display: grid; gap: 24px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.earthling-featured__grid > div { min-width: 0; }
+
+.earthling-categories { padding-bottom: 24px; }
+.earthling-categories__grid { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); }
+.earthling-categories__grid a { background: #f7f2eb; border: 1px solid #e7ded4; border-radius: 12px; color: #241f1a; min-height: 126px; padding: 28px; transition: transform .2s ease, border-color .2s ease; }
+.earthling-categories__grid a:hover { border-color: #7a4b2a; transform: translateY(-3px); }
+.earthling-categories__grid span, .earthling-categories__grid small { display: block; }
+.earthling-categories__grid span { font-size: 18px; font-weight: 700; }
+.earthling-categories__grid small { color: #776f67; margin-top: 8px; }
+
+@media (max-width: 991px) {
+  .earthling-homepage { padding-top: 30px; }
+  .earthling-story, .earthling-expert__grid { grid-template-columns: 1fr; }
+  .earthling-stats, .earthling-media__grid, .earthling-featured__grid, .earthling-categories__grid { grid-template-columns: repeat(2, 1fr); }
+  .earthling-stats > div:nth-child(2) { border-right: 0; }
+  .earthling-stats > div:nth-child(-n+2) { border-bottom: 1px solid #e9e2da; padding-bottom: 24px; }
+  .earthling-stats > div:nth-child(n+3) { padding-top: 24px; }
+}
+
+@media (max-width: 575px) {
+  .earthling-home-hero { aspect-ratio: 4 / 3; border-radius: 8px; }
+  .earthling-story { padding-top: 64px; }
+  .earthling-story p { font-size: 15px; }
+  .earthling-media__grid, .earthling-featured__grid, .earthling-categories__grid { grid-template-columns: 1fr; }
+}
+
 body.earthling-reference-theme h1,
 body.earthling-reference-theme h2,
 body.earthling-reference-theme h3,
