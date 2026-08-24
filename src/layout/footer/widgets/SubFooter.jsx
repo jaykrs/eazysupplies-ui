@@ -6,6 +6,7 @@ import { Col, Container, Row } from "reactstrap";
 
 const SubFooter = ({ classes }) => {
   const { themeOption } = useContext(ThemeOptionContext);
+  const copyrightContent = themeOption?.footer?.copyright_content || "";
 
   return (
     <div className={`sub-footer ${classes?.sectionClass ? classes?.sectionClass : ""}`}>
@@ -15,7 +16,13 @@ const SubFooter = ({ classes }) => {
             <Col xl="12" md="12" sm="12">
               <div className="footer-end">
                 <p>
-                  {themeOption?.footer?.copyright_content}
+                  {copyrightContent.split(/(MARKSMAN)/gi).map((part, index) =>
+                    part.toUpperCase() === "MARKSMAN" ? (
+                      <a key={`${part}-${index}`} href="https://www.marksmantech.com/" target="_blank" rel="noopener noreferrer">
+                        {part}
+                      </a>
+                    ) : part
+                  )}
                 </p>
               </div>
             </Col>

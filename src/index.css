@@ -5939,8 +5939,7 @@ body h6 {
   background: linear-gradient(135deg, #94a3b8, #64748b) !important;
 }
 
-/* Optional Earthling editorial storefront variant.
-   Activate with ?theme=earthling; the existing storefront remains the default. */
+/* Earthling is the default storefront; activate Classic with ?theme=classic. */
 .storefront-theme-switch {
   align-items: center;
   background: #243126;
@@ -5994,7 +5993,7 @@ body.earthling-reference-theme .storefront-theme-switch {
 .earthling-homepage {
   background: #fff;
   color: #191713;
-  padding: 68px 0 96px;
+  padding: 0 0 96px;
 }
 
 .earthling-homepage h1,
@@ -6078,7 +6077,7 @@ body.earthling-reference-theme .storefront-theme-switch {
   border-top: 1px solid #e9e2da;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  margin-bottom: clamp(80px, 10vw, 140px);
+  margin-bottom: 0;
   padding: 42px 0;
 }
 
@@ -6088,15 +6087,15 @@ body.earthling-reference-theme .storefront-theme-switch {
 .earthling-stats span { color: #27231f; display: block; font-size: 15px; font-weight: 650; margin-top: 12px; }
 
 .earthling-media { background: #795638; color: #fff; padding: clamp(72px, 9vw, 120px) 0; }
-.earthling-media header, .earthling-expert > header, .earthling-categories > header { margin-bottom: 42px; text-align: center; }
+.earthling-media header, .earthling-expert > header, .earthling-latest > header, .earthling-categories > header { margin-bottom: 42px; text-align: center; }
 .earthling-media h2 { color: #fff; font-size: clamp(32px, 4vw, 54px); margin-bottom: 12px; }
 .earthling-media header p { color: rgba(255,255,255,.78); font-size: 16px; }
 .earthling-media__grid { display: grid; gap: 22px; grid-template-columns: repeat(4, 1fr); }
 .earthling-media__grid a { color: #fff; display: block; font-weight: 650; }
 .earthling-media__grid img { aspect-ratio: 9/13; border-radius: 12px; height: auto; margin-bottom: 14px; object-fit: cover; width: 100%; }
 
-.earthling-expert { padding: clamp(80px, 10vw, 140px) 0; }
-.earthling-expert h2, .earthling-featured h2, .earthling-categories h2 { font-size: clamp(32px, 4vw, 52px); margin: 0; }
+.earthling-expert { padding: clamp(48px, 6vw, 84px) 0 clamp(80px, 10vw, 140px); }
+.earthling-expert h2, .earthling-latest h2, .earthling-featured h2, .earthling-categories h2 { font-size: clamp(32px, 4vw, 52px); margin: 0; }
 .earthling-expert__grid { align-items: center; display: grid; gap: clamp(34px, 6vw, 88px); grid-template-columns: 1.05fr .95fr; }
 .earthling-expert__grid > img { border-radius: 28px; height: auto; width: 100%; }
 .earthling-expert blockquote { background: #dff1b7; border-radius: 26px; margin: 0; padding: clamp(32px, 5vw, 64px); text-align: center; }
@@ -6111,6 +6110,13 @@ body.earthling-reference-theme .storefront-theme-switch {
 .earthling-featured__grid { display: grid; gap: 24px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .earthling-featured__grid > div { min-width: 0; }
 
+.earthling-latest { padding-bottom: clamp(80px, 10vw, 140px); }
+.earthling-latest--after-hero { padding-bottom: 0; padding-top: clamp(64px, 8vw, 110px); }
+.earthling-latest--after-hero + .earthling-story { padding-top: clamp(48px, 6vw, 84px); }
+.earthling-latest > header, .earthling-categories > header { margin-left: auto; margin-right: auto; max-width: 760px; }
+.earthling-latest > header > span, .earthling-categories > header > span { color: #7a4b2a; display: block; font-size: 13px; font-weight: 750; letter-spacing: .14em; margin-bottom: 10px; text-transform: uppercase; }
+.earthling-latest > header p { color: #655f58; font-size: 16px; line-height: 1.7; margin: 16px auto 0; max-width: 680px; }
+
 .earthling-categories { padding-bottom: 24px; }
 .earthling-categories__grid { display: grid; gap: 16px; grid-template-columns: repeat(4, 1fr); }
 .earthling-categories__grid a { background: #f7f2eb; border: 1px solid #e7ded4; border-radius: 12px; color: #241f1a; min-height: 126px; padding: 28px; transition: transform .2s ease, border-color .2s ease; }
@@ -6120,7 +6126,6 @@ body.earthling-reference-theme .storefront-theme-switch {
 .earthling-categories__grid small { color: #776f67; margin-top: 8px; }
 
 @media (max-width: 991px) {
-  .earthling-homepage { padding-top: 30px; }
   .earthling-story, .earthling-expert__grid { grid-template-columns: 1fr; }
   .earthling-stats, .earthling-media__grid, .earthling-featured__grid, .earthling-categories__grid { grid-template-columns: repeat(2, 1fr); }
   .earthling-stats > div:nth-child(2) { border-right: 0; }

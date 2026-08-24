@@ -2,13 +2,15 @@
 
 import OptimizedImage from "@/components/widgets/OptimizedImage";
 import ProductBox from "@/components/widgets/productBox";
+import WrapperComponent from "@/components/widgets/WrapperComponent";
 import request from "@/utils/axiosUtils";
 import { CategoryAPI, ProductAPI } from "@/utils/axiosUtils/API";
 import useCustomDataQuery from "@/utils/hooks/useCustomDataQuery";
 import useFetchQuery from "@/utils/hooks/useFetchQuery";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { Container } from "reactstrap";
+import HomeSlider from "../widgets/HomeSlider";
 
 export const EARTHLING_HOME_DEFAULTS = {
   hero: {
@@ -62,12 +64,12 @@ const mergeConfig = (stored = {}) => ({
 
 const EarthlingHome = () => {
   const { data: homeData, refetch } = useCustomDataQuery({ params: "earthling_home" });
-  const [slideIndex, setSlideIndex] = useState(0);
   const config = useMemo(() => mergeConfig(homeData?.earthling_home), [homeData]);
+  const classicLatest = useMemo(() => homeData?.products_list || {}, [homeData?.products_list]);
 
   const { data: products = [] } = useFetchQuery(
     ["earthling-home-products", config.featured.product_ids],
-    () => request({ url: ProductAPI, params: { status: 1, paginate: 12 } }),
+    () => request({ url: ProductAPI, params: { status: 1, paginate: 100 } }),
     { refetchOnWindowFocus: false, select: (response) => response?.data?.data || [] },
   );
 
@@ -79,12 +81,6 @@ const EarthlingHome = () => {
 
   useEffect(() => { refetch(); }, [refetch]);
 
-  useEffect(() => {
-    if ((config.hero.slides || []).length < 2) return undefined;
-    const timer = window.setInterval(() => setSlideIndex((current) => (current + 1) % config.hero.slides.length), 6000);
-    return () => window.clearInterval(timer);
-  }, [config.hero.slides]);
-
   const selectedProducts = useMemo(() => {
     const selectedIds = (config.featured.product_ids || []).map(Number);
     const source = selectedIds.length ? products.filter((product) => selectedIds.includes(Number(product.id))) : products;
@@ -92,20 +88,35 @@ const EarthlingHome = () => {
   }, [config.featured.product_ids, products]);
 
   const selectedCategories = useMemo(() => {
-    const selectedIds = (config.categories.category_ids || []).map(Number);
-    const source = selectedIds.length ? categories.filter((category) => selectedIds.includes(Number(category.id))) : categories;
-    return source.slice(0, 8);
-  }, [categories, config.categories.category_ids]);
+    return categories.filter((category) => category?.status !== 0);
+  }, [categories]);
+
+  const latestProducts = useMemo(() => {
+    const uniqueProducts = products.filter((product, index, source) => source.findIndex((item) => Number(item.id) === Number(product.id)) === index);
+    return uniqueProducts
+      .sort((first, second) => {
+        const firstCreated = Date.parse(first.created_at || first.createdAt || "") || Number(first.id) || 0;
+        const secondCreated = Date.parse(second.created_at || second.createdAt || "") || Number(second.id) || 0;
+        return secondCreated - firstCreated;
+      })
+      .slice(0, 4);
+  }, [products]);
 
   return (
     <main className="earthling-homepage">
+      <WrapperComponent classes={{ sectionClass: "p-0 overflow-hidden position-relative", fluidClass: "slide-1 home-slider" }}>
+        <HomeSlider bannerData={homeData?.home_banner} height={650} width={1920} />
+      </WrapperComponent>
+
       <Container>
-        <section className="earthling-home-hero" aria-label="Earthling highlights">
-          {(config.hero.slides || []).map((slide, index) => (
-            <OptimizedImage key={`${slide.image}-${index}`} src={slide.image} alt={slide.alt || "Earthling products"} className={index === slideIndex ? "is-active" : ""} loading={index === 0 ? "eager" : "lazy"} />
-          ))}
-          {(config.hero.slides || []).length > 1 && <div className="earthling-home-hero__dots">{config.hero.slides.map((_, index) => <button key={index} type="button" aria-label={`Show banner ${index + 1}`} className={index === slideIndex ? "is-active" : ""} onClick={() => setSlideIndex(index)} />)}</div>}
-        </section>
+        {classicLatest.status !== false && latestProducts.length > 0 && <section className="earthling-latest earthling-latest--after-hero">
+          <header>
+            <span>{classicLatest.tag || "Special Offer"}</span>
+            <h2>{classicLatest.title && classicLatest.title !== "Latest Drops" ? classicLatest.title : "Latest Eats"}</h2>
+            {classicLatest.description && <p>{classicLatest.description}</p>}
+          </header>
+          <div className="earthling-featured__grid">{latestProducts.map((product) => <ProductBox key={`latest-${product.id}`} product={product} style="vertical" />)}</div>
+        </section>}
 
         <section className="earthling-story">
           <div className="earthling-story__media"><OptimizedImage src={config.story.image} alt={config.story.title} loading="lazy" /></div>
@@ -127,7 +138,14 @@ const EarthlingHome = () => {
 
         {selectedProducts.length > 0 && <section className="earthling-featured"><header><h2>{config.featured.title}</h2><Link href="/collections">View all</Link></header><div className="earthling-featured__grid">{selectedProducts.map((product) => <ProductBox key={product.id} product={product} style="vertical" />)}</div></section>}
 
-        {selectedCategories.length > 0 && <section className="earthling-categories"><header><h2>{config.categories.title}</h2></header><div className="earthling-categories__grid">{selectedCategories.map((category) => <Link key={category.id} href={`/collections?layout=collection_3_grid&category=${category.id}&title=${encodeURIComponent(category.name)}`}><span>{category.name}</span><small>Explore collection</small></Link>)}</div></section>}
+        {selectedCategories.length > 0 && <section className="earthling-categories"><header><span>All Categories</span><h2>{config.categories.title}</h2></header><div className="earthling-categories__grid">{selectedCategories.map((category) => {
+          const isDefaultCategory = String(category.name || "").trim().toLowerCase() === "default";
+          const categoryName = isDefaultCategory ? "All Categories" : category.name;
+          const categoryUrl = isDefaultCategory
+            ? "/collections?layout=collection_3_grid"
+            : `/collections?layout=collection_3_grid&category=${category.id}&title=${encodeURIComponent(category.name)}`;
+          return <Link key={category.id} href={categoryUrl}><span>{categoryName}</span><small>Explore collection</small></Link>;
+        })}</div></section>}
       </Container>
     </main>
   );

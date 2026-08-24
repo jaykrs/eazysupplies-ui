@@ -57,7 +57,6 @@ import YogaHomePage from "../themes/yoga";
 import { useContext } from "react";
 import ThemeOptionContext from "@/context/themeOptionsContext";
 import Loader from "@/layout/loader";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import EarthlingHome from "../themes/earthlingHome";
 
@@ -73,9 +72,9 @@ const {data , isLoading} = [{
             "updated_at": "2024-07-09T07:54:27.000000Z"
         }];
 const search = useSearchParams();
- const [storefrontVariant, setStorefrontVariant] = useState(search.get("theme") || "");
+ const [storefrontVariant, setStorefrontVariant] = useState(search.get("theme") || "earthling");
  useEffect(() => {
-   setStorefrontVariant(search.get("theme") || Cookies.get("storefront-theme") || "classic");
+   setStorefrontVariant(search.get("theme") === "classic" ? "classic" : "earthling");
  }, [search]);
  // const themeBySlug = search.get("theme");
   const themeBySlug = "vegetables_three";
